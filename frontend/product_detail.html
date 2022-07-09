@@ -1,0 +1,27 @@
+
+  <section class="bg-dark">
+    <div class="container py-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row py-3">
+                    <div class="col-lg-5 col-md-5 col-sm-6">
+                        <div class="white-box text-center"><img src="https://via.placeholder.com/430x600/00CED1/000000" class="img-responsive"></div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-6">
+                        <h3 class="card-title">Rounded Chair</h3>
+                        <p>Lorem Ipsum available,but the majority have suffered alteration in some form,by injected humour,or randomised words which don't look even slightly believable.but the majority have suffered alteration in some form,by injected humour</p>
+                        <h2 class="mt-5 mb-4">
+                            $153 <small class="text-success">(36%off)</small>
+                            <button class="btn btn-dark btn-rounded mr-1 px-5" data-toggle="tooltip" title="" data-original-title="Add to cart">
+                                <font class="h5">To Cart <i class="fa fa-shopping-cart"></i></font>
+                            </button>
+                            <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-primary btn-rounded px-4">
+                              <font class="h5">To wishlist <i class="fa-solid fa-bookmark"></i></font>
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>

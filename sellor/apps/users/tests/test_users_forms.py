@@ -1,0 +1,77 @@
+import pytest
+from django.forms import ValidationError
+
+from sellor.apps.users.forms import (
+    ValidateFirstNameSecondNamePhoneLocation,
+    RegistrationForm,
+    LoginForm,
+    UserEditForm
+)
+
+
+@pytest.mark.parametrize(
+    "email, first_name, last_name, password1, password2, phone, gender, location, valid",
+    [
+        ("mikeowen@gmail.com", "Mike", "Owen", "zaq1@WSX", "zaq1@WSX", "", "M", "", True),
+        ("mikeowen@gmail.com", "Mike1", "Owen", "zaq1@WSX", "zaq1@WSX", "", "M", "", False),  # invalid first name
+        ("mikeowen@gmail.com", "Mike", "Owen2", "zaq1@WSX", "zaq1@WSX", "", "M", "", False),  # invalid last name
+        ("mikeowen@gmail.com", "Mike", "Owen", "zaq1@WSX", "zaq1@WSX", "12345", "M", "", False),  # invalid phone(too short)
+        ("mikeowen@gmail.com", "Mike", "Owen", "zaq1@WSX", "zaq1@WSX", "+481234567", "M", "", False),  # invalid phone(must be defined with digits only)
+        ("mikeowen@gmail.com", "Mike", "Owen", "zaq1@WSX", "new", "", "M", "", False),  # password do not much
+        ("mikeowen@gmail.com", "Mike", "Owen", "short", "short", "", "M", "", False),  # password is too short
+    ],
+)
+@pytest.mark.django_db
+def test_registration_form(email, first_name, last_name, password1, password2, phone, gender, location, valid):
+    registration_form = RegistrationForm(
+        data={
+            "email": email,
+            "first_name": first_name,
+            "last_name": last_name,
+            "password1": password1,
+            "password2": password2,
+            "phone": phone,
+            "gender": gender,
+            "location": location
+        }
+    )
+    assert registration_form.is_valid() is valid
+
+
+@pytest.mark.parametrize(
+    "email, password, valid",
+    [
+        ("mikeowen@gmail.com",  "zaq1@WSX", False),
+        ("user@gmail.com",  "123456", True),
+    ],
+)
+@pytest.mark.django_db
+def test_login_form(email, password, valid, user_account):
+    login_form = LoginForm(
+        data={
+            "email": email,
+            "password": password,
+        }
+    )
+    assert login_form.is_valid() is valid
+
+
+
+# @pytest.mark.parametrize(
+#     "email, password, valid",
+#     [
+#         ("mikeowen@gmail.com",  "zaq1@WSX", True),
+#     ],
+# )
+@pytest.mark.django_db
+def test_edit_form(user_account):
+    edit_form = UserEditForm(
+        data={
+            "first_name": "newname",
+            "last_name": user_account.last_name,
+        },
+        instance=user_account
+    )
+    assert edit_form.is_valid() == True
+    edit_form.save()
+    assert user_account.first_name == "Newname"

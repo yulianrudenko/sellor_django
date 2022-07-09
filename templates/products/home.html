@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% load static %}
+
+{% block content %}
+<section class="bg-dark">
+  {% if not request.user.is_authenticated %}
+  <div class="p-5 text-center bg-image"
+    style="background-image: url({% static 'images/main-background.jpg' %});
+    height: 455px;">
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="container w-75 text-white">
+          <h1 class="mb-3">
+            Sellor
+          </h1>
+          <h4 class="mb-3">We are a very powerful and safe online-store with million users around the Poland.</h4>
+          <h5 class="mb-4">Start journey by creating an account/Loggining In</h5>
+          <a class="btn btn-light btn-lg me-1 px-4" href="{% url 'users:register' %}" role="button"
+          >Register</a
+          >
+          <a class="btn btn-light btn-lg ms-1 px-4" href="{% url 'users:login' %}" role="button"
+          >Log In</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+  <div class="container py-3">
+    <div class="row justify-content-center mb-3 g-4">
+
+      {% for product in products %}
+        {% include 'products/product_card.html' %}
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+  addBtns = document.getElementsByClassName("add-to-cart");
+  for (i = 0; i < addBtns.length; i++) {
+    let btn = addBtns[i];
+    console.log(btn.value)
+    btn.addEventListener('click', function () {
+      let product_id = btn.value;
+      console.log(btn.value)
+      $.ajax({
+        type: "POST",
+        url: "{% url 'cart:add' %}",
+        data: {
+          product_id: product_id,
+          csrfmiddlewaretoken: "{{ csrf_token }}",
+          action: "add_to_cart"
+        },
+        success: function (json) {
+          if (document.getElementById('cart-qty').textContent == json.qty) {
+            alert("Product already in cart")
+          } else {
+            document.getElementById('cart-qty').innerHTML = json.qty
+          }
+          btn.style.visibility = 'hidden';
+        },
+        error: function (xhr, errmsg, err) {}
+      });
+    });
+  }
+</script>
+{% endblock %}

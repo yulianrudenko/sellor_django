@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+
+  <section class="h-100 gradient-custom-2 bg-dark">
+    <div class="container py-3 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-9 col-xl-7">
+          <div class="card" style="border: 5px solid white">
+            <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                <img src="{{ user.image.url }}"
+                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                  style="width: 150px; z-index: 1">
+                {% if request.user == user %}
+                <a href="{% url 'users:edit_profile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;">
+                  Edit profile
+                </a>
+                {% endif %}
+              </div>
+              <div class="ms-3" style="margin-top: 80px;">
+                <h5>{{ user.fullname }}</h5>
+                <p>{{ user.email }}</p>
+                {% if user.location %}
+                <p>{{ user.location }}</p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="p-4 text-black" style="background-color: #f8f9fa;">
+              <div class="d-flex justify-content-end text-center py-1">
+                <div>
+                  <p class="mb-2 h5">2</p>
+                  <p class="text-muted mb-0">Products sold</p>
+                </div>
+                <div class="px-3">
+                  <p class="mb-2 h5">1</p>
+                  <p class="text-muted mb-0">Products bought</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 g-4 mb-3">
+              {% for product in user.products.all %}
+                <div class="col">
+                  <a href="{{ product.get_absolute_url }}" style="color: inherit;">
+                    <div class="card">
+                      <img src="{{ product.image.url }}" class="card-img-top" style="max-height: 250px;" alt="product">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ product.title|title }}</h5>
+                        <div class="h6 text-dark">Category: {{ product.category }}</div>
+                        {% if product.description %}
+                          <p class="card-text">{{ product.description|truncatechars:45 }}</p>
+                        {% else %}
+                        <p class="card-text">&nbsp;</p>
+                        {% endif %}
+                        <div class="d-flex justify-content-between mt-4">
+                          <div class="">
+                            <a href="{% url 'products:detail' product.id %}" class="btn btn-primary btn-sm p-3" type="button">Details</a>
+                          </div>
+                          {% if request.user == user %}
+                          <div class="">
+                            <a href="{% url 'products:edit' product.id %}" class="btn btn-secondary btn-sm p-3" type="button">Edit</a>
+                          </div>
+                          {% endif %}
+                          <div class="">
+                            <a href="{% url 'products:remove' product.id %}" class="btn btn-danger btn-sm p-3" type="button">Remove</a>
+                          </div>
+                          {% if product.discount_price %}
+                          <div class="">
+                            <span class="text-danger"><s>{{ product.price }} zł</s></span>
+                            <h4 class="card-text">{{ product.discount_price }} zł</h4>
+                          </div>
+                          {% else %}
+                          <div class="">
+                            <span class="text-danger">&nbsp;</span>
+                            <h4 class="mb-1 me-1">{{ product.price }} zł</h4>
+                          </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% empty %}
+              <div class="w-100 pt-4">
+               <h4 class="text-center"> You are not selling anything yet.</h4>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}

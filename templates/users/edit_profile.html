@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="h-100 bg-dark">
+  <div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem;">
+          <div class="row g-0 justify-content-center">
+            <div class="col-md-8 col-lg-8 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+
+                <form action="" method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+                    <span class="h1 fw-bold mb-0">Edit profile</span>
+                  </div>
+
+                  {% if form.errors %}
+                  <div class="col-md-12 mb-4">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class=" py-2 alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+
+                  <div class="d-flex gap-3">
+                    <img src="{{ user.image.url }}" alt="Generic placeholder image"
+                      class="img-fluid img-thumbnail mt-2 mb-4" style="width: 150px; z-index: 1">
+                    <div class="" style="margin: auto;">
+                      {{ form.image }}
+                    </div>
+                  </div>
+
+                  <div class="form-outline mb-2">
+                    {{ form.first_name }}
+                    <label class="form-label">First name</label>
+                  </div>
+                  <div class="form-outline mb-4">
+                    {{ form.last_name }}
+                    <label class="form-label">Last name</label>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    {{ form.phone }}
+                    <label class="form-label">Phone +48..</label>
+                  </div>
+
+                  <div class="form-outline mb-4">
+                    {{ form.location }}
+                    <label class="form-label">Location (country/city)</label>
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button class="btn btn-dark btn-lg btn-block" type="submit">Submit</button>
+                  </div>
+
+                  <p class="h5 mb-5 pb-lg-2" style="color: #393f81;">Want to change password? <a
+                      href="{% url 'users:change_password' %}" style="color: #393f81;">Go here</a></p>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

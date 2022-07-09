@@ -1,0 +1,4 @@
+/environment
+.coverage
+/htmlcov
+chromedriver.exe

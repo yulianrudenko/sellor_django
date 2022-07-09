@@ -1,0 +1,103 @@
+{% load my_tags %}
+{% load static %}
+
+<div class="col-md-12 col-xl-10">
+  <div class="card shadow-0 border rounded-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0 text-center">
+          <div class="bg-image hover-zoom ripple rounded ripple-surface">
+            <img src="{{ product.image.url }}" style="height: 220px; object-fit: cover;"
+              class="w-100" />
+            <a href="#!">
+              <div class="hover-overlay">
+                <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-6">
+          <div class="d-flex justify-content-between">
+            <div class="">
+              <h3><a href="{% url 'products:detail' product.id %}" class="text-dark">{{ product.title|truncatechars:20|title }}</a></h3>
+              <div class="h5 text-dark">Category: {{ product.category }}</div>
+            </div>
+            <div class="author">
+              <a href="{{ product.user.get_absolute_url }}" class="text-muted me-2">{{ product.user.fullname }}</a>
+              <img src="{{ product.user.image.url }}" alt="" style="object-fit: cover; width: 65px; height: 65px"
+              class="rounded-circle"/>
+            </div>
+          </div>
+          <div class="d-flex flex-row">
+            <div class="text-danger mb-1 me-2">
+              {% if product.reviews.all.count %}
+                {% for star in product.rating|times %}
+                <i class="fa fa-star"></i>
+                {% endfor %}
+                <span>{{ product.reviews.all.count }}</span>
+              {% else %}
+                <span class="text-muted">No Reviews yet</span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="mt-1 mb-0 text-muted small">
+            {% if product.tags.all %}
+              <span class="h6 text-dark">Tags:</span>
+              {% for tag in product.tags.all %}
+                {% if forloop.counter != 1 %}
+                <span class="text-dark"> • </span>
+                {% endif %}
+                <span>{{ tag }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <p class="text-truncate mt-2 mb-md-0">
+            {% if product.description %}
+              {{ product.description|truncatechars:33 }}
+            {% endif %}
+          </p>
+        </div>
+        <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+          <div class="d-flex flex-row align-items-center mb-1">
+            
+            {% if product.discount_price %}
+              <h4 class="mb-1 me-1">{{ product.discount_price }} zł</h4>
+              <span class="text-danger"><s>{{ product.price }} zł</s></span>
+            {% else %}
+              <h4 class="mb-1 me-1">{{ product.price }} zł</h4>
+            {% endif %}
+          </div>
+          <div class="d-flex flex-column mt-5 gap-1">
+            <a href="{% url 'products:detail' product.id %}" class="btn btn-primary btn-sm py-2" type="button">Details</a>
+            {% if request.user == product.user %}
+                <a href="{% url 'products:edit' product.id %}" class="btn btn-outline-secondary btn-sm py-2" type="button">Edit</a>
+                <a href="{% url 'products:remove' product.id %}" class="btn btn-outline-danger btn-sm py-2" type="button">
+                  Remove from Site
+                </a>
+            {% else %}
+              {% if product in request.user.wishlist.all %}
+                <a href="{% url 'users:remove_from_wishlist' product.id %}" class="btn btn-danger btn-sm py-2" type="button">
+                  Remove from Wishlist
+                </a>
+              {% else %}
+                <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-outline-secondary btn-sm py-2" type="button">
+                  Add to wishlist
+                </a>
+              {% endif %}
+              {% if product not in cart %}
+              <button id="add-to-cart" value="{{product.id}}" class="add-to-cart btn btn-secondary btn-sm py-2" type="button">
+                Add to cart
+              </button>
+              {% else %}
+              <div class="bg-success btn-sm py-2 text-light" type="button">
+                <span class="h6">Product already in cart</span>
+              </div>
+              {% endif %}
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

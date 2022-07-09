@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<section class="bg-dark">
+  <div class="container py-3">
+      <div class="card">
+          <div class="card-body">
+              <div class="row py-3">
+                  <div class="col-lg-4 col-md-5 col-sm-6 mb-3">
+                      <div class="white-box text-center"><img src="{{ product.image.url }}" style="height: 320px" class="img-responsive"></div>
+                  </div>
+                  <div class="col-lg-5 col-md-5 col-sm-6 text-start">
+                      <h3 class="card-title h2">{{ product.title|title }}</h3>
+                      <div class="">
+                        <div class="text-danger mb-1 me-2">
+                          {% if product.reviews.all.count %}
+                            {% for star in product.rating|times %}
+                            <i class="fa fa-star"></i>
+                            {% endfor %}
+                            <span>{{ product.reviews.all.count }}</span>
+                          {% else %}
+                            <span class="text-muted">No Reviews yet</span>
+                          {% endif %}
+                        </div>
+                        <div class="my-2 text-muted btn btn-outline-secondary">
+                          <div class="h5">Tags: </div>
+                          {% for tag in product.tags.all %}
+                            {% if forloop.counter != 1 %}
+                            <span class="text-primary"> • </span>
+                            {% endif %}
+                            <span>{{ tag }}</span>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      {% if product.description %}
+                      <h3 lass="h4 mt-3">Description:</h3>
+                        <p class="h6" style="font-size: 16px;">{{ product.description|truncatechars:33 }}</p>
+                      {% endif %}
+                  </div>
+                  <div class="col-lg-3 col-md-7 col-sm-6 text-center">
+                    <h2 class="">
+                      {% if product.discount_price %}
+                        <div class="">
+                          {{ product.discount_price }} zł.
+                        </div>
+                        <div class="">
+                          <small class="text-success">({{ product.discount_percentage }}% off)</small>
+                        </div>
+                      {% else %}
+                        {{ product.price }} zł.
+                      {% endif %}
+                      <div class="author mt-5">
+                        <div class="h3">Product by:</div>
+                        <a href="{{ product.user.get_absolute_url }}" class="text-muted me-2 h5">{{ product.user.fullname }}</a>
+                        <img src="{{ product.user.image.url }}" alt="" style="object-fit: cover; width: 65px; height: 65px"
+                        class="rounded-circle"/>
+                      </div>
+                    </h2>
+                </div>
+              </div>
+              <div class="row mt-2 flex-column align-items-center">
+                {% if request.user == product.user %}
+                  <a href="{% url 'products:edit' product.id %}" class="btn btn-secondary btn-rounded mr-1 px-5 mb-2 py-3 w-50" type="button">
+                    <font class="h5">Edit <i class="fa-solid fa-marker ms-1"></i></font>
+                  </a>
+                  <a href="{% url 'products:remove' product.id %}" class="btn btn-danger btn-rounded px-4 py-3 w-50" type="button">
+                    <font class="h5">Remove from Site <i class="fa-solid fa-trash-can ms-1"></i></font>
+                  </a>
+                {% else %}
+                  {% if product not in cart %}
+                  <button id="add-to-cart" class="btn btn-dark btn-rounded mr-1 px-5 mb-2 py-3 w-50" data-toggle="tooltip" title="" data-original-title="Add to cart">
+                    <font class="h5">To Cart <i class="fa fa-shopping-cart"></i></font>
+                  </button>
+                  {% else %}
+                  <button id="remove-from-cart" class="btn btn-danger btn-rounded mr-1 px-5 mb-2 py-3 w-50" data-toggle="tooltip" title="" data-original-title="Add to cart">
+                    <font class="h5">Remove from Cart <i class="fa fa-shopping-cart"></i></font>
+                  </button>
+                  {% endif %}
+                  <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-primary btn-rounded px-4 py-3 w-50">
+                    <font class="h5">To wishlist <i class="fa-solid fa-bookmark"></i></font>
+                  </a>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+  $(document).on('click', '#add-to-cart', function (e) {
+    e.preventDefault();
+    let product_id = "{{ product.id }}"
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:add' %}",
+      data: {
+        product_id: product_id,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "add_to_cart"
+      },
+      success: function (json) {
+        if (document.getElementById('cart-qty').textContent == json.qty) {
+          alert("Product already in cart")
+        } else {
+          document.getElementById('cart-qty').innerHTML = json.qty
+          location.reload()
+        }
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  });
+
+  $(document).on('click', '#remove-from-cart', function (e) {
+    e.preventDefault();
+    let product_id = "{{ product.id }}"
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:remove' %}",
+      data: {
+        product_id: product_id,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "remove_from_cart"
+      },
+      success: function (json) {
+        document.getElementById('cart-qty').innerHTML = json.qty
+        location.reload()
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  });
+</script>
+{% endblock %}
