@@ -21,14 +21,31 @@ def product_detail(request, uid):
 
 
 @login_required
+def product_add(request):
+    if request.method == 'POST':
+        create_form = ProductForm(request.POST, request.FILES, user=request.user)
+        if create_form.is_valid():
+            new_product = create_form.save(commit=False)
+            new_product.user = request.user
+            new_product.save()
+            product_detail_url = reverse('products:detail', args=[new_product.id])
+            print(f'Product succesfully created. <a href={product_detail_url}>See</a>')
+            messages.success(request, f'Product succesfully created. <a href={product_detail_url}>See</a>')
+    else:
+        create_form = ProductForm()
+    context = {'form': create_form}
+    return render(request, 'products/product_create.html', context)
+
+
+@login_required
 def product_edit(request, uid):
     product = get_object_or_404(Product, id=uid)
     if product.user == request.user:
         if request.method == 'POST':
-            edit_form = ProductForm(request.POST, request.FILES, instance=product)
+            edit_form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
             if edit_form.is_valid():
                 product = edit_form.save()
-                messages.success(request, 'Product succesfully updated.')
+                messages.success(request, f'Product succesfully updated. <a href="{product.get_absolute_url()}">See</a>')
         else:
             edit_form = ProductForm(instance=product)
         context = {'form': edit_form, 'product': product}
@@ -39,14 +56,14 @@ def product_edit(request, uid):
 @login_required
 def product_remove(request, uid):
     product = get_object_or_404(Product, id=uid)
-    previous_url = request.META.get('HTTP_REFERER')
-    if product.user == request.user:
-        product.delete()
-        if previous_url:
-            if reverse('products:detail', args=[uid]) not in previous_url:
-                return previous_url_or_other(request, reverse('products:home'))
-        return redirect('products:home')
-    return previous_url_or_other(request, reverse('products:detail', args=[uid]))
+    if request.user == product.user:
+        if request.method == 'POST':
+                product.delete()
+                messages.success(request, 'Product removed.')
+        else:
+            context = {'product': product}
+            return render(request, 'products/product_remove_confirm.html', context)
+    return redirect('products:home')
 
 
 def category(request, id):

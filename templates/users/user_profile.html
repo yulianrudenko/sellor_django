@@ -14,7 +14,7 @@
                   alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                   style="width: 150px; z-index: 1">
                 {% if request.user == user %}
-                <a href="{% url 'users:edit_profile' %}" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;">
+                <a href="{% url 'users:edit_profile' %}" class="btn btn-dark" data-mdb-ripple-color="dark" style="z-index: 1;">
                   Edit profile
                 </a>
                 {% endif %}
@@ -28,7 +28,14 @@
               </div>
             </div>
             <div class="p-4 text-black" style="background-color: #f8f9fa;">
-              <div class="d-flex justify-content-end text-center py-1">
+              <div class="d-flex justify-content-end align-items-center gap-1 text-center py-1">
+                {% if request.user == user %}
+                <div class="me-2">
+                  <a href="{% url 'products:add' %}" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1;">
+                    Add Product
+                  </a>
+                </div>
+                {% endif %}
                 <div>
                   <p class="mb-2 h5">2</p>
                   <p class="text-muted mb-0">Products sold</p>

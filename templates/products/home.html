@@ -65,7 +65,8 @@
           } else {
             document.getElementById('cart-qty').innerHTML = json.qty
           }
-          btn.style.visibility = 'hidden';
+          // btn.style.visibility = 'hidden';
+          btn.disabled = true;
         },
         error: function (xhr, errmsg, err) {}
       });

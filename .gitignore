@@ -2,3 +2,4 @@
 .coverage
 /htmlcov
 chromedriver.exe
+*cache*

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
+  <style>
+    a {
+      cursor: pointer;
+    }
+  </style>
   <section class="h-100 h-custom bg-dark">
     <div class="container py-3 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -13,47 +19,54 @@
                   <div class="p-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
                       <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                      <h6 class="mb-0 text-muted h2">{{ cart|length }}</h6>
                     </div>
 
                     {% for product in cart %}
-                    <hr class="my-4">
-                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img
-                          src="{{ product.image.url }}"
-                          class="img-fluid rounded-3" alt="Cotton T-shirt">
+                    <div id="product-div" data-product_id="{{ product.id }}">
+                      <hr class="my-4">
+                      <div class="row mb-4 d-flex justify-content-between align-items-center">
+                        <div class="col-md-2 col-lg-2 col-xl-2">
+                          <a href="{% url 'products:detail' product.id %}">
+                            <img
+                              src="{{ product.image.url }}"
+                              class="img-fluid rounded-3" alt="Cotton T-shirt">
+                          </a>
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-3">
+                          <h6 class="h5">
+                            <a href="{% url 'products:detail' product.id %}" class="text-black">{{ product.title }}</a>
+                          </h6>
+                          <h6 class="text-muted mb-0">{{ product.category }}</h6>
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                          <!-- <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                          </button>
+    
+                          <input id="form1" min="0" name="quantity" value="1" type="number"
+                            class="form-control form-control-sm" />
+    
+                          <button class="btn btn-link px-2"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                          </button> -->
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                          {% if product.discount_price %}
+                          <h6 class="mb-0 h5">{{ product.discount_price }} zł</h6>
+                          {% else %}
+                          <h6 class="mb-0 h5">{{ product.price }} zł</h6>
+                          {% endif %}
+                        </div>
+                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                          <a class="remove-from-cart text-muted" data-product_id="{{ product.id }}">
+                            <i class="fas fa-times"></i>
+                          </a>
+                        </div>
                       </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-black h5">{{ product.title }}</h6>
-                        <h6 class="text-muted mb-0">{{ product.category }}</h6>
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                        <!-- <button class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                          <i class="fas fa-minus"></i>
-                        </button>
-  
-                        <input id="form1" min="0" name="quantity" value="1" type="number"
-                          class="form-control form-control-sm" />
-  
-                        <button class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                          <i class="fas fa-plus"></i>
-                        </button> -->
-                      </div>
-                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                        {% if product.discount_price %}
-                        <h6 class="mb-0 h5">{{ product.discount_price }} zł</h6>
-                        {% else %}
-                        <h6 class="mb-0 h5">{{ product.price }} zł</h6>
-                        {% endif %}
-                      </div>
-                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
-                      </div>
+                      <hr class="my-4">
                     </div>
-                    <hr class="my-4">
                     {% empty %}
                     <hr class="my-4">
                     <div class="row mb-4 d-flex justify-content-between align-items-center">
@@ -74,8 +87,8 @@
                     <hr class="my-4">
   
                     <div class="d-flex justify-content-between mb-4">
-                      <h5 class="text-uppercase">items 3</h5>
-                      <h5>€ 132.00</h5>
+                      <h5 class="text-uppercase">products: </h5>
+                      <h5 id="cart-summary-qty" class="text-uppercase">{{ cart|length }}</h5>
                     </div>
   
                     <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -93,8 +106,8 @@
   
                     <div class="mb-5">
                       <div class="form-outline">
-                        <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea2">Enter your code</label>
+                        <input type="text" class="form-control form-control-lg" />
+                        <label class="form-label">Enter your code</label>
                       </div>
                     </div>
   
@@ -102,7 +115,7 @@
   
                     <div class="d-flex justify-content-between mb-5">
                       <h5 class="text-uppercase">Total price</h5>
-                      <h5>€ 137.00</h5>
+                      <h5 id="cart-total-price">{{ cart.get_total_price }} zł</h5>
                     </div>
   
                     {% if cart %}
@@ -127,7 +140,7 @@
 
 {% block javascript %}
 <script>
-  $(document).on('click', '#clear-cart', function (e) {
+  $(document).on("click", "#clear-cart", function (e) {
     e.preventDefault();
     $.ajax({
       type: "POST",
@@ -137,11 +150,32 @@
         action: "clear_cart"
       },
       success: function (json) {
-        document.getElementById('cart-qty').innerHTML = json.qty
+        // document.getElementById("cart-qty").innerHTML = json.qty
         location.reload()
       },
       error: function (xhr, errmsg, err) {}
     });
   })
+
+  $(document).on("click", ".remove-from-cart", function (e) {
+    e.preventDefault();
+    let product_id = $(this).data("product_id");
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:remove' %}",
+      data: {
+        product_id: product_id,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "remove_from_cart"
+      },
+      success: function (json) {
+        document.getElementById("cart-qty").innerHTML = json.qty
+        document.getElementById("cart-summary-qty").innerHTML = json.qty
+        document.getElementById("cart-total-price").innerHTML = json.new_total_price
+        $(`#product-div[data-product_id="${product_id}"]`).remove()
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  });
 </script>
 {% endblock %}

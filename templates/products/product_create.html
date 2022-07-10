@@ -31,7 +31,7 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                   {% csrf_token %}
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                    <span class="h1 fw-bold mb-0">Edit product</span>
+                    <span class="h1 fw-bold mb-0">Add new product</span>
                   </div>
 
                   {% if form.errors %}
@@ -47,7 +47,7 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                   {% endif %}
 
                   <div class="d-flex w-100 gap-3">
-                    <img id="productImage" src="{{ product.image.url }}" alt="Product pic (optional)" style="width: 150px; z-index: 1" class="img-fluid img-thumbnail mt-2 mb-4"/>
+                    <img id="productImage" src="{{ product.image.url }}" alt="Product pic (optional)" style="width: 200px; z-index: 1" class="img-fluid img-thumbnail mt-2 mb-4"/>
                     <div class="" style="margin: auto;">
                       {{ form.image }}
                     </div>
@@ -55,32 +55,32 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
 
                   <div class="form-outline mb-2">
                     {{ form.title }}
-                    <label class="form-label text-dark h4">Title</label>
+                    <label class="form-label text-dark h5">Title<span class="text-danger">*</span></label>
                   </div>
                   
                   <div class="mb-4">
-                    <label class="form-label text-dark h5" for="id_category">Category</label>
+                    <label class="form-label text-dark h6" for="id_category">Category<span class="text-danger">*</span></label>
                     {{ form.category }}
                   </div>
 
                   <div class="mb-4 price d-flex form-row justify-content-around">
                     <div class="col-4 form-outline">
                       {{ form.price }}
-                      <label class="form-label text-dark h4">Price</label>
+                      <label class="form-label text-dark h5">Price<span class="text-danger">*</span></label>
                     </div>
                     <div class="col-4 form-outline">
                       {{ form.discount_price }}
-                      <label class="form-label text-dark h5">Discount Price <small class="text-small">(optional)</small></label>
+                      <label class="form-label text-dark h6">Discount Price <small class="text-small">(optional)</small></label>
                     </div>
                   </div>
 
                   <div class="form-outline mb-3">
                     {{ form.description }}
-                    <label class="form-label text-dark h4">{{ form.description.label }}</label>
+                    <label class="form-label text-dark h5">{{ form.description.label }}</label>
                   </div>
 
                   <div class="mb-4">
-                    <label class="form-label text-dark h5" for="id_tags">Tags <span class="text-muted h6">(hold Ctrl and click to select multiple tags)</span></label>
+                    <label class="form-label text-dark h6" for="id_tags">Tags</label>
                     {{ form.tags }}
                   </div>
 
@@ -88,11 +88,6 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                     <button class="btn btn-dark btn-lg btn-block" type="submit">Submit</button>
                   </div>
                 </form>
-
-                <div class="pt-3">
-                  <h6 class="mb-0"><a href="{% url 'products:home' %}" class="text-body h5"><i
-                        class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
-                </div>
 
               </div>
             </div>
@@ -109,7 +104,7 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        $('#productImage').attr('src', e.target.result).width(150).height(200);
+        $('#productImage').attr('src', e.target.result).width(200);
       };
 
       reader.readAsDataURL(input.files[0]);

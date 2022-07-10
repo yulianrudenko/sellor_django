@@ -12,6 +12,8 @@ class ProductForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': 'form-control'}), queryset=Tag.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs) -> None:
+        if 'user' in kwargs:
+            self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs['class'] = 'form-control form-control-lg'
         self.fields['category'].widget.attrs['class'] = 'form-select'
@@ -24,7 +26,13 @@ class ProductForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+
+        title = cleaned_data.get('title')
+        if Product.objects.filter(user=self.user).exclude(id=self.instance.id).filter(title=title).exists():
+            self.add_error('title', 'You already have product with given title, please rename product.')
+
         discount_p = cleaned_data.get('discount_price')
         if discount_p and discount_p >= cleaned_data.get('price'):
-            self.add_error('title', 'Discount price cannot be higher or same as regular.')
+            self.add_error('discount_price', 'Discount price cannot be higher or same as regular.')
+
         return cleaned_data

@@ -30,6 +30,8 @@
                             <span class="text-primary"> • </span>
                             {% endif %}
                             <span>{{ tag }}</span>
+                            {% empty %}
+                            <span class="text-muted">No tags</span>
                           {% endfor %}
                         </div>
                       </div>
@@ -39,16 +41,19 @@
                       {% endif %}
                   </div>
                   <div class="col-lg-3 col-md-7 col-sm-6 text-center">
-                    <h2 class="">
+                    <div class="">
                       {% if product.discount_price %}
                         <div class="">
-                          {{ product.discount_price }} zł.
+                          <h3 class="h3">{{ product.discount_price }} zł</h3>
+                          <span class="text-danger h5"><s>{{ product.price }} zł</s></span>
                         </div>
                         <div class="">
-                          <small class="text-success">({{ product.discount_percentage }}% off)</small>
+                          <small class="text-success h6" style="font-size:1.2rem">({{ product.discount_percentage }}% off)</small>
                         </div>
                       {% else %}
+                      <div class="h3">
                         {{ product.price }} zł.
+                      </div>
                       {% endif %}
                       <div class="author mt-5">
                         <div class="h3">Product by:</div>
@@ -56,7 +61,7 @@
                         <img src="{{ product.user.image.url }}" alt="" style="object-fit: cover; width: 65px; height: 65px"
                         class="rounded-circle"/>
                       </div>
-                    </h2>
+                    </div>
                 </div>
               </div>
               <div class="row mt-2 flex-column align-items-center">

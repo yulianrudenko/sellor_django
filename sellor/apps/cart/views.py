@@ -19,7 +19,7 @@ def remove_from_cart(request):
     if request.POST.get('action') == 'remove_from_cart':
         product_id = request.POST['product_id']
         cart.remove_item(product_id)
-    response = {'qty': len(cart)}
+    response = {'qty': len(cart), 'new_total_price': cart.get_total_price()}
     return JsonResponse(response)
 
 

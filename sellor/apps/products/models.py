@@ -69,6 +69,12 @@ class Product(models.Model):
     def discount_percentage(self):
         discount_in_percent = 100 - (self.discount_price * 100 / self.price)
         return "%.1f" % discount_in_percent
+    
+    @property
+    def current_price(self):
+        if self.discount_price:
+            return self.discount_price
+        return self.price
 
     def get_absolute_url(self):
         return reverse('products:detail', args=[self.id])

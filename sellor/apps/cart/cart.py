@@ -25,6 +25,12 @@ class Cart:
     def remove_item(self, product_id):
         self.cart.remove(product_id)
         self.save()
+    
+    def get_total_price(self):
+        total = 0
+        for product_id in self.cart:
+            total += Product.objects.get(id=product_id).current_price
+        return total
 
     def clear(self):
         del self.session['cart']
