@@ -119,7 +119,7 @@ class Tag(models.Model):
 class Review(models.Model):
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews', on_delete=models.SET_NULL, null=True)
-    text = models.CharField(verbose_name=_('review text content'),max_length=200, null=True, blank=True)
+    text = models.CharField(verbose_name=_('review text content'), max_length=200, null=True, blank=True)
     rating = models.IntegerField(
         default=1,
         validators=[MaxValueValidator(10), MinValueValidator(0)]
@@ -132,3 +132,11 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return f'{self.author} for {self.product.title}'
+
+
+class CouponCode(models.Model):
+    code = models.CharField(verbose_name=_('coupon code'), max_length=16, unique=True)
+    reduce_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    def __str__(self) -> str:
+        return f'{self.code}'

@@ -14,6 +14,7 @@ urlpatterns = [
 
     path('users/', include('sellor.apps.users.urls', namespace='users')),
     path('cart/', include('sellor.apps.cart.urls', namespace='cart')),
+    path('orders/', include('sellor.apps.orders.urls', namespace='orders')),
 ]
 
 if settings.DEBUG:

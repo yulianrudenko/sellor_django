@@ -39,18 +39,6 @@
                           <h6 class="text-muted mb-0">{{ product.category }}</h6>
                         </div>
                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                          <!-- <button class="btn btn-link px-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                            <i class="fas fa-minus"></i>
-                          </button>
-    
-                          <input id="form1" min="0" name="quantity" value="1" type="number"
-                            class="form-control form-control-sm" />
-    
-                          <button class="btn btn-link px-2"
-                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                            <i class="fas fa-plus"></i>
-                          </button> -->
                         </div>
                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                           {% if product.discount_price %}
@@ -90,38 +78,59 @@
                       <h5 class="text-uppercase">products: </h5>
                       <h5 id="cart-summary-qty" class="text-uppercase">{{ cart|length }}</h5>
                     </div>
-  
-                    <h5 class="text-uppercase mb-3">Shipping</h5>
+                    
+                    {% if cart %}
+
+                    <h5 class="text-uppercase mb-3">
+                      Shipping
+                      {% if cart.get_shipping_price %}
+                      - <span class="text-muted" id="shipping-price">{{ cart.get_shipping_price }}</span> zł
+                      {% else %}
+                      - <span class="text-muted" id="shipping-price">0</span> zł
+                      {% endif %}
+                    </h5>
   
                     <div class="mb-4 pb-2">
-                      <select class="select form-select">
-                        <option value="1">Standard-Delivery- €5.00</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                      </select>
+                      {{ shipping_form.shipping_type }}
                     </div>
   
-                    <h5 class="text-uppercase mb-3">Give code</h5>
+                    <h5 class="text-uppercase mb-3">
+                      Coupon code
+                      {% if cart.code_is_activated %}
+                      <span class="ms-1 text-success"> - reduces {{ cart.coupon_code.reduce_amount }} zł</span>
+                      {% endif %}
+                    </h5>
   
                     <div class="mb-5">
+                      {% if cart.code_is_activated %}
+                        <a href="{% url 'cart:remove_coupon_code' %}" class="btn btn-danger">Remove {{ cart.coupon_code.code }}</a>
+                      {% else %}
+                      <form action="" method="POST">
+                      {% csrf_token %}
+                      {% if code_error %}
+                      <li class="alert alert-danger mb-2 py-2" role="alert" style="list-style: none;">
+                        This code doesn't exist.
+                      </li>
+                      {% endif %}
                       <div class="form-outline">
-                        <input type="text" class="form-control form-control-lg" />
-                        <label class="form-label">Enter your code</label>
-                      </div>
+                          <input type="text" name="coupon_code" class="form-control form-control-lg" />
+                          <label class="form-label">Enter your code</label>
+                        </div>
+                        <input type="submit" class="btn btn-secondary mt-1" value="Activate Code">
+                      </form>
+                      {% endif %}
                     </div>
-  
+
                     <hr class="my-4">
   
-                    <div class="d-flex justify-content-between mb-5">
+                    <div class="d-flex justify-content-between mb-2">
                       <h5 class="text-uppercase">Total price</h5>
-                      <h5 id="cart-total-price">{{ cart.get_total_price }} zł</h5>
+                      <h5><span id="cart-total-price">{{ cart.get_total_price }}</span> zł</h5>
                     </div>
   
-                    {% if cart %}
-                    <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <a href="{% url 'orders:checkout' %}" type="button" class="btn btn-primary btn-lg btn-block">
                       Go to checkout
-                    </button>
+                    </a>
                     <button type="button" id="clear-cart" class="btn btn-danger btn-block btn-lg"
                       data-mdb-ripple-color="dark">Clear Cart</button>
                     {% endif %}
@@ -177,5 +186,27 @@
       error: function (xhr, errmsg, err) {}
     });
   });
+
+  document.getElementById("shipping-type").onchange = shippingTypeListenter;
+  function shippingTypeListenter() {
+    var shippingId = this.value
+    if (!shippingId) {
+      shippingId = 0
+    }
+    $.ajax({
+      type: "POST",
+      url: "{% url 'cart:select_shipping' %}",
+      data: {
+        shipping_id: shippingId,
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+        action: "select_shipping"
+      },
+      success: function (json) {
+        document.getElementById("cart-total-price").innerHTML = json.new_total_price
+        document.getElementById("shipping-price").innerHTML = json.shipping_price
+      },
+      error: function (xhr, errmsg, err) {}
+    });
+  }
 </script>
 {% endblock %}

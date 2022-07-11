@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from sellor.apps.products.models import Product
+from sellor.apps.products.models import Product, CouponCode
 
 
 MALE = "M"
@@ -64,6 +64,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         default="images/blank.jpg"
     )
     wishlist = models.ManyToManyField(Product)
+    used_coupones = models.ManyToManyField(CouponCode)
 
     objects = UserAccountManager()
 

@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from sellor.apps.products.models import Product
+from sellor.apps.products.models import Product, CouponCode
+from sellor.apps.orders.forms import ShippingForm
+
 from .models import UserAccount
 from .forms import RegistrationForm, LoginForm, UserEditForm, UserChangePasswordForm
 from .utils import redirect_home_if_authenticated, previous_url_or_other
@@ -112,6 +114,22 @@ def wishlist(request):
 
 def cart(request):
     context = {}
+    if request.method == 'POST':
+        # check coupon code
+        coupon_code = request.POST.get('coupon_code')
+        if CouponCode.objects.filter(code=coupon_code).exists():
+            if request.user.used_coupones.filter(code=coupon_code).exists():
+                messages.warning(request, 'You have already used this coupone')
+                return redirect('users:cart')
+            request.session['coupon_code'] = coupon_code
+        else:
+            context['code_error'] = True
+
+    shipping_type_id = request.session.get('shipping_type_id', 0)
+    if shipping_type_id != 0:
+        context['shipping_form'] = ShippingForm(initial={'shipping_type': shipping_type_id})
+    else:
+        context['shipping_form'] = ShippingForm()
     return render(request, 'users/cart.html', context)
 
 

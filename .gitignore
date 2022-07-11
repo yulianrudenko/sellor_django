@@ -2,4 +2,5 @@
 .coverage
 /htmlcov
 chromedriver.exe
-*cache*
+*.pyc
+__pycache__
