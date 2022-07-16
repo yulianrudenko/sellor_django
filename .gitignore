@@ -1,7 +1,6 @@
 /environment
-.coverage
 /htmlcov
+.coverage
 chromedriver.exe
-*__pycache__*
-__pycache__/
 *.py[cod]
+**/__pycache__
