@@ -9,7 +9,7 @@
           <div class="bg-image hover-zoom ripple rounded ripple-surface">
             <img src="{{ product.image.url }}" style="height: 220px; object-fit: cover;"
               class="w-100" />
-            <a href="#!">
+            <a href="{{ product.get_absolute_url }}">
               <div class="hover-overlay">
                 <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
               </div>
@@ -19,7 +19,7 @@
         <div class="col-md-6 col-lg-6 col-xl-6">
           <div class="d-flex justify-content-between">
             <div class="">
-              <h3><a href="{% url 'products:detail' product.id %}" class="text-dark">{{ product.title|truncatechars:20|title }}</a></h3>
+              <h3><a href="{{ product.get_absolute_url }}" class="text-dark">{{ product.title|truncatechars:20|title }}</a></h3>
               <div class="h5 text-dark">Category: {{ product.category }}</div>
             </div>
             <div class="author">
@@ -30,27 +30,20 @@
           </div>
           <div class="d-flex flex-row">
             <div class="text-danger mb-1 me-2">
-              {% if product.reviews.all.count %}
-                {% for star in product.rating|times %}
-                <i class="fa fa-star"></i>
-                {% endfor %}
-                <span>{{ product.reviews.all.count }}</span>
-              {% else %}
-                <span class="text-muted">No Reviews yet</span>
-              {% endif %}
             </div>
           </div>
-          <div class="mt-1 mb-0 text-muted small">
-            {% if product.tags.all %}
-              <span class="h6 text-dark">Tags:</span>
-              {% for tag in product.tags.all %}
-                {% if forloop.counter != 1 %}
-                <span class="text-dark"> • </span>
-                {% endif %}
-                <span>{{ tag }}</span>
-              {% endfor %}
-            {% endif %}
+          <div class="mt-1 mb-0 text-muted btn btn-outline-secondary">
+            <div class="h6">Tags: </div>
+            {% for tag in product.tags.all %}
+              {% if forloop.counter != 1 %}
+              <span class="text-primary"> • </span>
+              {% endif %}
+              <span>{{ tag }}</span>
+              {% empty %}
+              <span class="text-muted">No tags</span>
+            {% endfor %}
           </div>
+         
           <p class="text-truncate mt-2 mb-md-0">
             {% if product.description %}
               {{ product.description|truncatechars:33 }}

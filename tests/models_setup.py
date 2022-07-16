@@ -1,0 +1,53 @@
+from django.test import TestCase
+from django.contrib.auth import get_user_model
+
+from sellor.apps.products.models import (
+    Product,
+    Category,
+    Tag,
+    CouponCode
+)
+from sellor.apps.orders.models import Shipping, Order
+
+User = get_user_model()
+
+
+class ModelsSetUp(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create(
+            email = 'user@gmail.com',
+            first_name = 'officer',
+            last_name = 'key',
+            gender='M',
+            location='NY',
+            password='123456',
+        )
+        self.category = Category.objects.create(
+            name='test_category'
+        )
+        self.product = Product.objects.create(
+            user=self.user,
+            category=self.category,
+            title='test_product',
+            price=50,
+            discount_price=40,
+            description='description for test_product'
+        )
+        self.tag = Tag.objects.create(
+            name='test_tag'
+        )
+        self.coupon = CouponCode.objects.create(
+            code = '12345',
+            reduce_amount = 5
+        )
+        self.shipping = Shipping.objects.create(
+            type='same day delivery',
+            description='test_description',
+            price=100
+        )
+        self.order = Order.objects.create(
+            user=self.user,
+            price=100,
+            shipping=self.shipping,
+            is_completed=True
+        )

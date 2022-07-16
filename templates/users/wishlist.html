@@ -37,14 +37,6 @@
                 <div class="d-flex justify-content-between mb-2">
                   <p class="text-muted mb-0">By: <span class="fw-bold h6">{{ product.user.fullname }}</span></p>
                   <div class="ms-auto text-warning">
-                    {% if product.reviews.all.count %}
-                      {% for star in product.rating|times %}
-                      <i class="fa fa-star"></i>
-                      {% endfor %}
-                      <span>{{ product.reviews.all.count }}</span>
-                    {% else %}
-                      <span class="text-muted">No Reviews yet</span>
-                    {% endif %}
                   </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end gap-2 mb-0 me-0 pb-0 pe-0">

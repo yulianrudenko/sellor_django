@@ -7,7 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 from mptt.models import MPTTModel, TreeForeignKey
-from computedfields.models import ComputedFieldsModel, computed
+
+from django.conf import settings
+from sellor.apps.orders.models import Order
 
 
 CATEGORY_CHOICES = [
@@ -56,14 +58,15 @@ class Product(models.Model):
         default="images/blank.jpg"
     )
     tags = models.ManyToManyField('Tag', blank=True)
+    order = models.ForeignKey(Order, related_name='products', on_delete=models.SET_NULL, null=True, blank=True)
 
-    @property
-    def rating(self):
-        reviews = self.reviews.all()
-        if reviews.count() == 0:
-            return 0
-        average_rating = sum([review.rating for review in reviews]) / reviews.count()
-        return int(average_rating)
+    # @property
+    # def rating(self):
+    #     reviews = self.reviews.all()
+    #     if reviews.count() == 0:
+    #         return 0
+    #     average_rating = sum([review.rating for review in reviews]) / reviews.count()
+    #     return int(average_rating)
     
     @property
     def discount_percentage(self):
@@ -116,27 +119,27 @@ class Tag(models.Model):
         return f'{self.name}'
 
 
-class Review(models.Model):
-    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews', on_delete=models.SET_NULL, null=True)
-    text = models.CharField(verbose_name=_('review text content'), max_length=200, null=True, blank=True)
-    rating = models.IntegerField(
-        default=1,
-        validators=[MaxValueValidator(10), MinValueValidator(0)]
-    )
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['-date_created']
-
-    def __str__(self) -> str:
-        return f'{self.author} for {self.product.title}'
-
-
 class CouponCode(models.Model):
     code = models.CharField(verbose_name=_('coupon code'), max_length=16, unique=True)
     reduce_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self) -> str:
         return f'{self.code}'
+
+
+# class Review(models.Model):
+#     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
+#     author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews', on_delete=models.SET_NULL, null=True)
+#     text = models.CharField(verbose_name=_('review text content'), max_length=200, null=True, blank=True)
+#     rating = models.IntegerField(
+#         default=1,
+#         validators=[MaxValueValidator(10), MinValueValidator(0)]
+#     )
+#     date_created = models.DateTimeField(auto_now_add=True)
+#     date_updated = models.DateTimeField(auto_now=True)
+
+#     class Meta:
+#         ordering = ['-date_created']
+
+#     def __str__(self) -> str:
+#         return f'{self.author} for {self.product.title}'

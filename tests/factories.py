@@ -5,8 +5,7 @@ from sellor.apps.users.models import UserAccount
 from sellor.apps.products.models import (
     Product,
     Category,
-    Tag,
-    Review
+    Tag
 )
 
 fake = Faker()
@@ -51,14 +50,3 @@ class ProductFactory(factory.django.DjangoModelFactory):
     price = 50
     discount_price = 40
     description = 'description for test_product'
-
-
-class ReviewFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Review
-        # django_get_or_create = ()
-    
-    product = factory.SubFactory(ProductFactory)
-    author = factory.SubFactory(UserAccountFactory)
-    text = 'test_review'
-    rating = 5

@@ -4,14 +4,12 @@ from tests.factories import (
     UserAccountFactory,
     ProductFactory,
     CategoryFactory,
-    ReviewFactory
 )
 
 
 register(UserAccountFactory)
 register(ProductFactory)
 register(CategoryFactory)
-register(ReviewFactory)
 
 
 @pytest.fixture
@@ -34,9 +32,3 @@ def product(db, product_factory):
 def category(db, category_factory):
     category = category_factory.create()
     return category
-
-
-@pytest.fixture
-def review(db, review_factory):
-    review = review_factory.create()
-    return review

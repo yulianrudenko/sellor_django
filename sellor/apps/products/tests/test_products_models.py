@@ -6,52 +6,16 @@ from sellor.apps.products.models import (
     Product,
     Category,
     Tag,
-    Review
+    CouponCode
 )
-
+from tests.models_setup import ModelsSetUp
 
 User = get_user_model()
-
-class ModelsSetUp(TestCase):
-    def setUp(self) -> None:
-        self.user = User.objects.create(
-            email = 'user@gmail.com',
-            first_name = 'officer',
-            last_name = 'key',
-            gender='M',
-            location='NY',
-            password='123456',
-        )
-        self.category = Category.objects.create(
-            name='test_category'
-        )
-        self.product = Product.objects.create(
-            user=self.user,
-            category=self.category,
-            title='test_product',
-            price=50,
-            discount_price=40,
-            description='description for test_product'
-        )
-        self.tag = Tag.objects.create(
-            name='test_tag'
-        )
-        self.review = Review.objects.create(
-            author=self.user,
-            product=self.product,
-            text='test_review',
-            rating=5
-        )
 
 
 class ProductTests(ModelsSetUp):
     def test_product_str_method(self):
         assert str(self.product) == 'Test_product'
-    
-    def test_product_rating_property(self):
-        assert self.product.rating == 5
-        self.product.reviews.all().delete()
-        assert self.product.rating == 0
     
     def test_product_discount_percentage_property(self):
         discount_percentage = float(100 - ((100 * self.product.discount_price) / self.product.price))
@@ -66,8 +30,11 @@ class ProductTests(ModelsSetUp):
             self.product.save()
         except ValueError as err:
             assert str(err) == 'Discount price cannot be higher than regular.'
-
-
+    
+    def test_product_current_price(self):
+        assert self.product.current_price == 40
+        self.product.discount_price = None  # set disc.price to NULL
+        assert self.product.current_price == 50
 
 
 class CategoryTests(ModelsSetUp):
@@ -83,7 +50,6 @@ class TagTests(ModelsSetUp):
         assert str(self.tag) == 'test_tag'
 
 
-class ReviewTests(ModelsSetUp):
-    def test_review_str_method(self):
-        assert str(self.review) == f'user@gmail.com for Test_product'
-    
+class CouponCodeTests(ModelsSetUp):
+    def test_coupon_str_method(self):
+        assert str(self.coupon) == '12345'

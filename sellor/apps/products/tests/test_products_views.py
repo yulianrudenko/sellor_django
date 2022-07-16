@@ -6,9 +6,8 @@ from sellor.apps.products.models import (
     Product,
     Category,
     Tag,
-    Review
 )
-from test_products_models import ModelsSetUp
+from tests.models_setup import ModelsSetUp
 
 
 User = get_user_model()
@@ -26,16 +25,9 @@ class ProductViewTest(ModelsSetUp):
     
     def test_product_remove_view_success(self):
         self.client.force_login(self.user)
-        response = self.client.get(reverse('products:remove', args=[self.product.id]))
+        response = self.client.post(reverse('products:remove', args=[self.product.id]))
         assert response.status_code == 302
         assert not Product.objects.all()
-    
-    def test_product_remove_view_success_and_redirect_to_previous_page(self):
-        self.client.force_login(self.user)
-        previous_url = reverse('users:profile', args=[self.user.id])
-        response = self.client.get(reverse('products:remove', args=[self.product.id]), {}, HTTP_REFERER=previous_url)
-        assert response.status_code == 302
-        assert response.url == previous_url
 
 
 class CategoryViewTest(ModelsSetUp):    
