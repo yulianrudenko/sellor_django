@@ -52,4 +52,4 @@ class TagTests(ModelsSetUp):
 
 class CouponCodeTests(ModelsSetUp):
     def test_coupon_str_method(self):
-        assert str(self.coupon) == '12345'
+        assert str(self.coupon) == 'test_coupon_code'

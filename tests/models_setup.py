@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from sellor.apps.products.models import (
     Product,
@@ -15,13 +16,26 @@ User = get_user_model()
 class ModelsSetUp(TestCase):
     def setUp(self) -> None:
         self.user = User.objects.create(
-            email = 'user@gmail.com',
-            first_name = 'officer',
-            last_name = 'key',
+            email='user@gmail.com',
+            first_name='officer',
+            last_name='key',
             gender='M',
             location='NY',
             password='123456',
         )
+        # dict for form tests
+        self.credentials = {
+            'email': self.user.email,
+            'first_name': self.user.first_name,
+            'last_name': self.user.last_name,
+            'password': self.user.password,
+            'gender': self.user.gender,
+            'location': self.user.location,
+        }
+        self.user.set_password(self.credentials['password'])
+        self.user.save()
+
+
         self.category = Category.objects.create(
             name='test_category'
         )
@@ -37,7 +51,7 @@ class ModelsSetUp(TestCase):
             name='test_tag'
         )
         self.coupon = CouponCode.objects.create(
-            code = '12345',
+            code = 'test_coupon_code',
             reduce_amount = 5
         )
         self.shipping = Shipping.objects.create(
@@ -51,3 +65,12 @@ class ModelsSetUp(TestCase):
             shipping=self.shipping,
             is_completed=True
         )
+
+
+class SimulateCart(ModelsSetUp):
+    def setUp(self) -> None:
+        super().setUp()
+        self.client.get(reverse('products:home'))
+        s = self.client.session
+        s.update({'cart': [str(self.product.id)]})
+        s.save()

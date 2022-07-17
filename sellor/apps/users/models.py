@@ -63,8 +63,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         upload_to="images/profile_pics",
         default="images/blank.jpg"
     )
-    wishlist = models.ManyToManyField(Product)
-    used_coupones = models.ManyToManyField(CouponCode)
+    wishlist = models.ManyToManyField(Product, null=True, blank=True)
+    used_coupones = models.ManyToManyField(CouponCode, null=True, blank=True)
 
     objects = UserAccountManager()
 

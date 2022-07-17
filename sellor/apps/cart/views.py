@@ -9,7 +9,6 @@ def add_to_cart(request):
     cart = Cart(request)
     if request.POST.get('action') == 'add_to_cart':
         product_id = request.POST['product_id']
-        print(product_id)
         cart.add_item(product_id)
     response = {'qty': len(cart)}
     return JsonResponse(response)
