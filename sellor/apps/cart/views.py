@@ -47,7 +47,6 @@ def clear_cart(request):
 
 def remove_coupon_code(request):
     cart = Cart(request)
-    print(cart.session['coupon_code'])
     del cart.session['coupon_code']
     cart.save()
     return redirect('users:cart')

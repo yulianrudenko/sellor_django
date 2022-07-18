@@ -29,7 +29,6 @@ def product_add(request):
             new_product.user = request.user
             new_product.save()
             product_detail_url = reverse('products:detail', args=[new_product.id])
-            print(f'Product succesfully created. <a href={product_detail_url}>See</a>')
             messages.success(request, f'Product succesfully created. <a href={product_detail_url}>See</a>')
     else:
         create_form = ProductForm()

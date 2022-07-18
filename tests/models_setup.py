@@ -11,6 +11,7 @@ from sellor.apps.products.models import (
 from sellor.apps.orders.models import Shipping, Order
 
 User = get_user_model()
+from django.db import connection
 
 
 class ModelsSetUp(TestCase):
@@ -35,11 +36,13 @@ class ModelsSetUp(TestCase):
         self.user.set_password(self.credentials['password'])
         self.user.save()
 
-
+        # restarting the table sequence so category will have id=1 for each test   
+        with connection.cursor() as cursor:
+            cursor.execute("ALTER SEQUENCE products_category_id_seq RESTART WITH 1;")
         self.category = Category.objects.create(
             name='test_category'
         )
-        self.product = Product.objects.create(
+        self.product, created = Product.objects.get_or_create(
             user=self.user,
             category=self.category,
             title='test_product',

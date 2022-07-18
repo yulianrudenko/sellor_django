@@ -56,13 +56,6 @@ def test_login_form(email, password, valid, user_account):
     assert login_form.is_valid() is valid
 
 
-
-# @pytest.mark.parametrize(
-#     'email, password, valid',
-#     [
-#         ('mikeowen@gmail.com',  'zaq1@WSX', True),
-#     ],
-# )
 @pytest.mark.django_db
 def test_edit_form(user_account):
     edit_form = UserEditForm(
@@ -87,8 +80,6 @@ def test_edit_form(user_account):
 )
 @pytest.mark.django_db
 def test_change_password_form(user_account, current_password, new_password, verify_new_password, valid):
-    from sellor.apps.users.models import UserAccount
-    print(user_account.password)
     change_password_form = UserChangePasswordForm(
         data={
             'current_password': current_password,
