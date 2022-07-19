@@ -39,17 +39,18 @@ def product_add(request):
 @login_required
 def product_edit(request, uid):
     product = get_object_or_404(Product, id=uid)
-    if product.user == request.user:
-        if request.method == 'POST':
-            edit_form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
-            if edit_form.is_valid():
-                product = edit_form.save()
-                messages.success(request, f'Product succesfully updated. <a href="{product.get_absolute_url()}">See</a>')
-        else:
-            edit_form = ProductForm(instance=product)
-        context = {'form': edit_form, 'product': product}
-        return render(request, 'products/product_edit.html', context)
-    return reverse('products:detail', args=[uid])
+    if product.user != request.user:
+        return redirect(reverse('products:detail', args=[uid]))
+    if request.method == 'POST':
+        edit_form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
+        if edit_form.is_valid():
+            product = edit_form.save()
+            messages.success(request, f'Product succesfully updated. <a href="{product.get_absolute_url()}">See</a>')
+    else:
+        edit_form = ProductForm(instance=product)
+    context = {'form': edit_form, 'product': product}
+    return render(request, 'products/product_edit.html', context)
+    
 
 
 @login_required

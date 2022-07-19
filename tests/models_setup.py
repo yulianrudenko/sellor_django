@@ -16,25 +16,28 @@ from django.db import connection
 
 class ModelsSetUp(TestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create(
-            email='user@gmail.com',
-            first_name='officer',
-            last_name='key',
-            gender='M',
-            location='NY',
-            password='123456',
-        )
         # dict for form tests
         self.credentials = {
-            'email': self.user.email,
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name,
-            'password': self.user.password,
-            'gender': self.user.gender,
-            'location': self.user.location,
+            'email': 'user@gmail.com',
+            'first_name': 'officer',
+            'last_name': 'key',
+            'password': '123456',
+            'gender': 'M',
+            'location': 'NY',
         }
+        self.user = User.objects.create(**self.credentials)
         self.user.set_password(self.credentials['password'])
         self.user.save()
+        
+        self.user2 = User.objects.create(
+            email='user2@gmail.com',
+            first_name='lionel',
+            last_name='messi',
+            gender='M',
+            location='Paris',
+        )
+        self.user2.set_password(self.credentials['password'])
+        self.user2.save()
 
         # restarting the table sequence so category will have id=1 for each test   
         with connection.cursor() as cursor:
@@ -42,7 +45,7 @@ class ModelsSetUp(TestCase):
         self.category = Category.objects.create(
             name='test_category'
         )
-        self.product, created = Product.objects.get_or_create(
+        self.product = Product.objects.create(
             user=self.user,
             category=self.category,
             title='test_product',
@@ -53,6 +56,7 @@ class ModelsSetUp(TestCase):
         self.tag = Tag.objects.create(
             name='test_tag'
         )
+        self.product.tags.add(self.tag)
         self.coupon = CouponCode.objects.create(
             code = 'test_coupon_code',
             reduce_amount = 5
