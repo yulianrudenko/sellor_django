@@ -27,10 +27,11 @@ def select_shipping(request):
     cart = Cart(request)
     response = {}
     if request.POST.get('action') == 'select_shipping':
-        shipping_type_id = request.POST.get('shipping_id')
+        shipping_type_id = int(request.POST.get('shipping_id'), 0)
         if shipping_type_id != 0:
             cart.session['shipping_type_id'] = shipping_type_id
         else:
+            cart.session['shipping_type_id']
             del cart.session['shipping_type_id']
         cart.save()
     response = {'new_total_price': cart.get_total_price(), 'shipping_price': cart.get_shipping_price()}

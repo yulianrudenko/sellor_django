@@ -1,6 +1,8 @@
+import uuid
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.db import connection
 
 from sellor.apps.products.models import (
     Product,
@@ -11,8 +13,7 @@ from sellor.apps.products.models import (
 from sellor.apps.orders.models import Shipping, Order
 
 User = get_user_model()
-from django.db import connection
-
+product_uid = uuid.uuid4()
 
 class ModelsSetUp(TestCase):
     def setUp(self) -> None:
@@ -46,6 +47,7 @@ class ModelsSetUp(TestCase):
             name='test_category'
         )
         self.product = Product.objects.create(
+            id=product_uid,
             user=self.user,
             category=self.category,
             title='test_product',
@@ -58,8 +60,8 @@ class ModelsSetUp(TestCase):
         )
         self.product.tags.add(self.tag)
         self.coupon = CouponCode.objects.create(
-            code = 'test_coupon_code',
-            reduce_amount = 5
+            code='test_coupon_code',
+            reduce_amount=5
         )
         self.shipping = Shipping.objects.create(
             type='same day delivery',

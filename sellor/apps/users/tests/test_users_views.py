@@ -216,6 +216,14 @@ class CartTests(SimulateCart):
         response = self.client.post(self.url, {'coupon_code': self.coupon.code}, follow=True)
         assert response.status_code == 200
         assert self.client.session.get('coupon_code') == 'test_coupon_code'
+    
+    def test_cart_coupon_with_not_authenticated_user(self):
+        self.client.logout()
+        response = self.client.post(self.url, {'coupon_code': self.coupon.code})
+        assert response.status_code == 200
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        assert 'Coupones available only for authenticated users.' in str(messages[0])
 
     def test_cart_coupon_post_doesnt_exist_error(self):
         self.coupon.delete()
