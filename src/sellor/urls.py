@@ -8,6 +8,7 @@ from sellor.apps.products.views import product_all
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include('debug_toolbar.urls')),
+    path('api/', include('api.urls', namespace='api')),
     
     path('', product_all, name='home'),
     path('products/', include('sellor.apps.products.urls', namespace='products')),

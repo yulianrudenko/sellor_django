@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from constants import SECRET_KEY
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bvf9i=gn&^))es7*g=58&a5d=jcvato)r(oesh&39c6yul&xru'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -28,14 +29,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # external packages/modules
+    'rest_framework',
     'mptt',
-    'computedfields',
     'debug_toolbar',
 
+    # internal apps
     'sellor.apps.products',
     'sellor.apps.users',
     'sellor.apps.cart',
     'sellor.apps.orders',
+    'api'
 ]
 
 MIDDLEWARE = [
