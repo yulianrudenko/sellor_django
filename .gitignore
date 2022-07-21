@@ -2,6 +2,7 @@ constants.py
 /environment
 /htmlcov
 .coverage
+.coveragerc
 chromedriver.exe
 *.py[cod]
 **/__pycache__

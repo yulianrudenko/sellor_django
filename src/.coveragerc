@@ -8,6 +8,7 @@ omit =
    *test*
    *urls.py*
    *templatetags*
+   constants.py
    
 [report]
 omit =
@@ -19,3 +20,4 @@ omit =
    *test*
    *urls.py*
    *templatetags*
+   constants.py
