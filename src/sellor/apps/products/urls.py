@@ -13,5 +13,5 @@ urlpatterns = [
     path('<slug:uid>/edit', views.product_edit, name='edit'),
     path('<slug:uid>/remove', views.product_remove, name='remove'),
 
-    path('category/<int:id>', views.category, name='category'),
+    path('category/<str:category_name>', views.category, name='category'),
 ]

@@ -6,8 +6,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from mptt.models import MPTTModel, TreeForeignKey
-
 from django.conf import settings
 from sellor.apps.orders.models import Order
 
@@ -95,18 +93,14 @@ class Product(models.Model):
         return f'{self.title}'
 
 
-class Category(MPTTModel):
+class Category(models.Model):
     name = models.CharField(verbose_name=_('category name'), choices=CATEGORY_CHOICES, max_length=50, unique=True)
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     class Meta:
         verbose_name_plural = 'Categories'
 
-    class MPTTMeta:
-        order_insertion_by = ['name']
-
     def get_absolute_url(self):
-        return reverse('products:category', args=[self.id])
+        return reverse('products:category', args=[self.name])
 
     def __str__(self) -> str:
         return f'{self.name}'

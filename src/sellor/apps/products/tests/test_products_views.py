@@ -86,6 +86,6 @@ class ProductsViewsTest(ModelsSetUp):
 
 class CategoryViewTest(ModelsSetUp):    
     def test_category_page(self):
-        response = self.client.get(reverse('products:category', args=[self.category.id]))
+        response = self.client.get(reverse('products:category', args=[self.category.name]))
         assert response.status_code == 200
         assert 'test_category' in str(response.context[0]['category'])

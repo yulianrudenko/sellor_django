@@ -29,31 +29,13 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {% for category in categories %}
             <li>
-              {% if category.get_children %}
-              <a class="dropdown-item ps-1" href="{{ category.get_absolute_url }}"
-                aria-labelledby="navbarDropdown">{{ category.name|title }}</a>
-              {% for subcategory in category.get_children %}
-              {% if subcategory.get_children %}
-              <a class="dropdown-item ps-3" href="{{ subcategory.get_absolute_url }}"
-                aria-labelledby="navbarDropdown">{{ subcategory.name|title }}</a>
-              {% for subcategory2 in subcategory.get_children %}
-              <a class="dropdown-item ps-5" href="{{ subcategory2.get_absolute_url }}"
-                aria-labelledby="navbarDropdown">{{ subcategory2.name|title }}</a>
-              {% endfor %}
-              {% else %}
-              <a class="dropdown-item ps-3" href="{{ subcategory.get_absolute_url }}"
-                aria-labelledby="navbarDropdown">{{ subcategory.name|title }}</a>
-              {% endif %}
-              {% endfor %}
-              {% else %}
               <a class="dropdown-item ps-1" href="{{ category.get_absolute_url }}">{{ category.name|title }}</a>
-              {% endif %}
             </li>
             {% endfor %}
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><del>My Dashboard</del> coming soon</a>
+          <a class="nav-link" href="#"><del>My Dashboard</del> comming soon</a>
         </li>
       </ul>
       <!-- Left links -->

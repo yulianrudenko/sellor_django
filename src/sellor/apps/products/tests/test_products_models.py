@@ -42,7 +42,7 @@ class CategoryTests(ModelsSetUp):
         assert str(self.category) == 'test_category'
     
     def test_category_get_absolute_url_method(self):
-        assert self.category.get_absolute_url() == reverse('products:category', args=[self.category.id])
+        assert self.category.get_absolute_url() == reverse('products:category', args=[self.category.name])
 
 
 class TagTests(ModelsSetUp):

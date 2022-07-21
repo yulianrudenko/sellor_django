@@ -20,7 +20,7 @@
           <div class="d-flex justify-content-between">
             <div class="">
               <h3><a href="{{ product.get_absolute_url }}" class="text-dark">{{ product.title|truncatechars:20|title }}</a></h3>
-              <div class="h5 text-dark">Category: {{ product.category }}</div>
+              <div class="h5 text-dark"><a href="{{ product.category.get_absolute_url }}">Category: {{ product.category }}</a></div>
             </div>
             <div class="author">
               <a href="{{ product.user.get_absolute_url }}" class="text-muted me-2">{{ product.user.fullname }}</a>

@@ -66,7 +66,7 @@ def product_remove(request, uid):
     return redirect('products:home')
 
 
-def category(request, id):
-    category = get_object_or_404(Category, id=id)
+def category(request, category_name):
+    category = get_object_or_404(Category, name=category_name)
     context = {'category': category, 'test': 'test'}
     return render(request, 'products/category.html', context)

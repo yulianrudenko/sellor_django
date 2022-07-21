@@ -15,54 +15,6 @@
       <div class="d-flex justify-content-center mb-3">
         <div class="py-2 w-50 text-center bg-light border rounded-3">
           <h1 class="">{{ category.name|title }}</h1>
-
-          {% if category.get_children %}
-          <h4 class="text-muted mt-3">Subcategories:</h4>
-          <div class="tree text-start">
-            <div class="w-100 p-4">
-              <div class="row">
-                <div class="treeview treeview-primary" id="expand-example" tabindex="0">
-                  <ul role="tree">
-                  
-                    {% for subcategory in category.get_children %}
-                      {% if not subcategory.get_children %}
-                      <a href="{{ subcategory.get_absolute_url }}"><li aria-level="1" role="tree-item" class="treeview-category" tabindex="-1">{{ subcategory.name|title }}</li></a>
-                      {% else %}
-                      <li aria-level="1" role="tree-item" tabindex="-1">
-                        <a class="treeview-category collapsed active" data-mdb-toggle="collapse" data-mdb-target="#level-expand-example-item" role="button" tabindex="-1" aria-expanded="false"><span aria-label="toggle"><i class="fas fa-angle-right mx-1" style="transform: rotate(0deg);"></i></span>{{ subcategory.name|title }}</a>
-                        <a href="{{ subcategory.get_absolute_url }}"> - Go there</a>
-                        <ul id="level-expand-example-item" role="group" class="collapse" style="">
-                            {% for subcategory2 in subcategory.get_children %}
-                              {% if not subcategory2.get_children %}
-                              <a href="{{ subcategory2.get_absolute_url }}">
-                                <li aria-level="2" role="tree-item" class="treeview-category" tabindex="-1">{{ subcategory2.name|title }}</li>
-                              </a>
-                              {% else %}
-                                <li aria-level="1" role="tree-item" tabindex="-1">
-                                  <a class="treeview-category collapsed active" data-mdb-toggle="collapse" data-mdb-target="#level-expand-example-item" role="button" tabindex="-1" aria-expanded="false"><span aria-label="toggle"><i class="fas fa-angle-right mx-1" style="transform: rotate(0deg);"></i></span>{{ subcategory2.name|title }}</a>
-                                  <a href="{{ subcategory2.get_absolute_url }}"> - Go there</a>
-                                  <ul id="level-expand-example-item" role="group" class="collapse" style="">
-                                    {% for subcategory3 in subcategory2.get_children %}
-                                    <a href="{{ subcategory3.get_absolute_url }}">
-                                      <li aria-level="2" role="tree-item" class="treeview-category" tabindex="-1">{{ subcategory3.name|title }}</li>
-                                    </a>
-                                    {% endfor %}
-                                  </ul>
-                                </li>
-                              {% endif %}
-                            {% endfor %}
-                          </ul>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
         </div>
       </div>
 

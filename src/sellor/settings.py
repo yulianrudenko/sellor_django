@@ -34,7 +34,6 @@ INSTALLED_APPS = [
 
     # external packages/modules
     'rest_framework',
-    'mptt',
     'debug_toolbar',
 
     # internal apps
