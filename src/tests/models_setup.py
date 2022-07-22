@@ -14,7 +14,7 @@ from sellor.apps.orders.models import Shipping, Order
 
 User = get_user_model()
 product_uid = uuid.uuid4()
-
+# TODO tags dont work after addition but olny after edition
 class ModelsSetUp(TestCase):
     def setUp(self) -> None:
         # dict for form tests

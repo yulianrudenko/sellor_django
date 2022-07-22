@@ -1,7 +1,10 @@
 import os
+import json
+
 from pathlib import Path
 
 from constants import SECRET_KEY
+from .utils import get_choices_from_fixture
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -126,9 +129,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
@@ -151,17 +151,8 @@ INTERNAL_IPS = [
 
 FIXTURE_DIRS = [BASE_DIR / 'fixtures']
 
-# TODO: same with tags
-CATEGORY_CHOICES = [
-    ('clothes', 'Clothes'),
-    ('it', 'IT'),
-    ('food', 'Food'),
-    ('sport', 'Sport'),
-    ('study', 'Study'),
-    ('health', 'Health'),
-    ('entertainment', 'Entertainment'),
-    ('house', 'House'),
-    ('books', 'Books'),
-    ('service', 'Service'),
-    ('weapons', 'Weapons')
-]
+CATEGORY_CHOICES = get_choices_from_fixture(fixture_name_plural='categories', choice_field_name='name')
+
+TAG_CHOICES = get_choices_from_fixture(fixture_name_plural='tags', choice_field_name='name')
+
+SHIPPING_CHOICES = get_choices_from_fixture(fixture_name_plural='shippings', choice_field_name='type')

@@ -3,11 +3,7 @@ from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
-SHIPPING_CHOICES = [
-    ('same day delivery', 'Same day delivery'),
-    ('overnight delivery', 'Overnight delivery'),
-    ('slow delivery', 'Slow delivery'),
-]
+SHIPPING_CHOICES = settings.SHIPPING_CHOICES
 
 class Shipping(models.Model):
     type = models.CharField(verbose_name=_('shipping type'), choices=SHIPPING_CHOICES, max_length=50, unique=True)

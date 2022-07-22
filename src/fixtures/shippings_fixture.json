@@ -1,0 +1,38 @@
+[
+    {
+        "model": "orders.shipping",
+        "pk": 1,
+        "fields": {
+            "type": "same day delivery",
+            "description": "Receive your order same day/within 12 hours",
+            "price": "20"
+        }
+    },
+    {
+        "model": "orders.shipping",
+        "pk": 2,
+        "fields": {
+            "type": "overnight delivery",
+            "description": "Receive your order same day/within 24 hours",
+            "price": "15"
+        }
+    },
+    {
+        "model": "orders.shipping",
+        "pk": 3,
+        "fields": {
+            "type": "regular delivery",
+            "description": "Receive your order within 3 days",
+            "price": "10"
+        }
+    },
+    {
+        "model": "orders.shipping",
+        "pk": 4,
+        "fields": {
+            "type": "slow delivery",
+            "description": "Receive your order within 7 days",
+            "price": "7"
+        }
+    }
+]

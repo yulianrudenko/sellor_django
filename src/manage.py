@@ -18,12 +18,15 @@ def main():
     
     execute_from_command_line(sys.argv)
 
-    # check for categories to insert into DB for every migration
+    # check for fixture-data to insert into DB for every migration
     if len(sys.argv) == 2 and sys.argv[1] == 'migrate':
-        # script that updates or creates 'fixtures/products_categories'.json with all the settings.CATEGORY_CHOICES
-        execute_from_command_line(['manage.py', 'runscript', 'get_categories_to_fixture'])
-        # performs the data load with data from previoulsy updated/created 'products_categories.json'
-        execute_from_command_line(['manage.py', 'loaddata', 'products_categories.json'])
+        # execute_from_command_line(['manage.py', 'runscript', 'prepare_fixtures'])
+        execute_from_command_line([
+            'manage.py', 'loaddata',
+            'categories_fixture.json',
+            'tags_fixture.json',
+            'shippings_fixture.json',
+            'coupone_codes_fixture.json'])
 
 
 if __name__ == '__main__':

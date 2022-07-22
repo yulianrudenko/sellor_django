@@ -1,0 +1,10 @@
+[
+    {
+        "model": "products.couponcode",
+        "pk": 1,
+        "fields": {
+            "code": "sellor_starter26",
+            "reduce_amount": "7"
+        }
+    }
+]

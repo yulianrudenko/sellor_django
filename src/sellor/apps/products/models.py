@@ -10,23 +10,7 @@ from django.conf import settings
 from sellor.apps.orders.models import Order
 
 CATEGORY_CHOICES = settings.CATEGORY_CHOICES
-TAG_CHOICES = [
-    ('nike', 'Nike'),
-    ('adidas', 'Adidas'),
-    ('viral', 'Viral'),
-    ('school', 'School'),
-    ('new', 'New'),
-    ('old', 'Old'),
-    ('very cheap', 'Very cheap'),
-    ('natural', 'Natural'),
-    ('punk', 'Punk'),
-    ('animals', 'Animals'),
-    ('computer', 'Computers'),
-    ('programming', 'Programming'),
-    ('funny', 'Funny'),
-    ('football', 'Football'),
-    ('anime', 'Anime'),
-]
+TAG_CHOICES = settings.TAG_CHOICES
 
 
 class Product(models.Model):
