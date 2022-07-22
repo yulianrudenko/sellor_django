@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
     # external packages/modules
     'rest_framework',
+    'django_extensions',    
     'debug_toolbar',
 
     # internal apps
@@ -92,9 +93,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
-
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -150,3 +149,19 @@ INTERNAL_IPS = [
     'localhost',
 ]
 
+FIXTURE_DIRS = [BASE_DIR / 'fixtures']
+
+# TODO: same with tags
+CATEGORY_CHOICES = [
+    ('clothes', 'Clothes'),
+    ('it', 'IT'),
+    ('food', 'Food'),
+    ('sport', 'Sport'),
+    ('study', 'Study'),
+    ('health', 'Health'),
+    ('entertainment', 'Entertainment'),
+    ('house', 'House'),
+    ('books', 'Books'),
+    ('service', 'Service'),
+    ('weapons', 'Weapons')
+]

@@ -9,19 +9,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from sellor.apps.orders.models import Order
 
-
-CATEGORY_CHOICES = [
-    ('clothes', 'Clothes'),
-    ('it', 'IT'),
-    ('food', 'Food'),
-    ('sport', 'Sport'),
-    ('study', 'Study'),
-    ('health', 'Health'),
-    ('entertainment', 'Entertainment'),
-    ('house', 'House'),
-    ('books', 'Books'),
-    ('service', 'Service'),
-]
+CATEGORY_CHOICES = settings.CATEGORY_CHOICES
 TAG_CHOICES = [
     ('nike', 'Nike'),
     ('adidas', 'Adidas'),
