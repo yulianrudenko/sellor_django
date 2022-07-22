@@ -11,7 +11,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
       <a class="navbar-brand mt-2 mt-lg-0" href="{% url 'home' %}">
-        <font class="h3 p-0 m-0">SELLor <i class="fa-solid fa-anchor"></i></font>
+        <font class="h3 p-0 m-0"><i>SELL</i><sub>or</sub> <i class="fa-solid fa-anchor"></i></font>
       </a>
       </a>
       <!-- Left links -->
@@ -75,6 +75,11 @@
       <!-- WISHLIST -->
       <a class="text-reset me-3" href="{% url 'users:wishlist' %}" title="Wishlist">
         <i class="fa-solid fa-bookmark"></i>
+        {% if request.user.is_authenticated %}
+        <span id="wishlist-qty" class="badge rounded-pill badge-notification bg-danger">
+          {{ request.user.wishlist.count }}
+        </span>
+        {% endif %}
       </a>
 
       <!-- Profile -->

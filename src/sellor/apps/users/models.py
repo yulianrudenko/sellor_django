@@ -61,7 +61,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         verbose_name=_("image"),
         help_text=_("Upload an avatar"),
         upload_to="images/profile_pics",
-        default="images/blank.jpg"
+        default="../static/images/blank.jpg"
     )
     wishlist = models.ManyToManyField(Product, blank=True)
     used_coupones = models.ManyToManyField(CouponCode, blank=True)

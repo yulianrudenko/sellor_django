@@ -41,7 +41,7 @@ class Product(models.Model):
         verbose_name=_("image"),
         help_text=_("Upload an image"),
         upload_to="images/products",
-        default="images/blank.jpg"
+        default="../static/images/blank.jpg"
     )
     tags = models.ManyToManyField('Tag', blank=True)
     order = models.ForeignKey(Order, related_name='products', on_delete=models.SET_NULL, null=True, blank=True)
