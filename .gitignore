@@ -1,8 +1,12 @@
+*.log
+*.pot
+*.py[cod]
+__pycache__
+db.sqlite3
+media
 constants.py
-/environment
-/htmlcov
+environment
+htmlcov
 .coverage
 .coveragerc
 chromedriver.exe
-*.py[cod]
-**/__pycache__
