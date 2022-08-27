@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% load static %}
+
+{% block extrahead %}
+<style>
+  body {
+    min-height: 100vh;
+  }
+
+  p {
+    word-break: break-all;
+    white-space: normal;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    width: 5px;
+    background: #f5f5f5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 1em;
+    background-color: #ddd;
+    outline: 1px solid slategrey;
+    border-radius: 1rem;
+  }
+
+  .text-small {
+    font-size: 0.8rem;
+  }
+
+  .chat-box {
+    height: 510px;
+    overflow-y: scroll;
+  }
+
+  .message-time {
+    font-size: 0.75rem !important;
+  }
+
+  input::placeholder {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .chat-box {
+      height: 460px;
+    }
+  }
+</style>
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="container pt-3">
+  <div class="row gap-md-0 gap-sm-4">
+    <!-- User Info -->
+    <div class="col-12 col-md-3">
+      <div class="btn btn-dark border border-3 d-flex flex-column justify-content-between px-1">
+        <div class="product">
+          <h5 class="py-1">{% if request.user == chat.customer %}YOU WANT TO BUY{%else%}YOU SELL{%endif%}</h5>
+          <a href="{{ chat.product.get_absolute_url }}">
+            <div class="mb-3">
+              <img src="{{ chat.product.get_image }}" alt="" style="object-fit: cover; width: 105px; height: 105px"
+                class="rounded-circle img-fluid img-thumbnail" />
+            </div>
+            <div class="btn btn-primary">
+              <span class="h5">{{ chat.product.title }}</span> for
+              <span class="text-decoration-underline" style="font-size: 1.2rem;">{{ chat.product.current_price }}
+                zł.</span>
+            </div>
+          </a>
+        </div>
+        <div class="author mt-5">
+          {% if request.user == chat.customer %}
+          <h5 class="py-1">FROM</h5>
+          <a href="{{ chat.seller.get_absolute_url }}">
+            <div class="mb-3">
+              <img src="{{ chat.seller.get_image }}" alt="" style="object-fit: cover; width: 105px; height: 105px"
+                class="rounded-circle img-fluid img-thumbnail" />
+            </div>
+            <div class="btn btn-primary">
+              <div class="h5 my-auto" style="font-size: 1rem">{{ chat.seller.fullname }}</div>
+              <div class="h5 my-auto" style="font-size: 1rem">({{ chat.seller.location }})</div>
+            </div>
+          </a>
+          {% else %}
+          <h5 class="py-1">TO</h5>
+          <a href="{{ chat.customer.get_absolute_url }}">
+            <div class="mb-3">
+              <img src="{{ chat.customer.get_image }}" alt="" style="object-fit: cover; width: 105px; height: 105px"
+                class="rounded-circle img-fluid img-thumbnail" />
+            </div>
+            <div class="btn btn-primary mx-auto">
+              <div class="h5" style="font-size: 1rem">{{ chat.customer.fullname }}</div>
+              <div class="h5 my-auto" style="font-size: 1rem">({{ chat.customer.location }})</div>
+            </div>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Box-->
+    <div class="col-12 col-md-7">
+      <div id="messages-list" class="px-2 py-1 chat-box bg-white">
+
+        {% for message in chat.last_30_messages %}
+        {% if message.is_system_generated %}
+        <div class="media mx-auto w-50 mb-4 text-center">
+          <div class="media-body">
+            <div class="bg-secondary rounded py-3 px-3 mb-1">
+              <p class="mb-0 text-white h6" style="word-break: normal;">{{ message.text }}</p>
+            </div>
+            <p class="message-time small text-muted text-center">
+              {{ message.sent_date }}
+            </p>
+          </div>
+        </div>
+        {% else %}
+        {% if message.author == request.user %}
+        <div class="media w-50 ms-auto mb-3">
+          <div class="media-body">
+            <div class="bg-primary rounded py-2 px-3 mb-1">
+              <p class="text-small mb-0 text-white">{{ message.text }}</p>
+            </div>
+            <p class="message-time small text-muted text-end">
+              You at
+              {{ message.sent_date }}
+            </p>
+          </div>
+        </div>
+        {% else %}
+        <div class="media w-50 mb-3">
+          <div class="media-body ms-1">
+            <div class="bg-info rounded py-2 px-3 mb-1 d-flex justify-content-between">
+              <p class="text-small mb-0 text-light">{{ message.text }}</p>
+              <a href="{% url 'users:report' chatting_with_id message.id %}">
+                <small class="text-danger" title="Report User">
+                  <i class="fa-solid fa-hand">!</i>
+                </small>
+              </a>
+            </div>
+          </div>
+          <div class="message-bottom">
+            <p class="message-time small text-muted ms-2">
+              {{ message.author.first_name }}
+              at {{ message.sent_date }}
+            </p>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+      </div>
+
+      <!-- Typing area -->
+      <div class="bg-light">
+        <div class="input-group">
+          <input type="text" id="message-input" placeholder="Type a message" aria-describedby="button-addon2"
+            class="form-control rounded-0 border-0 py-4 bg-light">
+          <div class="input-group-append">
+            <button id="message-send" type="submit" class="btn btn-link h-100"> <i class="fa fa-paper-plane"
+                style="font-size: 1.4rem;"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Control Panel -->
+    <div class="col-md-2 pt-3">
+      <div class="list-group gap-3" id="list-tab" role="tablist">
+        {% if request.user == chat.seller %}
+
+          {% if chat.done_deal_requested %}
+            <div class="btn btn-success">
+              <p class="h6" style="word-break: normal;">You've requested customer to mark this deal as DONE</p>
+              <a href="{% url 'chats:request_done_deal_cancel' chat.id %}" class="btn btn-danger text-decoration-underline">Cancel</a>
+            </div>
+          {% else %}
+          <a href="{% url 'chats:request_done_deal' chat.id %}"
+            class="list-group-item list-group-item-action bg-success text-light text-decoration-underline fw-bold py-3"
+            data-toggle="list" role="tab">Mark Deal
+            as Done!</a>
+          {% endif %}
+
+        {% else %}
+          {% if chat.done_deal_requested %}
+            <div class="btn btn-dark">
+              <p class="h6" style="word-break: normal;">Seller requested you to mark this deal as DONE. Have you received product from the seller?</p>
+              <a href="{% url 'chats:confirm_deal' chat.id %}" class="btn btn-success text-decoration-underline">YES, CONFIRM DEAL</a>
+            </div>
+          {% endif %}
+        {% endif %}
+        <a href="{% url 'chats:delete' chat.id %}"
+          class="list-group-item list-group-item-action bg-secondary text-light fw-bold py-3" data-toggle="list"
+          role="tab">Abort</a>
+        <a href="{% url 'users:report' chatting_with_id %}"
+          class="list-group-item list-group-item-action bg-danger text-light fw-bold py-3" data-toggle="list"
+          role="tab">Report User</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  $("#messages-list").stop().animate({
+    scrollTop: $("#messages-list")[0].scrollHeight
+  }, 750);
+  const messageInput = document.querySelector("#message-input")
+  const messageSendBtn = document.querySelector("#message-send")
+  const messagesListDiv = document.querySelector("#messages-list")
+
+  const authorId = '{{ request.user.id }}'
+  const receiverId = '{{ request.user.id }}'
+  const userName = '{{ request.user.first_name }}'
+  const chatId = '{{ chat.id }}';
+  // {% if debug %}
+  var prefix = 'ws://'
+  // {% else %}
+  var prefix = 'wss://'
+  // {% endif %}
+  const chatSocket = new WebSocket(
+    prefix +
+    window.location.host +
+    '/ws/chats/' +
+    chatId +
+    '/'
+  );
+
+  chatSocket.onmessage = function (event) {
+    let data = JSON.parse(event.data);
+    let newMessageDiv = document.createElement("div");
+    if (data.authorId == authorId) {
+      newMessageDiv.className = "media w-50 ms-auto mb-3"
+      newMessageDiv.innerHTML = `
+				<div class="media-body">
+					<div class="bg-primary rounded py-2 px-3 mb-1">
+						<p class="text-small mb-0 text-white">${data.newMessageText}</p>
+					</div>
+					<p class="message-time small text-muted text-end">
+						You at ${data.newMessageTime}
+					</p>
+				</div>
+			`;
+    } else {
+      newMessageDiv.className = "media w-50 mb-3"
+      newMessageDiv.innerHTML = `
+				<div class="media-body ms-1">
+          <div class="bg-info rounded py-2 px-3 mb-1 d-flex justify-content-between">
+							<p class="text-small mb-0 text-light">${data.newMessageText}</p>              
+              <a href="/users/{{chatting_with_id}}_${data.newMessageId}/report">
+                <small class="text-danger" title="Report User">
+                  <i class="fa-solid fa-hand">!</i>
+                </small>
+              </a>
+          </div>
+				</div>
+				<div class="message-bottom">
+					<p class="message-time small text-muted ms-2">
+						${data.authorName} at ${data.newMessageTime}
+					</p>
+				</div>
+			`;
+
+      // mark message as seen
+      fetch(`/chats/${data.newMessageId}/read`)
+        .then((response) => {})
+        .then((data) => {});
+    }
+    messagesListDiv.appendChild(newMessageDiv);
+  };
+
+  chatSocket.onclose = function (e) {
+    console.error('Chat socket closed unexpectedly');
+  };
+
+  messageInput.focus();
+  messageInput.onkeyup = function (event) {
+    if (event.keyCode === 13) { // enter, return
+      messageSendBtn.click();
+    }
+  };
+
+  messageSendBtn.onclick = function (event) {
+    let newMessageText = messageInput.value;
+    if (newMessageText != '') {
+      chatSocket.send(JSON.stringify({
+        'authorId': authorId,
+        'authorName': userName,
+        'newMessageText': newMessageText
+      }));
+      messageInput.value = '';
+    }
+  };
+</script>
+
+  {% if request.user == chat.customer %}
+    {% if not chat.done_deal_requested %}
+    <script>
+      // Add listener for deal confirm
+      window.setInterval('check_for_done_deal_request()', 12000);
+      // Call a function every 12000 milliseconds / 12 seconds
+      function check_for_done_deal_request() {
+        fetch("{% url 'chats:check_for_done_deal_request' chat.id %}")
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data['is_requested'] == true) window.location.reload()
+          });
+      }
+    </script>
+    {% else %}
+    <script>
+      // Add listener for deal confirm
+      window.setInterval('check_for_done_deal_request_cancel()', 15000);
+      // Call a function every 15000 milliseconds / 15 seconds
+      function check_for_done_deal_request_cancel() {
+        fetch("{% url 'chats:check_for_done_deal_request' chat.id %}")
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            if (data['is_requested'] == false) window.location.reload()
+          });
+      }
+    </script>
+    {% endif %}
+  {% endif %}
+
+  {% if request.user == chat.seller and chat.done_deal_requested %}
+  <script>
+    // Add listener for deal confirm
+    window.setInterval('check_for_confirm_deal()', 16000);
+    // Call a function every 16000 milliseconds / 16 seconds
+    function check_for_confirm_deal() {
+      fetch("{% url 'chats:check_for_confirm_deal' chat.customer.id %}")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data['is_confirmed'] == 'true') document.location.replace('{% url "users:dashboard" %}');
+        });
+    }
+  </script>
+  {% endif %}
+{% endblock javascript %}

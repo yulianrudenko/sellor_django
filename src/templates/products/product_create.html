@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+<link
+class="jsbin"
+href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+rel="stylesheet"
+type="text/css"
+/>
+<script
+class="jsbin"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+></script>
+<script
+class="jsbin"
+src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
+></script>
+{% endblock extrahead %}
+
+{% block content %}
+<section class="h-100 bg-dark">
+  <div class="container h-100 py-4 d-flex justify-content-center text">
+    <div class="col-11 col-md-6 card px-4 py-4" style="border-radius: 1rem">
+
+      <form action="" method="post" enctype="multipart/form-data" class="w-100">
+        {% csrf_token %}
+        <div class="d-flex align-items-center mb-3 pb-1">
+          <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+          <span class="h1 fw-bold mb-0">Add new product</span>
+        </div>
+
+        {% if form.errors %}
+        <div class="col-md-12 mb-4">
+          {% for field in form %}
+          {% for error in field.errors %}
+          <div class=" py-2 alert alert-danger">
+            <strong>{{ error }}</strong>
+          </div>
+          {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mt-2 mb-4 row w-100 text-center d-flex flex-column align-items-center gap-3">
+          <div class="col-12 col-md-7">
+            <img id="productImage" src="{{ product.get_image }}" alt="Product picture (optional)" style="z-index: 1" class="col-6 img-fluid img-thumbnail p-0 m-0"/>
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.image }}
+          </div>
+        </div>
+
+        <div class="form-outline mb-2">
+          {{ form.title }}
+          <label class="form-label text-dark h5">Title<span class="text-danger">*</span></label>
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label text-dark h6" for="id_category">Category<span class="text-danger">*</span></label>
+          {{ form.category }}
+        </div>
+
+        <div class="mb-4 price d-flex form-row justify-content-around">
+          <div class="col-6 col-md-4 form-outline">
+            {{ form.price }}
+            <label class="form-label text-dark h6">Price<span class="text-danger">*</span></label>
+          </div>
+          <div class="col-5 col-md-4 form-outline">
+            {{ form.discount_price }}
+            <label class="form-label text-dark h6" style="font-size: 0.7rem;">Discount Price</label>
+          </div>
+        </div>
+
+        <div class="form-outline mb-3">
+          {{ form.description }}
+          <label class="form-label text-dark h5">{{ form.description.label }}</label>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-dark h6" for="id_tags">Tags (hold Ctrl to select multiple)</label>
+          {{ form.tags }}
+        </div>
+
+        <div class="mt-4 mb-3">
+          <button class="btn btn-success btn-lg btn-block" type="submit">Create</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#productImage').attr('src', e.target.result).width(200);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock javascript %}

@@ -1,0 +1,36 @@
+<div class="d-flex flex-column w-100 justify-content-center align-items-center mt-5 h5 text-light gap-4">
+  <div class="pagination1 d-flex gap-2">
+    <div class="d-flex gap-4">
+      {% if page_obj.has_previous %}
+      <a href="?page=1" title="Go to start">
+        ◀️◀️
+      </a>
+      <a href="?page={{ page_obj.previous_page_number }}">
+        ◀️
+      </a>
+      {% endif%}
+    </div>
+
+    <a>{{page_obj.number}} of {{page_obj.paginator.num_pages}}</a>
+
+    <div class="d-flex gap-4">
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">
+        ▶️
+      </a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" title="Go to end">
+        ▶️▶️
+      </a>
+      {% endif%}
+    </div>
+  </div>
+
+</div>
+<div class="d-flex w-100 justify-content-center align-items-center h5 text-light gap-2"
+  style="text-decoration: underline;">
+  {% for page_number in page_obj.paginator.page_range %}
+  <a href="?page={{ page_number }}" class="{% if page_number == page_obj.number %}current{% endif %}">
+    {{page_number}}
+  </a>
+  {% endfor %}
+</div>

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+<link
+class="jsbin"
+href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+rel="stylesheet"
+type="text/css"
+/>
+<script
+class="jsbin"
+src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+></script>
+<script
+class="jsbin"
+src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
+></script>
+{% endblock extrahead %}
+
+{% block content %}
+<section class="h-100 bg-dark">
+  <div class="container h-100 py-4 d-flex justify-content-center text">
+    <div class="col-11 col-md-7 card px-4 py-4" style="border-radius: 1rem">
+
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="d-flex align-items-center mb-3 pb-1">
+          <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+          <span class="h1 fw-bold mb-0">Edit product - {{ product.title|title }}</span>
+        </div>
+
+        {% if form.errors %}
+        <div class="col-md-12 mb-4">
+          {% for field in form %}
+          {% for error in field.errors %}
+          <div class=" py-2 alert alert-danger">
+            <strong>{{ error }}</strong>
+          </div>
+          {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mt-2 mb-4 row w-100 text-center">
+          <div class="col-12 col-md-6">
+            <img id="productImage" src="{{ product.get_image }}" alt="Product picture (optional)" style="width: 150px; z-index: 1" class="img-fluid img-thumbnail mt-2 mb-4"/>
+          </div>
+          <div class="col-12 col-md-6 mb-3">
+            {{ form.image }}
+            <a href="{% url 'products:remove_image' product.pk %}" class="btn btn-danger mt-3">Remove image</a>
+          </div>
+        </div>
+
+        <div class="form-outline mb-2">
+          {{ form.title }}
+          <label class="form-label text-dark h4">Title</label>
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label text-dark h5" for="id_category">Category</label>
+          {{ form.category }}
+        </div>
+
+        <div class="mb-4 price d-flex form-row justify-content-around">
+          <div class="col-4 form-outline">
+            {{ form.price }}
+            <label class="form-label text-dark h4">Price</label>
+          </div>
+          <div class="col-4 form-outline">
+            {{ form.discount_price }}
+            <label class="form-label text-dark h5">Discount Price <small class="text-small">(optional)</small></label>
+          </div>
+        </div>
+
+        <div class="form-outline mb-3">
+          {{ form.description }}
+          <label class="form-label text-dark h4">{{ form.description.label }}</label>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-dark h5" for="id_tags">Tags <span class="text-muted h6">(hold Ctrl and click to select multiple tags)</span></label>
+          {{ form.tags }}
+        </div>
+
+        <div class="mt-4 mb-3">
+          <button class="btn btn-dark btn-lg btn-block" type="submit">Submit</button>
+        </div>
+      </form>
+
+      <div class="pt-3">
+        <h6 class="mb-0"><a href="{% url 'products:home' %}" class="text-body h5"><i
+              class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#productImage').attr('src', e.target.result).width(150).height(200);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  
+  function validateFileType(){
+      var fileName = document.getElementById("productImageInput").value;
+      var idxDot = fileName.lastIndexOf(".") + 1;
+      var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+      if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+          //TO DO
+      }else{
+          alert("Only jpg/jpeg and png files are allowed!");
+          window.location.reload()
+      }   
+  }
+</script>
+{% endblock %}

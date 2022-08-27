@@ -1,0 +1,93 @@
+[
+    {
+        "model": "products.tag",
+        "pk": 1,
+        "fields": {
+            "name": "nike"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 2,
+        "fields": {
+            "name": "adidas"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 3,
+        "fields": {
+            "name": "viral"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 4,
+        "fields": {
+            "name": "school"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 5,
+        "fields": {
+            "name": "new"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 6,
+        "fields": {
+            "name": "old"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 7,
+        "fields": {
+            "name": "very cheap"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 8,
+        "fields": {
+            "name": "natural"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 9,
+        "fields": {
+            "name": "punk"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 10,
+        "fields": {
+            "name": "animals"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 13,
+        "fields": {
+            "name": "funny"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 14,
+        "fields": {
+            "name": "football"
+        }
+    },
+    {
+        "model": "products.tag",
+        "pk": 15,
+        "fields": {
+            "name": "anime"
+        }
+    }
+]

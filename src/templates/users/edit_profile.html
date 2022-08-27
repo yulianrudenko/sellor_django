@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="h-100 bg-dark">
+  <div class="container h-100 py-4 d-flex justify-content-center text">
+    <div class="col-11 col-md-6 card px-4 py-4" style="border-radius: 1rem">
+
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="d-flex align-items-center mb-3 pb-1">
+          <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+          <span class="h1 fw-bold mb-0">Edit profile</span>
+        </div>
+
+        {% if form.errors %}
+        <div class="col-md-12 mb-4">
+          {% for field in form %}
+            {% for error in field.errors %}
+            <div class=" py-2 alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+            </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mx-0 mt-2 mb-4 row w-100">
+          <div class="col-12 d-flex flex-column align-items-center">
+            <img id="profileImage" src="{{ user.get_image }}" alt="Generic placeholder image"
+              class="img-fluid img-thumbnail mt-2 mb-4" style="width: 150px; z-index: 1">
+          </div>
+          <div class="col-12 d-flex flex-column align-items-center">
+            {{ form.image }}
+          </div>
+          <div class="col-12 d-flex flex-column align-items-center mt-2 py-2">
+            <a href="{% url 'users:remove_image' %}" class="btn btn-danger">Remove image</a>
+          </div>
+        </div>
+
+        <div class="form-outline mb-2">
+          {{ form.first_name }}
+          <label class="form-label">First name</label>
+        </div>
+        <div class="form-outline mb-4">
+          {{ form.last_name }}
+          <label class="form-label">Last name</label>
+        </div>
+
+        <div class="form-outline mb-1">
+          {{ form.phone }}
+          <label class="form-label">Phone +48..</label>
+        </div>
+
+        <div class="mb-4">
+          <label class="label text-decoration-underline">Location</label>
+          {{ form.location }}
+        </div>
+
+        <div class="pt-1 mb-4">
+          <button class="btn btn-dark btn-lg btn-block" type="submit">Submit</button>
+        </div>
+
+        <a
+            href="{% url 'users:change_password' %}" class="h5 mb-5 pb-lg-2 text-decoration-underline" style="color: #393f81;">Want to change password? Click here.</a>
+      </form>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#profileImage').attr('src', e.target.result).width(150).height(200);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function validateFileType(){
+      var fileName = document.getElementById("profileImageInput").value;
+      var idxDot = fileName.lastIndexOf(".") + 1;
+      var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+      if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
+          //TO DO
+      }else{
+          alert("Only jpg/jpeg and png files are allowed!");
+          window.location.reload()
+      }   
+  }
+</script>
+{% endblock javascript %}

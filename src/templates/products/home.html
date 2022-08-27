@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% load static %}
+
+{% block content %}
+<section class="bg-dark">
+  {% if not request.user.is_authenticated %}
+  <div class="p-5 text-center bg-image"
+    style="background-image: url({% static 'images/main-background.jpg' %});
+    height: 455px;">
+    <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+      <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="container w-75 text-white">
+          <h1 class="mb-3">
+            Sellor
+          </h1>
+          <h4 class="mb-3">We are a very powerful and safe platform with million users around the Poland where you can buy or sell anything you want.</h4>
+          <h5 class="mb-4">Start journey by creating an account/Loggining In</h5>
+          <a class="btn btn-light btn-lg me-1 px-4" href="{% url 'users:register' %}" role="button"
+          >Register</a
+          >
+          <a class="btn btn-light btn-lg ms-1 px-4" href="{% url 'users:login' %}" role="button"
+          >Log In</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+  <div class="container py-3">
+    <div class="row justify-content-center mb-3 g-4">
+
+      {% for product in page_obj %}
+        {% include 'products/product_card.html' %}
+        {% empty %}
+        <h2 class="text-center text-light pt-2 pb-1">No products yet :(</h2>
+        <a href="{% url 'products:add' %}" class="h3 text-center text-decoration-underline text-info pb-2">Add new!</a>
+      {% endfor %}
+
+      {% if is_paginated %}
+        {% include 'pagination_nav.html' %}
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}

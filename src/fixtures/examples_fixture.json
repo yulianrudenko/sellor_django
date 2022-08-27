@@ -1,0 +1,154 @@
+[
+    {
+        "model": "users.useraccount",
+        "pk": 1,
+        "fields": {
+            "email": "user1@gmail.com",
+            "first_name": "Cristiano",
+            "last_name": "Ronaldo",
+            "phone": "777777777",
+            "gender": "M",
+            "date_created": "2022-08-10T00:00:00.000",
+            "image": "images/profile_pics/user1.jpg",
+            "location_id": "164"
+        }
+    },
+    {
+        "model": "users.useraccount",
+        "pk": 2,
+        "fields": {
+            "email": "user2@gmail.com",
+            "first_name": "Lionel",
+            "last_name": "Messi",
+            "phone": "101010101",
+            "gender": "M",
+            "date_created": "2022-08-10T00:00:00.000",
+            "image": "images/profile_pics/user2.jpg",
+            "location_id": "314"
+        }
+    },
+    {
+        "model": "users.useraccount",
+        "pk": 3,
+        "fields": {
+            "email": "user3@gmail.com",
+            "first_name": "Neymar",
+            "last_name": "Junior",
+            "phone": "111111111",
+            "gender": "M",
+            "date_created": "2022-08-10T00:00:00.000",
+            "image": "images/profile_pics/user3.jpg",
+            "location_id": "374"
+        }
+    },
+    {
+        "model": "users.useraccount",
+        "pk": 4,
+        "fields": {
+            "email": "user4@gmail.com",
+            "first_name": "Robert",
+            "last_name": "Lewandowski",
+            "phone": "999999999",
+            "gender": "M",
+            "date_created": "2022-08-10T00:00:00.000",
+            "image": "images/profile_pics/user4.jpg",
+            "location_id": "314"
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": "7a9bb21c-4766-4e04-920d-0fcf60df48b9",
+        "fields": {
+            "title": "Ball",
+            "user": 2,
+            "category": 4,
+            "price": "2500.00",
+            "discount_price": null,
+            "description": "The Ball From Ucl Match Vs Legia",
+            "image": "images/products/product2.jpg",
+            "pub_date": "2022-08-15T00:00:00.000",
+            "purchased_by": null,
+            "tags": [
+                2,
+                14,
+                13,
+                5
+            ]
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": "b0cfdac1-6f85-4dd2-9bc8-099ba5b84f93",
+        "fields": {
+            "title": "Shorts",
+            "user": 4,
+            "category": 8,
+            "price": "100.00",
+            "discount_price": "92.50",
+            "description": "Summer Shorts",
+            "image": "images/products/product4.jpg",
+            "pub_date": "2022-08-15T00:00:00.000",
+            "purchased_by": null,
+            "tags": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": "d1a64c9b-1d9d-4503-8ef0-93c221e405e1",
+        "fields": {
+            "title": "Pen",
+            "user": 3,
+            "category": 8,
+            "price": "5.00",
+            "discount_price": null,
+            "description": "Just A Pen.",
+            "image": "images/products/product3.jpg",
+            "pub_date": "2022-08-15T00:00:00.000",
+            "purchased_by": null,
+            "tags": [
+                13,
+                7
+            ]
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": "da38489e-89d7-4808-aa1f-c9806fd22d55",
+        "fields": {
+            "title": "Headphones",
+            "user": 1,
+            "category": 7,
+            "price": "40.00",
+            "discount_price": null,
+            "description": "My Old Headphones",
+            "image": "images/products/product1.jpg",
+            "pub_date": "2022-08-15T00:00:00.000",
+            "purchased_by": null,
+            "tags": [
+                6,
+                7
+            ]
+        }
+    },
+    {
+        "model": "products.product",
+        "pk": "e148b1f9-c074-4831-8824-57674beefec6",
+        "fields": {
+            "title": "New nike airforce",
+            "user": 1,
+            "category": 7,
+            "price": "1200.00",
+            "discount_price": "1100.00",
+            "description": "Brand New Shoes",
+            "image": "images/products/product5.jpg",
+            "pub_date": "2022-08-15T00:00:00.000",
+            "purchased_by": null,
+            "tags": [
+                5,
+                1
+            ]
+        }
+    }
+]

@@ -1,0 +1,11 @@
+*.log
+*.pot
+*.py[cod]
+__pycache__
+constants.py
+environment
+
+src/media/images/products/*
+src/media/images/profile_pics/*
+!src/media/images/profile_pics/user*.jpg
+!src/media/images/products/product*.jpg

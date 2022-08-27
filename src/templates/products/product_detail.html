@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<section class="bg-dark">
+  <div class="container py-3">
+      <div class="card">
+          <div class="card-body">
+              <div class="row py-3">
+                  <div class="col-lg-4 col-md-12 col-sm-12 mb-3">
+                      <div class="white-box text-center"><img src="{{ product.get_image }}" style="width: 85%; object-fit: cover; border: 2px solid black; border-radius: 5px;" class="img-responsive"></div>
+                  </div>
+                  <div class="col-lg-5 col-md-7 col-sm-7 text-center text-md-start">
+                    <div class="">
+                      <h3><a href="{{ product.get_absolute_url }}" class="text-dark">{{ product.title|title }}</a></h3>
+                      <h6>
+                        <form action="{% url 'search:main' %}" method="get">
+                          <input type="hidden" name="location" value="{{ product.user.location.id }}">
+                          <input type="submit" value="{{ product.user.location }}" class="btn btn-outline-primary text-dark" style="font-size: 0.9rem;">
+                        </form>
+                      </h6>
+                      <div class="h5 btn btn-info text-light p-2">
+                        <a href="{{ product.category.get_absolute_url }}" class="h6">Category: {{ product.category }}</a>
+                      </div>
+                    </div>
+                    {% if product.tags.all %}
+                      <div class="mb-0 text-muted btn btn-dark">
+                        <div class="h6 text-light">Tags: </div>
+                        {% for tag in product.tags.all %}
+                          {% if forloop.counter != 1 %}
+                          <span class="text-primary text-light"> • </span>
+                          {% endif %}
+                          <span class="text-light">{{ tag }}</span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                    <hr>
+                    {% if product.description %}
+                    <h3 class="h4 mt-3">Description:</h3>
+                      <p>{{ product.description|truncatechars:120 }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="col-lg-3 col-md-5 col-sm-5 text-center">
+                    <div class="w-100 btn btn-dark py-4 px-3">
+                      {% if product.discount_price %}
+                        <div class="">
+                          <h3 class="h3">{{ product.discount_price }} zł</h3>
+                          <span class="text-danger h5"><s>{{ product.price }} zł</s></span>
+                        </div>
+                        <div class="">
+                          <small class="text-success h6" style="font-size:1.2rem">({{ product.discount_percentage }}% off)</small>
+                        </div>
+                      {% else %}
+                      <div class="h3">
+                        {{ product.price }} zł.
+                      </div>
+                      {% endif %}
+                      <div class="author mt-5">
+                        <a href="{{ product.user.get_absolute_url }}">
+                          <div class="mb-1">
+                            <span class="h5" style="font-size: 1.3rem">{{ product.user.fullname }}</span>
+                          </div>
+                          <div class="">
+                            <img src="{{ product.user.get_image }}" alt="" style="object-fit: cover; width: 95px; height: 95px"
+                            class="rounded-circle img-fluid img-thumbnail"/>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="row mt-2 flex-column align-items-center">
+                {% if request.user == product.user %}
+                  <a href="{% url 'products:edit' product.id %}" class="btn btn-secondary btn-rounded mr-1 px-5 mb-2 py-3 w-50" type="button">
+                    <font class="h5">Edit <i class="fa-solid fa-marker ms-1"></i></font>
+                  </a>
+                  <a href="{% url 'products:remove' product.id %}" class="btn btn-danger btn-rounded px-4 py-3 w-50" type="button">
+                    <font class="h5">Remove from Site <i class="fa-solid fa-trash-can ms-1"></i></font>
+                  </a>
+                {% else %}
+                  <a href="{% url 'chats:detail' product.id %}" class="btn btn-success btn-rounded px-4 py-3 w-50 mb-2">
+                    <font class="h5">Buy / Negotiate &nbsp;<i class="fa-solid fa-comments"></i></font>
+                  </a>
+                  {% if product in request.user.wishlist.all %}
+                  <a href="{% url 'users:remove_from_wishlist' product.id %}" class="btn btn-danger btn-rounded px-4 py-3 w-50">
+                    <font class="h5">Remove from wishlist &nbsp;<i class="fa-solid fa-bookmark"></i></font>
+                  </a>
+                  {% else %}
+                  <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-primary btn-rounded px-4 py-3 w-50">
+                    <font class="h5">To wishlist &nbsp;<i class="fa-solid fa-bookmark"></i></font>
+                  </a>
+                  {% endif %}
+                {% endif %}
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+{% endblock %}

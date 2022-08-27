@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="bg-dark">
+
+  <div class="container py-3">
+    <div class="row justify-content-center mb-3 g-4">
+
+      {% for user in page_obj %}
+      
+      <div class="col-md-10 col-xl-9">
+        <div class="card shadow-0 border rounded-3">
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0 text-center">
+                <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                  <img src="{{ user.get_image }}" style="height: 220px; object-fit: cover;"
+                    class="w-100" />
+                  <a href="{{ user.get_absolute_url }}">
+                    <div class="hover-overlay">
+                      <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6 col-xl-9 d-flex flex-column py-3 justify-content-between border-sm-start-none border-start">      
+                <div class="">
+                  <h2>{{ user.fullname }}</h2>
+                </div>
+                <div class="">
+                  <a href="{% url 'users:unblock' user.id %}" class="btn-lg btn-primary py-4 px-5">
+                    <span class="h5">Unblock</span>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      {% if is_paginated %}
+        {% include 'pagination_nav.html' %}
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}

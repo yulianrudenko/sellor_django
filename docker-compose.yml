@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    image: sellor-app
+    volumes:
+      - ./src:/sellor
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+      - redis
+    environment:
+      - POSTGRES_DB=sellor
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - EMAIL_FROM_USER=sellorapp_local@outlook.com
+      - EMAIL_HOST_PASSWORD=sellor_local2022
+    container_name: sellor-django
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=sellor
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: sellor-db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:7-alpine
+    container_name: sellor-redis
+volumes:
+  pgdata:

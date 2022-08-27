@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="d-flex justify-content-center pt-4">
+  <div class="col-11 col-md-8 col-lg-6">
+    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+      <div class="card-body p-4">
+        {% if request.user.is_authenticated %}
+        <h4 class="text-center">Please feel free to leave any kind of feedback:<br>what did you like or disliked about
+          this app!</h4>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="form-outline mt-4">
+            <textarea type="text" name="feedback" id="feedback" class="form-control" rows="4" minlength="6"
+              maxlength="250" placeholder="Type anything..." required></textarea>
+            <label class="form-label" for="feedback">Your thoughts here...</label>
+          </div>
+          <div class="d-flex justify-content-end">
+            <input class="btn btn-primary mt-2 mb-3" type="submit" value="Post" style="font-size: 1rem">
+          </div>
+        </form>
+        {% else %}
+        {% endif %}
+
+        {% for post in posts %}
+        <div id="feedback{{post.id}}" class="card mb-4">
+          <div class="card-body">
+            <p>{{ post.text }}</p>
+            <div class="row d-flex justify-content-between pt-2">
+
+              <div onclick="window.location='{{post.user.get_absolute_url}}'"
+                class="col-12 col-md-6 d-flex flex-row align-items-center" style="cursor: pointer;">
+                <img src="{{ post.user.get_image }}" alt="avatar" width="40" height="40" />
+                <p class="small mb-0 ms-2">{{ post.user.fullname }}</p>
+              </div>
+
+              <div class="col-12 col-md-6 wrap d-flex justify-content-end align-items-{%if request.user == post.user%}center{%else%}end{%endif%}">
+                <div class="me-2 text-muted fst-italic mt-auto mt-md-0" style="font-size: 0.84rem">
+                  <div class="d-flex align-items-center">
+                    {{ post.date_created|date:"H:i, d.m.y" }}
+                  </div>
+                </div>
+                {% if request.user == post.user %}
+                <div class="me-1">
+                  <a data-index="{{post.id}}" class="delete-btn btn btn-outline-danger">Delete</a>
+                </div>
+                {% endif %}
+                <div id="stats{{post.id}}"
+                  class="d-flex flex-row align-items-center {%if request.user in post.upvoted_by.all%}text-primary{%endif%}"
+                  style="font-size: 1.2rem;">
+                  {% if request.user == post.user %}
+                  <i class="far fa-thumbs-up mx-2 fa-xs" style="font-size: 1.2rem; margin-top: -0.16rem;"></i>
+                  {% else %}
+                  <i data-index="{{post.id}}" title="Upvote" class="fas fa-thumbs-up mx-2 fa-xs upvote-btn"
+                    style="cursor: pointer; font-size: 1.2rem; margin-top: -0.16rem;"></i>
+                  {% endif %}
+                  <p id="upvoteCount{{post.id}}" class="small mb-0"
+                    title="{%for user in post.upvoted_by.all%}{{user.fullname}}{%endfor%}">{{ post.upvoted_by.count }}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <h3 class="text-center py-3">Nothing here :(</h3>
+          {% if not request.user.is_authenticated %}
+            <h4 class="text-center py-3">You must be <a href="{% url 'users:login' %}" class="text-decoration-underline">logged in</a> to leave feedback :)</h4>
+          {% endif %}
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% if request.user.is_authenticated %}
+{% block javascript %}
+<script>
+  const getCookie = (name) => {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  const upvoteBtns = document.getElementsByClassName('upvote-btn');
+  const userId = '{{request.user.id}}';
+
+  for (let i = 0; i < upvoteBtns.length; i++) {
+    const upvoteBtn = upvoteBtns[i];
+
+    upvoteBtn.onclick = function upvote(e) {
+      const postId = upvoteBtn.dataset.index;
+      const url = '{% url "users:upvote_feedback" %}';
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          userId: userId,
+          postId: postId,
+          csrfmiddlewaretoken: getCookie('csrftoken'),
+          action: 'POST'
+        },
+        success: function (json) {
+          const stats = document.getElementById(`stats${postId}`);
+          const count = document.getElementById(`upvoteCount${postId}`);
+          if (json.added) {
+            stats.classList.add('text-primary');
+            count.innerHTML = json.qty;
+          } else if (json.deleted) {
+            stats.classList.remove('text-primary');
+            count.innerHTML = json.qty;
+          } else {
+            console.log('error');
+          }
+        },
+        error: function (xhr, errmsg, err) {}
+      });
+    }
+  }
+
+  const deleteBtns = document.getElementsByClassName('delete-btn');
+  for (let i = 0; i < deleteBtns.length; i++) {
+    const deleteBtn = deleteBtns[i];
+    deleteBtn.onclick = function delete_feedback(e) {
+      const postId = deleteBtn.dataset.index;
+      const url = '{% url "users:delete_feedback" %}';
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          userId: userId,
+          postId: postId,
+          csrfmiddlewaretoken: getCookie('csrftoken'),
+          action: 'POST'
+        },
+        success: function (json) {
+          const postDiv = document.getElementById(`feedback${postId}`);
+          if (json.deleted) {
+            postDiv.remove()
+          } else {
+            console.log('error');
+          }
+        },
+        error: function (xhr, errmsg, err) {}
+      });
+    }
+  }
+</script>
+{% endblock javascript %}
+{% endif %}

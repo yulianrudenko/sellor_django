@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+{% load static %}
+
+{% block extrahead %}
+<style>
+  /*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+  body {
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+  }
+
+  ::-webkit-scrollbar-track {
+    width: 5px;
+    background: #f5f5f5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 1em;
+    background-color: #ddd;
+    outline: 1px solid slategrey;
+    border-radius: 1rem;
+  }
+
+  .text-small {
+    font-size: 0.8rem;
+  }
+
+  .messages-box,
+  .chat-box {
+    height: 510px;
+    overflow-y: scroll;
+  }
+
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .message-time {
+    font-size: 0.75rem !important;
+  }
+
+  input::placeholder {
+    font-size: 0.9rem;
+    color: #999;
+  }
+</style>
+{% endblock extrahead %}
+
+
+{% block content %}
+<div class="container px-4">
+  <div class="row gap-3 gap-lg-0">
+    <h3 class="text-center h4 text-light p-2 mb-3">Recent Chats</h3>
+
+    <!-- Selling chats-->
+    <div class="bg-light col-lg-6 col-12 mx-auto px-3">
+
+      <div class="bg-gray px-4 py-2">
+        <p class="h5 mb-0 py-1">You are seller ({{request.user.seller_chats.count}})</p>
+      </div>
+
+      <hr class="m-0">
+
+      <div class="messages-box">
+        <div class="list-group rounded-0">
+
+          {% for chat in seller_chats %}
+          <div class="list-group-item list-group-item-action active text-white rounded-0 w-100 px-1 py-2 mt-1">
+            <div class="media d-flex justify-content-between gap-3" style="width: 90%;">
+              <div class="col-2 profile-image d-flex justify-content-center align-items-center ps-1">
+                <a href="{% url 'chats:detail' chat.product.id chat.id %}">
+                  <img src="{{ chat.product.get_image }}" alt="" style="object-fit: cover;" class="rounded-circle"
+                    height="73px" width="73px" />
+                </a>
+              </div>
+              <div class="col-8 media-body">
+                <a href="{% url 'chats:detail' chat.product.id chat.id %}">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h6 class="mb-0">
+                      <i>{{ chat.product.title }}</i>&nbsp;
+                      <span class="small">to</span>
+                      <i>{{ chat.customer.fullname}}</i>
+                    </h6>
+                  </div>
+                  <p class="font-italic mb-0 text-small me-1">
+                    {% if chat.get_last_message.author == request.user %}
+                    You: {{ chat.last_message_text }}
+                    {% elif chat.get_last_message.author == chat.customer %}
+                    {{ chat.customer.first_name }}: {{ chat.last_message_text }}
+                    {% else %}
+                    <i class="text-success fw-bold h6">{{ chat.last_message_text }}</i>
+                    {% endif %}
+                  </p>
+                </a>
+              </div>
+              <div class="col-2 d-flex flex-column justify-content-between text-end">
+                <a href="{% url 'chats:delete' chat.id %}" class="fa-solid fa-xmark" style="font-size: 1.5rem;"
+                  title="Delete chat"></a>
+                <div class="">
+                  <a href="{% url 'chats:detail' chat.product.id chat.id %}">
+                    <small class="h6 fw-bold me-1">{{ chat.last_message_date }}</small>
+                    {% if chat.sellers_unseen_messages_count %}
+                    <small class="h6 fw-bold bg-danger rounded-circle py-1 px-2"
+                      title="{{ chat.unseen_messages_count }} new messages">
+                      {{ chat.sellers_unseen_messages_count }}
+                    </small>
+                    {% endif %}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <p class="h5 p-2">Nothing yet</p>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Buying chats -->
+    <div class="bg-light col-lg-6 col-12 mx-auto px-3">
+
+      <div class="bg-gray px-4 py-2">
+        <p class="h5 mb-0 py-1">You are customer ({{request.user.customer_chats.count}})</p>
+      </div>
+
+      <hr class="m-0">
+
+      <div class="messages-box">
+        <div class="list-group rounded-0">
+
+          {% for chat in customer_chats %}
+          <div class="list-group-item list-group-item-action active text-white rounded-0 w-100 px-1 py-2 mt-1">
+            <div class="media d-flex justify-content-between gap-3" style="width: 90%;">
+              <div class="col-2 profile-image d-flex justify-content-center align-items-center ps-1">
+                <img src="{{ chat.product.get_image }}" alt="" style="object-fit: cover;" class="rounded-circle"
+                  height="73px" width="73px" />
+              </div>
+              <div class="col-8 media-body">
+                <a href="{% url 'chats:detail' chat.product.id chat.id %}">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <h6 class="mb-0">
+                      <i>{{ chat.product.title }}</i>&nbsp;
+                      <span class="small">from</span>
+                      <i>{{ chat.seller.fullname}}</i>
+                    </h6>
+                  </div>
+                  <p class="font-italic mb-0 text-small me-1">
+                    {% if chat.get_last_message.author == request.user %}
+                    You: {{ chat.last_message_text }}
+                    {% elif chat.get_last_message.author == chat.customer %}
+                    {{ chat.customer.first_name }}: {{ chat.last_message_text }}
+                    {% else %}
+                    <i class="text-success fw-bold h6">{{ chat.last_message_text }}</i>
+                    {% endif %}
+                  </p>
+                </a>
+              </div>
+              <div class="col-2 d-flex flex-column justify-content-between text-end">
+                <div class="d-flex justify-content-end">
+                  {% if request.user == chat.customer and chat.done_deal_requested %}
+                  <small class="h6 fw-bold bg-danger rounded-circle mx-1"
+                    title="Done deal requested by seller" style="padding: 2px 8px;">
+                    !
+                  </small>
+                  {% endif %}
+                  <a href="{% url 'chats:delete' chat.id %}" class="fa-solid fa-xmark" style="font-size: 1.5rem;"
+                    title="Delete chat"></a>
+                </div>
+                <div class="">
+                  <a href="{% url 'chats:detail' chat.product.id chat.id %}">
+                    <small class="h6 fw-bold text-center">{{ chat.last_message_date }}</small>
+                    {% if chat.customers_unseen_messages_count %}
+                    <small class="h6 fw-bold bg-danger rounded-circle py-1 px-2"
+                      title="{{ chat.unseen_messages_count }} new messages">
+                      {{ chat.customers_unseen_messages_count }}
+                    </small>
+                    {% endif %}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <p class="h5 p-2">Nothing yet</p>
+          {% endfor %}
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{% endblock javascript %}

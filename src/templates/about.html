@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+  background-color: #474e5d;
+  color: white;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+</style>
+{% endblock extrahead %}
+
+{% block content %}
+<div class="about-section pt-3">
+  <h2 class="text-danger">Attention!</h2>
+  <h4 class="text-warning">This site is still IN DEVELOPMENT and many new features are going to be implemented<br/>as well as many <span class="text-danger text-decoration underline">bugs</span> to be fixed!</h4>
+  <h1 class="mt-4 text-decoration-underline">What is this website made for?</h1>
+  <p class="h5">The main goal is to let people based in Poland to search for things they want to obtain as well as put their stuff for sale.</p>
+  <p class="h5">If you found a product you are interested in you can chat owner to talk about the deal, make an appointment to proceed with the payment.</p>
+  <p class="h5 text-success">And that's where our task is done, the rest is up to you two!</p>
+  <p class="h5"><span class="h5 text-warning">The only small detail:</span> after the deal is successfully done you and the seller are asked to <span class="text-decoration-underline">mark the deal as done</span> on website.</p>
+</div>
+
+<h1 class="my-3 text-light" style="text-align:center">Our <span class="text-muted">tiny</span> Team</h1>
+<div class="d-flex justify-content-center">
+  <div class="card text-center" style="width: 460px; font-size: 1.2rem">
+    <img src="{% static 'images/author.jpg' %}" alt="Author" style="width: 100%">
+    <div class="container py-2">
+      <h1>Yulian Rudenko</h2>
+      <p class="title h4">CEO & Founder</p>
+      <p><span class="text-decoration-underline">Built this website using:</span><br>Python (Django web framweork), PostgreSQL, JavaScript, HTML/CSS/Bootstrap.</p>
+      <p><a class="button" href="mailto:yulian.rudenko.ukraine@gmail.com">Contact</a></p>
+    </div>
+  </div>
+</div>
+{% endblock %}

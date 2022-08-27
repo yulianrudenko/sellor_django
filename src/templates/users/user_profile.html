@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load my_tags %}
+
+{% block content %}
+<section class="h-100 gradient-custom-2">
+  <div class="container py-4 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+
+          <div class="d-flex flex-column flex-md-row justify-content-between rounded-top text-white" style="background-color: #000;">
+            <div class="d-flex flex-column flex-md-row px-3 py-3 gap-3 align-items-center">
+              <img src="{{ user.get_image }}"
+                alt="Profile image" class="img-fluid img-thumbnail w-75" style="max-height: 350px"
+                >
+                <div class="d-flex flex-column justify-content-end text-center">
+                  <h4>{{ user.fullname }}</h4>
+                  <h5 class="text-muted">
+                    from 
+                    <i class="text-light">{{ user.location }}</i>
+                  </h5>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center align-items-center px-5 py-2">
+              <div class="d-flex flex-row gap-1 gap-md-1 flex-md-column">
+                {% if request.user == user %}
+                <a href="{% url 'users:edit_profile' %}" type="button" class="btn-lg btn-dark fw-bold text-center" data-mdb-ripple-color="dark"
+                  style="z-index: 1;">
+                  Edit profile
+                </a>
+                <a href="{% url 'products:add' %}" type="button" class="btn-lg btn-info mt-0 mt-md-1 fw-bold text-center"
+                  style="z-index: 1;">
+                  Add product
+                </a>
+                {% else %}
+                <a href="{% url 'users:report' user.id %}" type="button" class="btn-lg fw-bold text-center btn-danger mt-0 mt-md-1 text-center"
+                  style="z-index: 1;">
+                  Report user
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 text-black" style="background-color: #f8f9fa;">
+            <div class="d-flex justify-content-center text-center py-1 gap-3 h5">
+
+              <div>
+                <p class="mb-1 h5">{{ user_products.count }}</p>
+                <p class="small text-muted mb-0">Active Products</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">{{ user.sold_count }}</p>
+                <p class="small text-muted mb-0">Sold</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">{{ user.purchased_count }}</p>
+                <p class="small text-muted mb-0">Purchased</p>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="card-body p-4 text-black">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-bold mb-0">Products</p>
+            </div>
+            
+            <div class="row hidden-md-up">
+              {% if user == request.user %}
+                {% for product in user_products %}
+                <div class="col-md-4">
+                    <div class="card">
+                      <div class="card-block">
+                        <a href="{{ product.get_absolute_url }}" style="color: inherit;">
+                          <img src="{{ product.get_image }}" class="card-img-top" style="max-height: 340px; object-fit: cover;" alt="product">
+                        </a>
+                        <div class="p-2">
+                          <a href="{{ product.get_absolute_url }}" style="color: inherit;">
+                            <h4 class="card-title">{{ product.title|title }}</h4>
+                          </a>
+                          <h6 class="card-subtitle text-muted">Category: {{ product.category }}</h6>
+                          {% if product.description %}
+                            <p class="card-text">{{ product.description|truncatechars:45 }}</p>
+                          {% else %}
+                            <p class="card-text">&nbsp;</p>
+                          {% endif %}
+                          {% if product.discount_price %}
+                          <div class="px-2">
+                            <span class="text-danger"><s>{{ product.price }} zł</s></span>
+                            <span class="card-text h5">{{ product.discount_price }} zł</span>
+                          </div>
+                          {% else %}
+                          <div class="px-2">
+                            <span class="mb-1 me-1 h5">{{ product.price }} zł</span>
+                          </div>
+                          {% endif %}
+                          <div class="d-flex justify-content-around mt-4 mb-2 px-1">
+                            <a href="{% url 'products:edit' product.id %}" class="btn-lg btn-primary">Edit</a>
+                            <a href="{% url 'products:remove' product.id %}" class="btn-lg btn-danger">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="w-100 pt-4">
+                <h4 class="text-center"> You are not selling anything yet.</h4>
+                </div>
+                {% endfor %}
+              {% else %}
+                {% for product in user_products %}
+                <div class="col-md-4">
+                  <a href="{{ product.get_absolute_url }}" style="color: inherit;">
+                    <div class="card">
+                      <div class="card-block">
+                        <img src="{{ product.get_image }}" class="card-img-top" style="max-height: 340px; object-fit: cover;" alt="product">
+                        <div class="p-2">
+                          <h4 class="card-title">{{ product.title|title }}</h4>
+                          <h6 class="card-subtitle text-muted">Category: {{ product.category }}</h6>
+                          {% if product.description %}
+                            <p class="card-text">{{ product.description|truncatechars:45 }}</p>
+                          {% else %}
+                            <p class="card-text">&nbsp;</p>
+                          {% endif %}
+                          {% if product.discount_price %}
+                          <div class="text-end">
+                            <span class="text-danger"><s>{{ product.price }} zł</s></span>
+                            <span class="card-text h5">{{ product.discount_price }} zł</span>
+                          </div>
+                          {% else %}
+                          <div class="text-end">
+                            <span class="mb-1 h5">{{ product.price }} zł</span>
+                          </div>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                {% empty %}
+                <div class="w-100 pt-4">
+                <h4 class="text-center"> You are not selling anything yet.</h4>
+                </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

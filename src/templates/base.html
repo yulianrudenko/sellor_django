@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+  />
+  <!-- MDB -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css"
+    rel="stylesheet"
+  />
+  <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <title>{% block title %}SELLor{% endblock title %}</title>
+  <style>
+    a, a:hover {
+        color: inherit;
+    }
+  </style>
+  {% block extrahead %}{% endblock extrahead %}
+</head>
+<body class="bg-dark">
+  {% include 'navbar.html' %}
+  <div class="wrapper mt-5 pt-3">
+    {% if messages %}
+      <ul class="d-flex flex-column justify-content-center align-items-center pt-3 pb-1 messages mb-0 gap-2">
+        {% for message in messages %}
+          {% include 'message.html' %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+
+    {% include 'footer.html' %}
+  </div>
+
+  <script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"
+  ></script>
+  
+  {% block javascript %}{% endblock %}
+  
+  {% if request.user.is_authenticated %}
+  <script>
+    window.setInterval('check_for_new_messages()', 6000);
+    // Call a function every 6000 milliseconds 
+    // (OR 6 seconds).
+  
+    function check_for_new_messages() {
+      fetch("{% url 'chats:check_for_new_messages' %}")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          document.querySelector('#unread-messages-count').innerText = data["newMessagesCount"];
+        });
+    }
+    </script>
+  {% endif %}
+</body>
+</html>

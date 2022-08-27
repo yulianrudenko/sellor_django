@@ -1,0 +1,7 @@
+docker-compose build
+docker-compose up
+wait for server to start then: quit by pressing Ctrl + C
+docker-compose run --rm app sh -c "python manage.py migrate && python manage.py loaddata examples_fixture.json"
+docker-compose up
+
+for future just: docker-compose up

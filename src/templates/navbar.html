@@ -1,0 +1,156 @@
+{% load static %}
+<style>
+  @media (min-width: 1050px) and (max-width: 3000px) {
+    #search {
+      width: 300px;
+    }
+  }
+</style>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-light h6 m-0 px-1">
+  <!-- Container wrapper -->
+  <div class="container-fluid justify-content-center">
+    <!-- Toggle button -->
+    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0" href="{% url 'home' %}">
+        <font class="h3 p-0 m-0"><i>SELL</i><sub>or</sub> <i class="fa-solid fa-anchor"></i></font><sup><img
+            src="{% static 'images/ukr.png' %}" alt="" style="width: 25px" class="ms-1"></sup>
+      </a>
+      </a>
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">All Products</a>
+        </li>
+        <!-- Navbar dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown"
+            aria-expanded="false">
+            Categories
+          </a>
+          <!-- Dropdown menu -->
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for category in categories %}
+            <li>
+              <a class="dropdown-item ps-1" href="{{ category.get_absolute_url }}">{{ category.name|title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:dashboard' %}">My Dashboard</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link fst-italic ms-0 ms-lg-1" href="{% url 'users:feedback' %}">Feedback</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fst-italic" href="{% url 'about_page' %}">About us</a>
+        </li>
+        <li class="ms-3 nav-item">
+          <form action="{% url 'search:main' %}" method="get" class="form-inline my-2 my-lg-0 d-flex gap-1">
+            <input name="title" class="form-control mr-sm-2" type="search" placeholder="Search for products.." aria-label="Search" style="font-size: 0.8rem" id="search">
+            <button class="btn-sm btn-info my-2 my-sm-0 fw-bold" type="submit" style="font-size: 0.8rem">Search</button>
+          </form>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+
+    <!-- Right elements -->
+    <div class="d-flex align-items-center h4 m-0 p-0 gap-1">
+
+      <!-- CART -->
+      <!-- <a class="text-reset me-3" href="" title="Cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-qty" class="badge rounded-pill badge-notification bg-danger">
+          0
+        </span>
+      </a> -->
+
+      <!-- Notifications -->
+      <!-- <div class="dropdown" title="Notifications">
+        <a class="text-reset me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink" role="button"
+          data-mdb-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-bell"></i>
+          <span class="badge rounded-pill badge-notification bg-danger">
+            0
+          </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+          <li>
+            <a class="dropdown-item" href="#">Some news</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#">Another news</a>
+          </li>
+        </ul>
+      </div> -->
+
+      <!-- CHATS -->
+      {% if request.user.is_authenticated %}
+      <a class="text-reset me-3" href="{% url 'chats:all' %}" title="Chat">
+        <i class="fa-regular fa-comments"></i>
+        <span id="unread-messages-count" class="badge rounded-pill badge-notification bg-danger">
+          {{ request.user.unseen_messages_count }}
+        </span>
+      </a>
+      <!-- WISHLIST -->
+      <a class="text-reset me-3" href="{% url 'users:wishlist' %}" title="Wishlist">
+        <i class="fa-solid fa-bookmark"></i>
+        <span id="wishlist-qty" class="badge rounded-pill badge-notification bg-danger">
+          {{ request.user.wishlist.count }}
+        </span>
+      </a>
+      {% endif %}
+
+      <!-- Profile -->
+      <div class="dropdown" title="Profile">
+        <a class="dropdown-toggle d-flex align-items-center hidden-arrow text-reset" href="{%if request.user.is_authenticated%}{% url 'users:profile' request.user.id%}{%endif%}"
+          id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+          {% if request.user.is_authenticated %}
+          <li class="bg-dark text-light text-center h6 mb-0 py-2 dropdown-item">
+            Hi, {{ request.user.first_name }}
+            <br>
+            {{ request.user.email }}
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'users:profile' request.user.id %}">My profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'users:edit_profile' %}">Edit profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'users:blocked' %}">Blocked Users</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
+          </li>
+          {% else %}
+          <li>
+            <a class="dropdown-item" href="{% url 'users:login' %}">Log In</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'users:register' %}">Register</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    <!-- Right elements -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
