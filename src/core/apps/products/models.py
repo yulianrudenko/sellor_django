@@ -32,7 +32,7 @@ class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(verbose_name=_('title'), max_length=40, db_index=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='products', on_delete=models.CASCADE)
-    category = models.ForeignKey('Category', related_name='products', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', related_name='products', on_delete=models.PROTECT, default=1)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     discount_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     description = models.CharField(verbose_name=_('description'), max_length=300, blank=True)
