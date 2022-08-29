@@ -177,7 +177,7 @@ class ReportUser(models.Model):
     Hint: user could be reported for message
     or other reasons (with explanation from author, what caused the report)
     '''
-    report_author = models.ForeignKey(UserAccount, related_name='reports_author', on_delete=models.SET_NULL, null=True)
+    report_author = models.ForeignKey(UserAccount, related_name='reports_author', on_delete=models.CASCADE)
     user_reported = models.ForeignKey(UserAccount, related_name='reports_subject', on_delete=models.CASCADE)
     reported_message = models.OneToOneField('chats.Message', related_name='report', unique=True, null=True, on_delete=models.CASCADE)
     reason = models.CharField(max_length=200, null=True, blank=True)
@@ -200,7 +200,7 @@ class Blacklist(models.Model):
     
 
 class Feedback(models.Model):
-    user = models.ForeignKey(UserAccount, related_name='feedbacks', on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(UserAccount, related_name='feedbacks', on_delete=models.CASCADE, null=True)
     text = models.CharField(max_length=250, blank=False, null=False)
     upvoted_by = models.ManyToManyField(UserAccount, related_name='upvoted_posts', blank=True)
     date_created = models.DateTimeField(default=timezone.now, editable=False)
