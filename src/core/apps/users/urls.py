@@ -20,7 +20,9 @@ urlpatterns = [
     path('dashboard/', views.user_dashboard, name='dashboard'),
     path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('edit-profile/remove-image', views.remove_image, name='remove_image'),
+
     path('change-password/', views.change_password, name='change_password'),
+    path('change-to-new-password/<uidb64>/<uidb64_2>/<token>', views.change_to_new_password, name='confirm_new_password'),
 
     path('my-wishlist/', views.wishlist, name='wishlist'),
     path('add-to-wishlist/<slug:product_id>', views.add_wishlist, name='add_to_wishlist'),

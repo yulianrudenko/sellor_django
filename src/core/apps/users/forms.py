@@ -157,8 +157,10 @@ class UserChangePasswordForm(forms.Form):
             password1 = self.cleaned_data['new_password']
             password2 = self.cleaned_data['verify_new_password']
             if password1 == password2:
+                if password1 == self.cleaned_data['current_password']:
+                    raise forms.ValidationError("To change password you need to provide NEW value.")
                 return password2
-        raise forms.ValidationError("Passwords do not match.")
+            raise forms.ValidationError("Passwords do not match.")
 
 
 class ReportForm(forms.ModelForm):

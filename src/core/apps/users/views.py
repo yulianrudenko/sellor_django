@@ -22,6 +22,63 @@ from .forms import RegistrationForm, LoginForm, UserEditForm, UserChangePassword
 from .token import activation_token 
 
 
+def send_activation_email(request, user):
+    current_site = get_current_site(request)
+    email_subject = 'Activate your account'
+    email_body = render_to_string('users/auth/activate.html', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': activation_token.make_token(user)
+    })
+    email = EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
+    email.send()
+
+def activate_user(request, uidb64, token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    user = get_object_or_404(UserAccount, pk=uid)
+    if activation_token.check_token(user, token):
+        user.is_activated = True
+        user.save()
+        if request.user.is_authenticated:
+            logout(request)  
+        messages.success(request, 'Email verified, You can now log in!')
+        return redirect('users:login')
+    messages.error(request, f'{user.first_name}, something went wrong with your email verification.')
+    return redirect('users:register')
+
+def send_password_confirmation_email(request, user, new_password):
+    current_site = get_current_site(request)
+    email_subject = f'{user.fullname}, confirm that you want to change your password.'
+    email_body = render_to_string('users/auth/confirm_new_password.html', {
+        'user': user,
+        'domain': current_site,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'uid2': urlsafe_base64_encode(force_bytes(new_password)),
+        'token': activation_token.make_token(user)
+    })
+    email = EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
+    email.send()
+
+
+def change_to_new_password(request, uidb64, uidb64_2, token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    uid2 = force_str(urlsafe_base64_decode(uidb64_2))
+    user = get_object_or_404(UserAccount, pk=uid)
+    new_password = uid2
+    if activation_token.check_token(user, token):
+        user.set_password(new_password)
+        user.save()
+        if request.user.is_authenticated:
+            logout(request)
+        messages.success(request, 'Password has been changed. Please log in with new password.')
+        return redirect('users:login')
+    messages.error(request, f'Something went wrong, please try again.')
+    if request.user.is_authenticated:
+        return redirect('users:user_profile', request.user.pk)
+    return redirect('users:login')
+
+
 def about_page(request):
     return render(request, 'about.html')
 
@@ -86,31 +143,6 @@ def delete_feedback(request):
     return JsonResponse({'error': '0'})
 
 
-def send_activation_email(request, user):
-    current_site = get_current_site(request)
-    email_subject = 'Activate your account'
-    email_body = render_to_string('users/auth/activate.html', {
-        'user': user,
-        'domain': current_site,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': activation_token.make_token(user)
-    })
-    email = EmailMessage(subject=email_subject, body=email_body, from_email=settings.EMAIL_FROM_USER, to=[user.email])
-    email.send()
-
-
-def activate_user(request, uidb64, token):
-    uid = force_str(urlsafe_base64_decode(uidb64))
-    user = get_object_or_404(UserAccount, pk=uid)
-    if activation_token.check_token(user, token):
-        user.is_activated = True
-        user.save()
-        messages.success(request, 'Email verified, You can now log in!')
-        return redirect('users:login')
-    messages.error(request, f'{user.first_name}, something went wrong with your email verification.')
-    return redirect('users:register')
-
-
 @redirect_home_if_authenticated
 def register(request):
     if request.method == 'POST':
@@ -134,20 +166,20 @@ def login_page(request):
         if login_form.is_valid():
             creds = {'username': login_form.cleaned_data['email'], 'password': login_form.cleaned_data['password']}
             user = authenticate(**creds)
-            if user.is_activated == False:
-                url = reverse('users:resend_activation', kwargs={'user_id': user.id}) 
-                login_form.add_error('password', 
-                    mark_safe(f'You haven\'t activated your account. <a href="{url}" class="text-decoration-underline">Send activation link again?</a>'))
-            else:
-                if user is not None:
+            if user is not None:
+                if user.is_activated == False:
+                    url = reverse('users:resend_activation', kwargs={'user_id': user.id}) 
+                    login_form.add_error('password', 
+                        mark_safe(f'You haven\'t activated your account. <a href="{url}" class="text-decoration-underline">Send activation link again?</a>'))
+                else:
                     login(request, user)
                     messages.success(request, f'Hi, {user.first_name}! You have been logged in.')
                     next_url = request.GET.get('next')
                     if next_url:
                         return redirect(next_url)
                     return redirect('/')
-                else:
-                    login_form.add_error('password', 'Wrong password.')
+            else:
+                login_form.add_error('password', 'Wrong password.')
     else:
         login_form = LoginForm()
     return render(request, 'users/auth/login.html', context={'form': login_form})
@@ -222,13 +254,11 @@ def change_password(request):
     if request.method == 'POST':
         # append POST data with user instance that wants to change password to validate compare input and real password
         data = request.POST.dict()
-        data.update({'user': request.user})
+        data.update({'user': user})
         change_password_form = UserChangePasswordForm(data=data)
         if change_password_form.is_valid():
-            user.set_password(change_password_form.cleaned_data['verify_new_password'])
-            user.save()
-            messages.success(request, 'Password changed. Please log in with new password.')
-            return redirect('users:login')
+            send_password_confirmation_email(request, user, change_password_form.cleaned_data['new_password'])
+            messages.success(request, 'Please check your email (including "spam" section), we\'ve sent you message with confirmation link.')
     else:
         change_password_form = UserChangePasswordForm()
     context = {'user': user, 'form': change_password_form}
@@ -252,10 +282,10 @@ def add_wishlist(request, product_id):
     if product.user != request.user:
         wishlist = request.user.wishlist
         if product in wishlist.all():
-            messages.warning(request, 'Product already in wishlist')
+            messages.warning(request, 'Product already in wishlist.')
         else:
             wishlist.add(product)
-            messages.success(request, 'Added product to your wishlist')
+            messages.success(request, 'Added product to your wishlist.')
     return previous_url_or_other(request, reverse('products:home'))
 
 
@@ -265,7 +295,7 @@ def remove_from_wishlist(request, product_id):
     wishlist = request.user.wishlist
     if product in wishlist.all():
         wishlist.remove(product)
-        messages.success(request, 'Removed product from your wishlist')
+        messages.success(request, 'Removed product from your wishlist.')
     return previous_url_or_other(request, reverse('products:detail', args=[product_id]))
 
 
