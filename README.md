@@ -19,6 +19,8 @@ Moreover there's also a basic **API** done via DRF for future purposes.
  - **Docker & Docker Compose installed**
  
 ## Setup
+#### please make sure that 'DJANGO_SETTINGS_MODULE' in "src/manage.py", main() are "core.settings_dir.local", becase I often forget to change that back ;(
+
  - open terminal (better as administrator) in project's root folder (where *Dockerfile* and *docker-compose.yml* files are located) and type following:
 ```
 $ docker-compose build
