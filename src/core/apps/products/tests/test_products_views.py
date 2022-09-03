@@ -55,9 +55,8 @@ class ProductsViewsTest(ModelsSetUp):
             'discount_price': '40',
             'description': 'test_description',
         })
-        assert response.status_code == 200
-        response_html = response.content.decode('utf-8')
-        assert 'Product succesfully created.' in response_html
+        assert response.status_code == 302
+        assert response.url == reverse('products:detail', args=[Product.objects.first().pk])
     
     def test_product_edit_page(self):
         response = self.client.get(reverse('products:edit', args=[self.product.id]))

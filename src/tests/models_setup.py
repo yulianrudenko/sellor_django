@@ -76,6 +76,7 @@ class ModelsSetUp(TestCase):
             'location': self.city,
         }
         self.user = User.objects.create(**self.credentials)
+        self.user.is_activated = True
         self.user.set_password(self.credentials['password'])
         self.user.save()
         

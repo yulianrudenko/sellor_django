@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
@@ -8,6 +9,7 @@ from tests.models_setup import ModelsSetUp
 
 User = get_user_model()
 
+@override_settings(DEBUG=True)
 class RegistrationTests(TestCase):
     def setUp(self) -> None:
         self.url = reverse('users:register')
@@ -27,7 +29,7 @@ class RegistrationTests(TestCase):
             'password1': '123456',
             'password2': '123456',
         })
-        assert response.status_code == 302
+        assert response.status_code == 200
         User = get_user_model()
         assert User.objects.first().fullname == 'Officer Key'
     
@@ -41,7 +43,7 @@ class RegistrationTests(TestCase):
             'password1': '123456',
             'password2': 'incorrect_password2',
         })
-        self.assertContains(response, 'Something want wrong. Please try again.')
+        self.assertContains(response, 'Passwords do not match.')
 
 
 class LoginLogoutTests(ModelsSetUp):
@@ -74,11 +76,19 @@ class LoginLogoutTests(ModelsSetUp):
         assert response.request['PATH_INFO'] == wishlist_url
 
     def test_login_post_wrong_password(self):
-        User = get_user_model()
         response = self.client.post(self.url, {'email': 'user@gmail.com', 'password': 'some_wrong_password'}, follow=True)
         assert response.status_code == 200
         assert response.context['user'].is_authenticated == False
         self.assertContains(response, 'Wrong password.')
+    
+    def test_login_post_account_is_not_activated(self):
+        self.user.is_activated = False
+        self.user.save()
+        response = self.client.post(self.url, {'email': self.credentials['email'], 'password': self.credentials['password']}, follow=True)
+        assert response.status_code == 200
+        assert response.context['user'].is_authenticated == False
+        response_html = response.content.decode('utf-8')
+        assert 'You haven\'t activated your account.' in response_html
 
     def test_logout(self):
         self.client.force_login(self.user)
@@ -127,9 +137,8 @@ class ChangePasswordTests(ModelsSetUp):
         }
         response = self.client.post(self.url, password_form, follow=True)
         assert response.status_code == 200
-        self.user.refresh_from_db()
-        assert self.user.check_password(new_password) == True
-
+        messages = list(get_messages(response.wsgi_request))
+        assert str(messages[0]) == 'Please check your email (including "spam" section), we\'ve sent you message with confirmation link.'
 
 class WishlistAddTests(ModelsSetUp):
     def setUp(self) -> None:
@@ -153,7 +162,7 @@ class WishlistAddTests(ModelsSetUp):
         response = self.client.get(self.url)
         assert response.status_code == 302
         messages = [str(message) for message in list(get_messages(response.wsgi_request))]
-        assert 'Product already in wishlist' in messages
+        assert 'Product already in wishlist.' in messages
     
 
 class WishlistRemoveTests(ModelsSetUp):
@@ -167,7 +176,7 @@ class WishlistRemoveTests(ModelsSetUp):
         response = self.client.get(reverse('users:remove_from_wishlist', args=[self.product.id]))
         assert response.status_code == 302
         messages = [str(message) for message in list(get_messages(response.wsgi_request))]
-        assert 'Removed product from your wishlist' in messages
+        assert 'Removed product from your wishlist.' in messages
         self.user2.refresh_from_db()
         assert not self.user2.wishlist.all()
 

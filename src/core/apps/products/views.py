@@ -20,6 +20,15 @@ def get_client_ip(request):
     return ip
 
 
+def category(request, category_name):
+    category = get_object_or_404(Category, name=category_name)
+    products = available_products(request, Product.active_products.filter(category=category))
+    product_paginator = Paginator(products, 10)
+    products_page = product_paginator.get_page(request.GET.get('page'))
+    context = {'category_name': category.name, 'page_obj': products_page}
+    return render(request, 'products/category.html', context)
+
+
 def product_all(request):
     ip_addr = get_client_ip(request)
     visitor, created = Visitor.objects.get_or_create(ip=ip_addr)
@@ -28,15 +37,6 @@ def product_all(request):
     products_page = paginator.get_page(request.GET.get('page'))
     context = {'page_obj': products_page}
     return render(request, 'products/home.html', context)
- 
-
-def category(request, category_name):
-    category = get_object_or_404(Category, name=category_name)
-    products = available_products(request, Product.active_products.filter(category=category))
-    product_paginator = Paginator(products, 10)
-    products_page = product_paginator.get_page(request.GET.get('page'))
-    context = {'category_name': category.name, 'page_obj': products_page}
-    return render(request, 'products/category.html', context)
 
 
 def product_detail(request, pk):
@@ -47,6 +47,7 @@ def product_detail(request, pk):
             return previous_url_or_other(request, reverse('products:home'))
     context = {'product': product}
     return render(request, 'products/product_detail.html', context)
+
 
 @login_required
 def product_add(request):

@@ -1,59 +1,45 @@
+import datetime
+
 from rest_framework import serializers
+from django.urls import reverse
 
 from core.apps.products.models import Product
 from core.apps.users.models import UserAccount
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    user_url = serializers.HyperlinkedIdentityField(view_name='users:profile')
-    location = serializers.CharField(source='location.name')
-    joined = serializers.DateTimeField(source='date_created', read_only=True, format="%d.%m.%Y")
-    total_sold = serializers.IntegerField(source='sold_count')
-    total_purchased = serializers.IntegerField(source='purchased_count')
-    active_products = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = UserAccount
-        fields = [
-            'user_url',
-            'first_name',
-            'last_name',
-            'location',
-            'gender',
-            'joined',
-            'total_sold',
-            'total_purchased',
-            'active_products'
-        ]
-        extra_kwargs = {
-            'user_url': {'view_name': 'users:profile', 'lookup_field': 'pk'},
-        }
-    
-    def get_active_products(self, obj):
-        user = obj
-        products_qs = user.products.filter(purchased_by=None)
-        return UserProductsInlineSerializer(instance=products_qs, many=True, context=self.context).data
-
-class UserProductsInlineSerializer(serializers.Serializer):
+class ProductSerializer(serializers.Serializer):
+    url = serializers.HyperlinkedIdentityField(view_name='products:detail')
     title = serializers.CharField()
-    url = serializers.HyperlinkedIdentityField(view_name='api:products-detail', lookup_field='pk', read_only=True)
-        
-
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.CharField(source='category.name')
-    product_url = serializers.HyperlinkedIdentityField(view_name='products:detail')
+    user = serializers.HyperlinkedRelatedField(read_only=True, view_name='api:user_detail')
     current_price = serializers.DecimalField(max_digits=12, decimal_places=2)
+    description = serializers.CharField()
+    tags = serializers.SerializerMethodField()
+    publicated = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Product
-        fields = [
-            'product_url',
-            'title',
-            'category',
-            'user',
-            'current_price',
-            'description',
-        ]
-        extra_kwargs = {
-            'user': {'view_name': 'api:users-detail'},
-        }
+    def get_tags(self, obj):
+        tags = ''
+        for tag in obj.tags.all():
+            tags += f'{tag.name}, '
+        if tags:
+            return tags[:-2]
+        return tags
+
+    def get_publicated(self, obj):
+        return obj.pub_date.strftime('%d.%m.%Y')
+
+class UserSerializer(serializers.Serializer):
+    url = serializers.HyperlinkedIdentityField(view_name='users:profile')
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    location = serializers.CharField(source='location.name')
+    gender = serializers.CharField()
+    sold = serializers.SerializerMethodField()
+    purchased = serializers.SerializerMethodField()
+    joined = serializers.DateTimeField(source='date_created', read_only=True, format="%d.%m.%Y")
+    active_products = serializers.HyperlinkedRelatedField(view_name='api:product_detail', many=True, read_only=True)
+
+    def get_sold(self, obj):
+        return obj.sold_count
+    def get_purchased(self, obj):
+        return obj.purchased_count

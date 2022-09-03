@@ -53,7 +53,6 @@ class CategoryTests(ModelsSetUp):
 
     def test_category_run_signals(self):
         assert self.category.save() == None
-        assert self.category.delete()
 
 class TagTests(ModelsSetUp):
     def test_tag_str_method(self):

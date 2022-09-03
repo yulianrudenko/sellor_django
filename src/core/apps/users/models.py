@@ -52,14 +52,15 @@ class UserAccountManager(BaseUserManager):
             raise ValueError(_('Either first and last name must be valid.'))
         if len(password) < 6:
             raise ValueError(_('Password must be at least 6 chars length.'))
-        city = City.objects.last()
-        user = self.create(email=email, first_name=first_name, last_name=last_name, location=city, **other_fields)
+        user = self.create(email=email, first_name=first_name, last_name=last_name, **other_fields)
         user.set_password(password)
         user.save()
         return user
     
     def create_superuser(self, email: str, password: str, first_name: str, last_name: str, **other_fields):
         other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('location', City.objects.first())
         if other_fields['is_superuser'] is not True:
             raise ValueError(_('Superuser\'s "is_superuser" must be set to True'))
         other_fields.setdefault('is_staff', True)
@@ -83,15 +84,14 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
             verbose_name=_("image"),
             help_text=_("Upload an avatar"),
             upload_to="images/profile_pics",
-            default="../static/images/blank.jpg"
-        )
+            default="../static/images/blank.jpg")
     else:
         image = models.ImageField(
-        verbose_name=_("image"),
-        help_text=_("Upload an avatar"),
-        upload_to="images/profile_pics",
-        default=None,
-        null=True, blank=True)
+            verbose_name=_("image"),
+            help_text=_("Upload an avatar"),
+            upload_to="images/profile_pics",
+            default=None,
+            null=True, blank=True)
     wishlist = models.ManyToManyField('products.Product', related_name='wishlists', blank=True)
 
     objects = UserAccountManager()
@@ -111,6 +111,10 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     @property
     def fullname(self) -> str:
         return f'{self.first_name} {self.last_name}'
+
+    @property
+    def active_products(self):
+        return self.products.filter(purchased_by=None)
 
     @property
     def sold_count(self) -> int:

@@ -10,7 +10,8 @@
             "gender": "M",
             "date_created": "2022-08-10T00:00:00.000",
             "image": "images/profile_pics/user1.jpg",
-            "location_id": "164"
+            "location_id": "164",
+            "is_activated": true
         }
     },
     {
@@ -24,7 +25,8 @@
             "gender": "M",
             "date_created": "2022-08-10T00:00:00.000",
             "image": "images/profile_pics/user2.jpg",
-            "location_id": "314"
+            "location_id": "314",
+            "is_activated": true
         }
     },
     {
@@ -38,7 +40,8 @@
             "gender": "M",
             "date_created": "2022-08-10T00:00:00.000",
             "image": "images/profile_pics/user3.jpg",
-            "location_id": "374"
+            "location_id": "374",
+            "is_activated": true
         }
     },
     {
@@ -52,7 +55,8 @@
             "gender": "M",
             "date_created": "2022-08-10T00:00:00.000",
             "image": "images/profile_pics/user4.jpg",
-            "location_id": "314"
+            "location_id": "314",
+            "is_activated": true
         }
     },
     {

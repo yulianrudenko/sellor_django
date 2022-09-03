@@ -66,6 +66,7 @@ class RegistrationForm(ValidateFirstNameSecondNamePhoneLocation, forms.ModelForm
             response = requests.get(
                 "https://isitarealemail.com/api/email/validate",
                 params = {'email': email})
+        print(response.json())
         status = response.json()['status']
         if status != "valid":
             raise forms.ValidationError("Please enter an existing email.")

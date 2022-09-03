@@ -1,4 +1,7 @@
 import pytest
+import time
+
+from django.test.utils import override_settings
 from django.forms import ValidationError
 
 from core.apps.users.forms import (
@@ -10,7 +13,7 @@ from core.apps.users.forms import (
 )
 from tests.models_setup import ModelsSetUp
 
-
+@override_settings(DEBUG=True)
 @pytest.mark.parametrize(
     'email, first_name, last_name, password1, password2, phone, gender, valid',
     [
@@ -25,6 +28,7 @@ from tests.models_setup import ModelsSetUp
 )
 @pytest.mark.django_db
 def test_registration_form(email, first_name, last_name, password1, password2, phone, gender, valid, city):
+    time.sleep(5)  # to avoid api response error because of to many requests in short period of time
     registration_form = RegistrationForm(data={
         'email': email,
         'first_name': first_name,

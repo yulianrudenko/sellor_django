@@ -18,7 +18,7 @@ daphne==3.0.2
 dj-database-url==0.5.0
 Django==3.2
 django-cloudinary-storage==0.3.0
-django-debug-toolbar==3.5.0
+django-debug-toolbar==3.4.0
 django-storages==1.13.1
 djangorestframework==3.13.1
 hiredis==2.0.0

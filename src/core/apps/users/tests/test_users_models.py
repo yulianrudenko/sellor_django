@@ -63,13 +63,11 @@ def test_superuser_str_method(user_account_factory):
 
 
 @pytest.mark.django_db
-@pytest.mark.django_db
 def test_superuser_create(user_account_factory):
     superuser_account = user_account_factory.create(email='admin@admin.com', is_staff=True, is_superuser=True)
     assert str(superuser_account) == 'admin@admin.com'
 
 
-@pytest.mark.django_db
 @pytest.mark.django_db
 def test_user_fullname_method(user_account_factory):
     user = user_account_factory.create(first_name='John', last_name='Wick')

@@ -39,7 +39,7 @@ class ChatsTests(ModelsSetUp):
         assert response.status_code == 200
         assert response.context.get('chatting_with_id') == self.user.id
         assert response.context.get('chat')
-        assert response.context.get('chat').messages.first().text == 'Negotiation started'
+        assert 'Chat created' in response.context.get('chat').messages.first().text
     
     def test_start_new_chat_forbidden_for_core(self):
         response = self.client.get(reverse('chats:detail', args=[self.product.id]))
