@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from core.apps.products.models import Product
 from core.apps.chats.models import Chat, Message
@@ -24,7 +25,7 @@ from .token import activation_token
 
 def send_activation_email(request, user):
     current_site = get_current_site(request)
-    email_subject = 'Activate your account'
+    email_subject = _('Activate your account')
     email_body = render_to_string('users/auth/activate.html', {
         'user': user,
         'domain': current_site,
@@ -42,14 +43,14 @@ def activate_user(request, uidb64, token):
         user.save()
         if request.user.is_authenticated:
             logout(request)  
-        messages.success(request, 'Email verified, You can now log in!')
+        messages.success(request, _('Email verified, You can now log in!'))
         return redirect('users:login')
-    messages.error(request, f'{user.first_name}, something went wrong with your email verification.')
+    messages.error(request, user.first_name + ', ' + _('something went wrong with your email verification.'))
     return redirect('users:register')
 
 def send_password_confirmation_email(request, user, new_password):
     current_site = get_current_site(request)
-    email_subject = f'{user.fullname}, confirm that you want to change your password.'
+    email_subject = {user.fullname} + ', ' + _('confirm that you want to change your password.')
     email_body = render_to_string('users/auth/confirm_new_password.html', {
         'user': user,
         'domain': current_site,
@@ -71,9 +72,9 @@ def change_to_new_password(request, uidb64, uidb64_2, token):
         user.save()
         if request.user.is_authenticated:
             logout(request)
-        messages.success(request, 'Password has been changed. Please log in with new password.')
+        messages.success(request, _('Password has been changed. Please log in with new password.'))
         return redirect('users:login')
-    messages.error(request, f'Something went wrong, please try again.')
+    messages.error(request, _('Something went wrong, please try again.'))
     if request.user.is_authenticated:
         return redirect('users:user_profile', request.user.pk)
     return redirect('users:login')
@@ -88,11 +89,11 @@ def feedback(request):
     if request.method == 'POST':
         if user.is_authenticated:
             if user.feedbacks.all().count() >= 3:
-                messages.warning(request, 'You can\'t post more than 3 feedbacks, please delete a few to post new one.')
+                messages.warning(request, _('You can not post more than 3 feedbacks, please delete a few to post new one.'))
             else:
                 text = request.POST.get('feedback')
                 if len(text) < 6 or len(text) > 250:
-                    messages.warning(request, 'Please provide text between 6 and 250 characters.')
+                    messages.warning(request, _('Please provide text between 6 and 250 characters.'))
                 else:
                     Feedback.objects.create(user=user, text=text)
 
@@ -152,7 +153,7 @@ def register(request):
             new_user.set_password(registration_form.cleaned_data['password2'])
             new_user.save()
             send_activation_email(request, new_user)
-            messages.success(request, 'Please check your email (including "spam" section), we\'ve sent you message with an activation link.')
+            messages.success(request, _('Please check your email (including "spam" section), we have sent you message with an activation link.'))
     else:
         registration_form = RegistrationForm() 
     context = {'form': registration_form}
@@ -169,17 +170,19 @@ def login_page(request):
             if user is not None:
                 if user.is_activated == False:
                     url = reverse('users:resend_activation', kwargs={'user_id': user.id}) 
+                    link_str =  _('Send activation link again?')
                     login_form.add_error('password', 
-                        mark_safe(f'You haven\'t activated your account. <a href="{url}" class="text-decoration-underline">Send activation link again?</a>'))
+                        mark_safe(_('You have not activated your account.') + f' <a href="{url}" class="text-decoration-underline">'
+                        + link_str + '</a>'))
                 else:
                     login(request, user)
-                    messages.success(request, f'Hi, {user.first_name}! You have been logged in.')
+                    messages.success(request, f'{_("Hi")}, {user.first_name}! ' + _('You have been logged in'))
                     next_url = request.GET.get('next')
                     if next_url:
                         return redirect(next_url)
                     return redirect('/')
             else:
-                login_form.add_error('password', 'Wrong password.')
+                login_form.add_error('password', _('Wrong password.'))
     else:
         login_form = LoginForm()
     return render(request, 'users/auth/login.html', context={'form': login_form})
@@ -192,9 +195,9 @@ def resend_activation_email(request, user_id):
     user = get_object_or_404(UserAccount, id=user_id)
     if user.is_activated == False:
         send_activation_email(request, user)
-        messages.success(request, 'Please check your email, message with activation link was sent.')
+        messages.success(request, _('Please check your email, message with activation link was sent.'))
     else:
-        messages.warning(request, 'Your account is aleady activated.')
+        messages.warning(request, _('Your account is aleady activated.'))
     return redirect('users:login')
 
 
@@ -207,10 +210,10 @@ def user_profile(request, pk):
     user = get_object_or_404(UserAccount, pk=pk)
     if request.user.is_authenticated:
         if user in request.user.blacklist.blocked_users.all():
-            messages.warning(request, 'You blocked this user.')
+            messages.warning(request, _('You blocked this user.'))
             return redirect('users:blocked')
         elif request.user in user.blacklist.blocked_users.all():
-            messages.warning(request, 'This user blocked you.')
+            messages.warning(request, _('This user blocked you.'))
             return previous_url_or_other(request, reverse('products:home'))
     user_products = Product.active_products.filter(user=user)
     context = {'user': user, 'user_products':user_products}
@@ -244,7 +247,7 @@ def remove_image(request):
     user = get_object_or_404(UserAccount, id=request.user.id)
     user.image = '../static/images/blank.jpg'
     user.save()
-    messages.success(request, 'Image deleted.')
+    messages.success(request, _('Image deleted.'))
     return redirect('users:edit_profile')
 
 
@@ -258,7 +261,7 @@ def change_password(request):
         change_password_form = UserChangePasswordForm(data=data)
         if change_password_form.is_valid():
             send_password_confirmation_email(request, user, change_password_form.cleaned_data['new_password'])
-            messages.success(request, 'Please check your email (including "spam" section), we\'ve sent you message with confirmation link.')
+            messages.success(request, _('Please check your email (including "spam" section), we have sent you message with confirmation link.'))
     else:
         change_password_form = UserChangePasswordForm()
     context = {'user': user, 'form': change_password_form}
@@ -282,10 +285,10 @@ def add_wishlist(request, product_id):
     if product.user != request.user:
         wishlist = request.user.wishlist
         if product in wishlist.all():
-            messages.warning(request, 'Product already in wishlist.')
+            messages.warning(request, _('Product already in wishlist.'))
         else:
             wishlist.add(product)
-            messages.success(request, 'Added product to your wishlist.')
+            messages.success(request, _('Added product to your wishlist.'))
     return previous_url_or_other(request, reverse('products:home'))
 
 
@@ -295,7 +298,7 @@ def remove_from_wishlist(request, product_id):
     wishlist = request.user.wishlist
     if product in wishlist.all():
         wishlist.remove(product)
-        messages.success(request, 'Removed product from your wishlist.')
+        messages.success(request, _('Removed product from your wishlist.'))
     return previous_url_or_other(request, reverse('products:detail', args=[product_id]))
 
 
@@ -313,7 +316,7 @@ def unblock_user(request, user_id):
     blocked_user = get_object_or_404(UserAccount, id=user_id)
     request.user.blacklist.blocked_users.remove(blocked_user)
     messages.success(request,
-        f'Unblocked <a href="{blocked_user.get_absolute_url()}" class="text-decoration-underline">{blocked_user.fullname}</a>.')
+        f'{_("Unblocked")} <a href="{blocked_user.get_absolute_url()}" class="text-decoration-underline">{blocked_user.fullname}</a>.')
     return redirect('users:blocked')
 
 
@@ -322,7 +325,7 @@ def report_user(request, user_reported_id, message_id=None):
     report_author = request.user
     user_reported = get_object_or_404(UserAccount, id=user_reported_id)
     if user_reported in report_author.blacklist.blocked_users.all():
-        messages.info(request, f'You\'ve already blocked {user_reported.fullname}.')
+        messages.info(request, f'{_("You have already blocked")} {user_reported.fullname}.')
         return redirect('products:home')
     context = {'user_reported': user_reported}
     if message_id:
@@ -344,7 +347,7 @@ def report_user(request, user_reported_id, message_id=None):
 
             report_author.seller_chats.filter(customer=user_reported.id).delete()
             report_author.customer_chats.filter(seller=user_reported.id).delete()
-            messages.success(request, 'Report completed, thank you! Our team will take care of it.')
+            messages.success(request, _('Report completed, thank you! Our team will take care of it.'))
             return redirect('products:home')
 
     else:

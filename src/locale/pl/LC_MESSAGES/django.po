@@ -1,0 +1,916 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-09-24 00:46+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+
+#: .\src\core\apps\products\forms.py:9
+#, fuzzy
+#| msgid "Product picture (optional)"
+msgid "Product picture"
+msgstr "Zdjęcie produktu (opcjonalne)"
+
+#: .\src\core\apps\products\forms.py:11
+#: .\src\templates\products\product_card.html:67
+#: .\src\templates\products\product_detail.html:40
+msgid "Description"
+msgstr "Opis"
+
+#: .\src\core\apps\products\models.py:33
+msgid "title"
+msgstr "tytuł"
+
+#: .\src\core\apps\products\models.py:38
+msgid "description"
+msgstr "opis"
+
+#: .\src\core\apps\products\models.py:41 .\src\core\apps\products\models.py:48
+#: .\src\core\apps\users\models.py:84 .\src\core\apps\users\models.py:90
+msgid "image"
+msgstr "zdjęcie"
+
+#: .\src\core\apps\products\models.py:42 .\src\core\apps\products\models.py:49
+msgid "Upload an image"
+msgstr "Prześlij zdjęcie"
+
+#: .\src\core\apps\products\models.py:54
+msgid "publication date"
+msgstr "data publikacji"
+
+#: .\src\core\apps\products\models.py:108
+msgid "category name"
+msgstr "nazwa Kategorii"
+
+#: .\src\core\apps\products\models.py:134
+msgid "tag name"
+msgstr "nazwa tagu"
+
+#: .\src\core\apps\products\views.py:47
+msgid "This product is not available."
+msgstr "Ten produkt jest niedostępny."
+
+#: .\src\core\apps\products\views.py:62
+msgid "Product succesfully created."
+msgstr "Produkt pomyślnie stworzony."
+
+#: .\src\core\apps\products\views.py:79
+msgid "Product succesfully updated. "
+msgstr "Produkt został pomyślnie zaktualizowany. "
+
+#: .\src\core\apps\products\views.py:79
+msgid "See"
+msgstr "Zobacz"
+
+#: .\src\core\apps\products\views.py:91 .\src\core\apps\users\views.py:250
+msgid "Image deleted."
+msgstr "Zdjęcie zostało usunięte."
+
+#: .\src\core\apps\products\views.py:102
+msgid "Product removed."
+msgstr "Produkt usunięty."
+
+#: .\src\core\apps\users\models.py:47
+msgid "Email is required"
+msgstr "Email jest wymagany"
+
+#: .\src\core\apps\users\models.py:50 .\src\core\apps\users\models.py:52
+msgid "Either first and last name must be valid."
+msgstr "Imię i nazwisko muszą być prawidłowe."
+
+#: .\src\core\apps\users\models.py:54
+msgid "Password must be at least 6 chars length."
+msgstr "Hasło musi mieć co najmniej 6 znaków."
+
+#: .\src\core\apps\users\models.py:65
+msgid "Superuser's \"is_superuser\" must be set to True"
+msgstr "Parametr \"is_superuser\" superużytkownika powinien mieć wartość"
+
+#: .\src\core\apps\users\models.py:68
+msgid "Superuser's \"is_staff\" must be set to True"
+msgstr "Parametr \"is_staff\" superużytkownika powinien mieć wartość"
+
+#: .\src\core\apps\users\models.py:73
+msgid "email address"
+msgstr "adres e-mail"
+
+#: .\src\core\apps\users\models.py:74
+msgid "first name"
+msgstr "imię"
+
+#: .\src\core\apps\users\models.py:75
+msgid "last name"
+msgstr "nazwisko"
+
+#: .\src\core\apps\users\models.py:76
+msgid "location(city)"
+msgstr "lokalizacja(miasto)"
+
+#: .\src\core\apps\users\models.py:77
+msgid "phone"
+msgstr "numer telefonu"
+
+#: .\src\core\apps\users\models.py:78
+msgid "gender"
+msgstr "płeć"
+
+#: .\src\core\apps\users\models.py:85 .\src\core\apps\users\models.py:91
+msgid "Upload an avatar"
+msgstr "Prześlij zdjęcie profilowe"
+
+#: .\src\core\apps\users\views.py:28
+msgid "Activate your account"
+msgstr "Aktywacja konta"
+
+#: .\src\core\apps\users\views.py:46
+msgid "Email verified, You can now log in!"
+msgstr "E-mail zweryfikowany, możesz się teraz zalogować!"
+
+#: .\src\core\apps\users\views.py:48
+msgid "something went wrong with your email verification."
+msgstr "coś poszło nie tak z weryfikacją adresu e-mail."
+
+#: .\src\core\apps\users\views.py:53
+msgid "confirm that you want to change your password."
+msgstr "potwierdź, że chcesz zmienić swoje hasło."
+
+#: .\src\core\apps\users\views.py:75
+msgid "Password has been changed. Please log in with new password."
+msgstr "Hasło zostało zmienione. Zaloguj się przy użyciu nowego hasła."
+
+#: .\src\core\apps\users\views.py:77
+msgid "Something went wrong, please try again."
+msgstr "Coś poszło nie tak. Proszę spróbuj ponownie."
+
+#: .\src\core\apps\users\views.py:92
+msgid ""
+"You can not post more than 3 feedbacks, please delete a few to post new one."
+msgstr ""
+"Nie możesz opublikować więcej niż 3 opinii, usuń kilka, aby opublikować nową."
+
+#: .\src\core\apps\users\views.py:96
+msgid "Please provide text between 6 and 250 characters."
+msgstr "Podaj tekst o długości od 6 do 250 znaków."
+
+#: .\src\core\apps\users\views.py:156
+msgid ""
+"Please check your email (including \"spam\" section), we have sent you "
+"message with an activation link."
+msgstr ""
+"Sprawdź swoją pocztę (w tym sekcję \"spam\"), wysłaliśmy Ci wiadomość z "
+"linkiem aktywacyjnym."
+
+#: .\src\core\apps\users\views.py:173
+msgid "Send activation link again?"
+msgstr "Wysłać link aktywacyjny jeszcze raz?"
+
+#: .\src\core\apps\users\views.py:175
+msgid "You have not activated your account."
+msgstr "Nie aktywowałeś swojego konta."
+
+#: .\src\core\apps\users\views.py:179
+msgid "You have been logged in"
+msgstr "Jesteś zalogowany"
+
+#: .\src\core\apps\users\views.py:185
+msgid "Wrong password."
+msgstr "Złe hasło."
+
+#: .\src\core\apps\users\views.py:198
+msgid "Please check your email, message with activation link was sent."
+msgstr "Sprawdź pocztę, wiadomość z linkiem aktywacyjnym została wysłana."
+
+#: .\src\core\apps\users\views.py:200
+msgid "Your account is aleady activated."
+msgstr "Twoje konto jest już aktywowane."
+
+#: .\src\core\apps\users\views.py:213
+msgid "You blocked this user."
+msgstr "Zablokowałeś tego użytkownika."
+
+#: .\src\core\apps\users\views.py:216
+msgid "This user blocked you."
+msgstr "Ten użytkownik Cię zablokował."
+
+#: .\src\core\apps\users\views.py:264
+msgid ""
+"Please check your email (including \"spam\" section), we have sent you "
+"message with confirmation link."
+msgstr ""
+"Sprawdź swoją pocztę (w tym sekcję \"spam\"), wysłaliśmy Ci wiadomość z "
+"linkiem potwierdzającym."
+
+#: .\src\core\apps\users\views.py:288
+msgid "Product already in wishlist."
+msgstr "Produkt już na liście życzeń."
+
+#: .\src\core\apps\users\views.py:291
+msgid "Added product to your wishlist."
+msgstr "Dodano produkt do Twojej listy życzeń."
+
+#: .\src\core\apps\users\views.py:301
+msgid "Removed product from your wishlist."
+msgstr "Produkt został usunięty z Twojej listy życzeń."
+
+#: .\src\core\apps\users\views.py:350
+msgid "Report completed, thank you! Our team will take care of it."
+msgstr "Raport ukończony, dziękuję! Zajmiemy się tym."
+
+#: .\src\core\settings_dir\base.py:75
+msgid "English"
+msgstr "Angielski"
+
+#: .\src\core\settings_dir\base.py:76
+msgid "Polish"
+msgstr "Polski"
+
+#: .\src\templates\about.html:80
+msgid "Attention"
+msgstr "Uwaga"
+
+#: .\src\templates\about.html:81
+msgid "This site is still IN DEVELOPMENT"
+msgstr "Ta strona jest nadal w trakcie rozbudowy"
+
+#: .\src\templates\about.html:82
+msgid "What is this website made for"
+msgstr "Do czego służy ta strona internetowa"
+
+#: .\src\templates\about.html:83
+msgid ""
+"The main goal is to let people based in Poland to search for things they "
+"want to obtain as well as put their stuff for sale"
+msgstr ""
+"Głównym celem jest umożliwienie osobom mieszkającym w Polsce wyszukiwania "
+"rzeczy, które chcą kupić, a także wystawiania swoich rzeczy na sprzedaż"
+
+#: .\src\templates\about.html:84
+msgid ""
+"If you found a product you are interested in you can chat owner to talk "
+"about the deal, make an appointment to proceed with the payment"
+msgstr ""
+"Jeśli znalazłeś produkt, który Cię interesuje, możesz porozmawiać z "
+"właścicielem na czacie oraz umówić się na spotkanie, aby dokonać płatności"
+
+#: .\src\templates\about.html:85
+msgid "And that's where our task is done, the rest is up to you two"
+msgstr "I na tym kończymy nasze zadanie, reszta należy do Was"
+
+#: .\src\templates\about.html:86
+msgid ""
+"The only small detail:</span> after the deal is successfully done you and "
+"the seller are asked to <span class=\"text-decoration-underline\">mark the "
+"deal as done</span> on website"
+msgstr ""
+"Jedyny drobny szczegół:</span> po pomyślnym zawarciu umowy Ty i sprzedawca "
+"jesteście proszeni o <span class='text-decoration-underline'>oznaczenie "
+"umowy jako wykonanej</span> na stronie internetowej"
+
+#: .\src\templates\about.html:89
+msgid "Our <span class=\"text-muted\">tiny</span> Team"
+msgstr "Nasz <span class=\"text-muted\">mały</span> Zespół"
+
+#: .\src\templates\about.html:96
+msgid "Built this website using"
+msgstr "tę witrynę zbudowano za pomocą"
+
+#: .\src\templates\about.html:97
+msgid "Contact"
+msgstr "Kontakt"
+
+#: .\src\templates\chats\all_chats.html:64
+msgid "Recent Chats"
+msgstr "Ostatnie czaty"
+
+#: .\src\templates\chats\all_chats.html:70
+msgid "You are seller"
+msgstr "Jesteś sprzedawcą"
+
+#: .\src\templates\chats\all_chats.html:109
+#: .\src\templates\chats\all_chats.html:181
+msgid "Delete chat"
+msgstr "Usuń czat"
+
+#: .\src\templates\chats\all_chats.html:115
+#: .\src\templates\chats\all_chats.html:188
+msgid "new messages"
+msgstr "nowe wiadomości"
+
+#: .\src\templates\chats\all_chats.html:125
+#: .\src\templates\chats\all_chats.html:198
+msgid "Nothing yet"
+msgstr "Nic tu jeszcze nie ma"
+
+#: .\src\templates\chats\all_chats.html:137
+msgid "You are customer"
+msgstr "Jesteś klientem"
+
+#: .\src\templates\chats\all_chats.html:176
+msgid "Done deal requested by seller"
+msgstr "Oznaczenie umowa jako GOTOWE zażądano przez sprzedającego"
+
+#: .\src\templates\chats\detail_chat.html:67
+msgid "YOU WANT TO BUY"
+msgstr "CHCESZ KUPIĆ"
+
+#: .\src\templates\chats\detail_chat.html:67
+msgid "YOU SELL"
+msgstr "SPRZEDAJESZ"
+
+#: .\src\templates\chats\detail_chat.html:74
+msgid "for"
+msgstr "za"
+
+#: .\src\templates\chats\detail_chat.html:82
+msgid "FROM"
+msgstr "OD"
+
+#: .\src\templates\chats\detail_chat.html:134
+#: .\src\templates\chats\detail_chat.html:251
+msgid "You at"
+msgstr "Ty o"
+
+#: .\src\templates\chats\detail_chat.html:145
+#: .\src\templates\chats\detail_chat.html:207
+#: .\src\templates\chats\detail_chat.html:262
+msgid "Report User"
+msgstr "Zgłoś użytkownika"
+
+#: .\src\templates\chats\detail_chat.html:154
+#: .\src\templates\chats\detail_chat.html:270
+msgid "at"
+msgstr "o"
+
+#: .\src\templates\chats\detail_chat.html:185
+msgid "You've requested customer to mark this deal as DONE"
+msgstr "Poprosiłeś klienta o oznaczenie tej umowy jako GOTOWE"
+
+#: .\src\templates\chats\detail_chat.html:186
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: .\src\templates\chats\detail_chat.html:191
+msgid "Mark Deal as Done!"
+msgstr "Oznacz umowę jako zrealizowaną!"
+
+#: .\src\templates\chats\detail_chat.html:197
+msgid ""
+"Seller requested you to mark this deal as DONE. Have you received product "
+"from the seller?"
+msgstr ""
+"Sprzedający poprosił Cię o oznaczenie tej umowy jako GOTOWE. Otrzymałeś "
+"produkt od sprzedawcy?"
+
+#: .\src\templates\chats\detail_chat.html:198
+msgid "YES, CONFIRM DEAL"
+msgstr "TAK, POTWIERDŹ UMOWĘ"
+
+#: .\src\templates\chats\detail_chat.html:204
+msgid "Abort"
+msgstr "Przerwij"
+
+#: .\src\templates\feedback.html:11
+msgid ""
+"Please feel free to leave any kind of feedback:<br>what did you like or "
+"dislike about this app!"
+msgstr ""
+"Zachęcamy do pozostawienia opinii:<br>co Ci się podobało lub nie podobało w "
+"tej aplikacji?!"
+
+#: .\src\templates\feedback.html:17
+msgid "Your thoughts here"
+msgstr "Twoja opinia tutaj"
+
+#: .\src\templates\feedback.html:20
+msgid "Post"
+msgstr "Dodaj"
+
+#: .\src\templates\feedback.html:46 .\src\templates\users\user_profile.html:102
+msgid "Delete"
+msgstr "Usuń"
+
+#: .\src\templates\feedback.html:55
+msgid "Upvote"
+msgstr "Polub to"
+
+#: .\src\templates\feedback.html:68
+msgid "Nothing here"
+msgstr "Nic tu nie ma"
+
+#: .\src\templates\feedback.html:70
+msgid "You must be"
+msgstr "Musisz być"
+
+#: .\src\templates\feedback.html:70
+msgid "logged in</a> to leave feedback"
+msgstr "zalogowany</a>, aby pozostawić opinię"
+
+#: .\src\templates\navbar.html:33
+msgid "All Products"
+msgstr "Produkty"
+
+#: .\src\templates\navbar.html:39
+msgid "Categories"
+msgstr "Kategorie"
+
+#: .\src\templates\navbar.html:52
+msgid "My Dashboard"
+msgstr "Moje Statystyki"
+
+#: .\src\templates\navbar.html:56
+msgid "Feedback"
+msgstr "Informacja zwrotna"
+
+#: .\src\templates\navbar.html:59
+msgid "About us"
+msgstr "O nas"
+
+#: .\src\templates\navbar.html:63
+msgid "Search for products.."
+msgstr "Szukaj produktów.."
+
+#: .\src\templates\navbar.html:64 .\src\templates\search\search.html:38
+msgid "Search"
+msgstr "Wyszukaj"
+
+#: .\src\templates\navbar.html:128 .\src\templates\users\auth\activate.html:3
+#: .\src\templates\users\auth\confirm_new_password.html:3
+msgid "Hi"
+msgstr "Cześć"
+
+#: .\src\templates\navbar.html:133
+msgid "My profile"
+msgstr "Mój profil"
+
+#: .\src\templates\navbar.html:136 .\src\templates\users\edit_profile.html:14
+#: .\src\templates\users\user_profile.html:31
+msgid "Edit profile"
+msgstr "Edytuj profil"
+
+#: .\src\templates\navbar.html:139
+msgid "Blocked Users"
+msgstr "Zablokowani użytkownicy"
+
+#: .\src\templates\navbar.html:142
+msgid "Log Out"
+msgstr "Wyloguj"
+
+#: .\src\templates\navbar.html:146 .\src\templates\products\home.html:24
+msgid "Log In"
+msgstr "Zaloguj"
+
+#: .\src\templates\navbar.html:149 .\src\templates\products\home.html:21
+#: .\src\templates\users\auth\register.html:121
+msgid "Register"
+msgstr "Załóż konto"
+
+#: .\src\templates\not_found.html:29
+msgid "Sorry, an error has occurred, Requested page not found"
+msgstr "Przepraszamy, wystąpił błąd, nie znaleziono żądanej strony"
+
+#: .\src\templates\not_found.html:33
+msgid "Take Me Home"
+msgstr "Zabierz mnie na stronę główną"
+
+#: .\src\templates\pagination_nav.html:15
+msgid "of"
+msgstr "z"
+
+#: .\src\templates\pagination_nav.html:22
+msgid "Go to end"
+msgstr "w koniec"
+
+#: .\src\templates\pagination_nav.html:33
+msgid "current"
+msgstr "obecnie"
+
+#: .\src\templates\products\category.html:23
+msgid "Nothing found :("
+msgstr "Nic nie znaleziono :("
+
+#: .\src\templates\products\home.html:18
+msgid ""
+"We are a very powerful and safe platform with million users around the "
+"Poland where you can buy or sell anything you want."
+msgstr ""
+"Jesteśmy bardzo potężną i bezpieczną platformą z milionem użytkowników w "
+"całej Polsce, na której możesz kupić lub sprzedać wszystko, co chcesz."
+
+#: .\src\templates\products\home.html:19
+msgid "Start journey by creating an account/Loggining In"
+msgstr "Rozpocznij podróż, zakładając konto/Logując się"
+
+#: .\src\templates\products\home.html:39
+msgid "No products yet :("
+msgstr "Nie ma jeszcze produktów :("
+
+#: .\src\templates\products\home.html:40
+msgid "Add new!"
+msgstr "Dodaj nowe!"
+
+#: .\src\templates\products\product_card.html:38
+#: .\src\templates\products\product_create.html:60
+#: .\src\templates\products\product_detail.html:24
+#: .\src\templates\products\product_edit.html:61
+#: .\src\templates\search\search.html:29
+#: .\src\templates\users\dashboard.html:24
+#: .\src\templates\users\dashboard.html:59
+#: .\src\templates\users\user_profile.html:84
+#: .\src\templates\users\user_profile.html:122
+#: .\src\templates\users\wishlist.html:20
+msgid "Category"
+msgstr "Kategoria"
+
+#: .\src\templates\products\product_card.html:54
+#: .\src\templates\products\product_detail.html:29
+#: .\src\templates\products\product_edit.html:82
+#: .\src\templates\search\search.html:33
+msgid "Tags"
+msgstr "Tagi"
+
+#: .\src\templates\products\product_card.html:85
+msgid "Details"
+msgstr "Zobacz"
+
+#: .\src\templates\products\product_card.html:87
+#: .\src\templates\products\product_detail.html:76
+#: .\src\templates\users\user_profile.html:101
+msgid "Edit"
+msgstr "Edytuj"
+
+#: .\src\templates\products\product_card.html:89
+#: .\src\templates\products\product_detail.html:79
+msgid "Remove from Site"
+msgstr "Usuń"
+
+#: .\src\templates\products\product_card.html:95
+msgid "Remove from Wishlist"
+msgstr "Usuń z listy życzeń"
+
+#: .\src\templates\products\product_card.html:99
+msgid "Add to wishlist"
+msgstr "Dodaj do listy życzeń"
+
+#: .\src\templates\products\product_card.html:103
+#: .\src\templates\products\product_detail.html:83
+msgid "Buy / Negotiate"
+msgstr "Kup / Negocjuj"
+
+#: .\src\templates\products\product_create.html:30
+msgid "Add new product"
+msgstr "Dodaj nowy produkt"
+
+#: .\src\templates\products\product_create.html:47
+msgid "Product picture (optional)"
+msgstr "Zdjęcie produktu (opcjonalne)"
+
+#: .\src\templates\products\product_create.html:56
+#: .\src\templates\products\product_edit.html:57
+#: .\src\templates\search\search.html:21
+msgid "Title"
+msgstr "Tytuł"
+
+#: .\src\templates\products\product_create.html:67
+#: .\src\templates\products\product_edit.html:68
+msgid "Price"
+msgstr "Cena"
+
+#: .\src\templates\products\product_create.html:71
+#: .\src\templates\products\product_edit.html:72
+msgid "Discount Price"
+msgstr "Promocyjna cena"
+
+#: .\src\templates\products\product_create.html:81
+msgid "Tags (hold Ctrl to select multiple)"
+msgstr "Tagi (przytrzymaj Ctrl, aby wybrać kilka)"
+
+#: .\src\templates\products\product_create.html:86
+msgid "Create"
+msgstr "Utwórz"
+
+#: .\src\templates\products\product_detail.html:87
+#: .\src\templates\users\wishlist.html:46
+msgid "Remove from wishlist"
+msgstr "Usuń z listy życzeń"
+
+#: .\src\templates\products\product_detail.html:91
+msgid "To wishlist"
+msgstr "Do listy życzeń"
+
+#: .\src\templates\products\product_edit.html:30
+msgid "Edit product"
+msgstr "Edytuj produkt"
+
+#: .\src\templates\products\product_edit.html:51
+#: .\src\templates\users\edit_profile.html:38
+msgid "Remove image"
+msgstr "Usuń zdjęcie"
+
+#: .\src\templates\products\product_edit.html:72
+msgid "(optional)"
+msgstr "(opcjonalne)"
+
+#: .\src\templates\products\product_edit.html:82
+msgid "(hold Ctrl and click to select multiple tags)"
+msgstr "(przytrzymaj Ctrl, aby wybrać kilka tagów)"
+
+#: .\src\templates\products\product_edit.html:87
+#: .\src\templates\users\edit_profile.html:62
+#: .\src\templates\users\user_report.html:68
+msgid "Submit"
+msgstr "Zatwierdź"
+
+#: .\src\templates\products\product_edit.html:93
+msgid "Back to shop"
+msgstr "Powrót do sklepu"
+
+#: .\src\templates\products\product_edit.html:120
+msgid "Only jpg/jpeg and png files are allowed!"
+msgstr "Dozwolone są tylko pliki z rozszerzeniem .jpg/.jpeg i .png!"
+
+#: .\src\templates\products\product_remove_confirm.html:19
+msgid "Are You sure you want to delete"
+msgstr "Czy na pewno chcesz usunąć"
+
+#: .\src\templates\products\product_remove_confirm.html:23
+msgid "Confirm"
+msgstr "Potwierdź"
+
+#: .\src\templates\products\product_remove_confirm.html:26
+msgid "No, Back to shop"
+msgstr "Nie, powrót do sklepu"
+
+#: .\src\templates\search\search.html:17
+msgid "Search for products"
+msgstr "Szukaj produktów.."
+
+#: .\src\templates\search\search.html:25
+#: .\src\templates\users\auth\register.html:86
+#: .\src\templates\users\edit_profile.html:57
+msgid "Location"
+msgstr "Lokalizacja (miasto)"
+
+#: .\src\templates\search\search.html:43
+msgid "Results"
+msgstr "Wyniki"
+
+#: .\src\templates\search\search.html:50
+msgid "Unfortunately no products found"
+msgstr "Niestety nie znaleziono produktów"
+
+#: .\src\templates\users\auth\activate.html:4
+msgid "Please follow link below to confirm registration"
+msgstr "Kliknij poniższy link, aby potwierdzić rejestrację"
+
+#: .\src\templates\users\auth\activate.html:7
+#: .\src\templates\users\auth\confirm_new_password.html:7
+msgid "administration"
+msgstr "administracja"
+
+#: .\src\templates\users\auth\change_password.html:13
+msgid "Reset Password"
+msgstr "Zresetuj hasło"
+
+#: .\src\templates\users\auth\change_password.html:32
+msgid "Current Password"
+msgstr "Aktualne hasło"
+
+#: .\src\templates\users\auth\change_password.html:36
+msgid "New Password"
+msgstr "Nowe hasło"
+
+#: .\src\templates\users\auth\change_password.html:39
+msgid ""
+"The password must be 6-30 characters, and must <em>not</em> contain spaces"
+msgstr "Hasło musi mieć od 6 do 30 znaków i <em>nie</em> zawierać spacji"
+
+#: .\src\templates\users\auth\change_password.html:43
+msgid "Verify"
+msgstr "Weryfikacja"
+
+#: .\src\templates\users\auth\change_password.html:46
+msgid "To confirm, type the new password again"
+msgstr "Wpisz ponownie nowe hasło"
+
+#: .\src\templates\users\auth\change_password.html:50
+msgid "Save"
+msgstr "Zapisz"
+
+#: .\src\templates\users\auth\confirm_new_password.html:4
+msgid "Please follow link below to confirm your password change"
+msgstr "Kliknij poniższy link, aby potwierdzić zmianę hasła"
+
+#: .\src\templates\users\auth\login.html:23
+#: .\src\templates\users\auth\login.html:51
+msgid "Login"
+msgstr "Zaloguj"
+
+#: .\src\templates\users\auth\login.html:26
+msgid "into your account and start buying/selling stuff"
+msgstr "i zacznij kupować/sprzedawać rzeczy"
+
+#: .\src\templates\users\auth\login.html:42
+msgid "Email address"
+msgstr "Adres e-mail"
+
+#: .\src\templates\users\auth\login.html:47
+msgid "Password"
+msgstr "Hasło"
+
+#: .\src\templates\users\auth\login.html:55
+msgid "Don't have an account"
+msgstr "Nie masz jeszcze konta"
+
+#: .\src\templates\users\auth\register.html:37
+msgid "Customer registration form"
+msgstr "Formularz rejestracyjny klienta"
+
+#: .\src\templates\users\auth\register.html:38
+msgid "Create your account and start buying/selling stuff"
+msgstr "Załóż konto i zacznij kupować/sprzedawać"
+
+#: .\src\templates\users\auth\register.html:62
+#: .\src\templates\users\edit_profile.html:44
+msgid "First name"
+msgstr "Imię"
+
+#: .\src\templates\users\auth\register.html:68
+#: .\src\templates\users\edit_profile.html:48
+msgid "Last name"
+msgstr "Nazwisko"
+
+#: .\src\templates\users\auth\register.html:86
+msgid ""
+"so the future customers will understand if they can meet up with You, based "
+"on your location"
+msgstr ""
+"aby przyszli klienci zrozumieli, czy mogą się z Tobą spotkać, na podstawie "
+"Twojej lokalizacji"
+
+#: .\src\templates\users\auth\register.html:92
+msgid "Gender"
+msgstr "Płeć"
+
+#: .\src\templates\users\auth\register.html:95
+msgid "Male"
+msgstr "Mężczyzna"
+
+#: .\src\templates\users\auth\register.html:99
+msgid "Female"
+msgstr "Kobieta"
+
+#: .\src\templates\users\auth\register.html:103
+msgid "Other"
+msgstr "Inne"
+
+#: .\src\templates\users\auth\register.html:107
+msgid "Profile picture (optional)"
+msgstr "Zdjęcie produktu (opcjonalne)"
+
+#: .\src\templates\users\auth\register.html:116
+msgid "Tel. number"
+msgstr "Numer telefonu"
+
+#: .\src\templates\users\auth\register.html:116
+msgid "optional"
+msgstr "opcjonalne"
+
+#: .\src\templates\users\auth\register.html:120
+msgid "Reset all"
+msgstr "Wyczyść wszystko"
+
+#: .\src\templates\users\auth\register.html:156
+msgid "Only .jpg/.jpeg and .png files are allowed!"
+msgstr "Dozwolone są tylko pliki z rozszerzeniem .jpg/.jpeg i .png!"
+
+#: .\src\templates\users\blocked_users.html:35
+msgid "Unblock"
+msgstr "Odblokuj"
+
+#: .\src\templates\users\dashboard.html:12
+msgid "Total Sold"
+msgstr "Łącznie zarobiłeś sprzedając"
+
+#: .\src\templates\users\dashboard.html:21
+msgid "to"
+msgstr "dla"
+
+#: .\src\templates\users\dashboard.html:40
+msgid "You haven't sold anything so far"
+msgstr "Do tej pory nic nie sprzedałeś"
+
+#: .\src\templates\users\dashboard.html:47
+msgid "Total Purchased"
+msgstr "Łącznie wydałeś na zakupy"
+
+#: .\src\templates\users\dashboard.html:56
+#: .\src\templates\users\user_profile.html:20
+msgid "from"
+msgstr "z"
+
+#: .\src\templates\users\dashboard.html:75
+msgid "You haven't purchased anything so far"
+msgstr "Do tej pory nic nie kupiłeś"
+
+#: .\src\templates\users\edit_profile.html:53
+msgid "Phone"
+msgstr "Numer telefonu"
+
+#: .\src\templates\users\edit_profile.html:66
+msgid "Want to change password? Click here"
+msgstr "Chcesz zmienić hasło? Kliknij tutaj"
+
+#: .\src\templates\users\edit_profile.html:95
+msgid "Only jpg/jpeg and png files are allowed"
+msgstr "Dozwolone są tylko pliki jpg/jpeg i png"
+
+#: .\src\templates\users\user_profile.html:35
+msgid "Add product"
+msgstr "Dodaj produkt"
+
+#: .\src\templates\users\user_profile.html:40
+msgid "Report user"
+msgstr "Zgłoś użytkownika"
+
+#: .\src\templates\users\user_profile.html:52
+msgid "Active Products"
+msgstr "Produkty aktywne"
+
+#: .\src\templates\users\user_profile.html:56
+msgid "Sold"
+msgstr "Sprzedane"
+
+#: .\src\templates\users\user_profile.html:60
+msgid "Purchased"
+msgstr "Zakupione"
+
+#: .\src\templates\users\user_profile.html:68
+msgid "Products"
+msgstr "Produkty"
+
+#: .\src\templates\users\user_profile.html:110
+#: .\src\templates\users\user_profile.html:145
+msgid "You are not selling anything yet"
+msgstr "Jeszcze nic nie sprzedajesz"
+
+#: .\src\templates\users\user_report.html:17
+msgid "Are you sure you want to report user"
+msgstr "Czy na pewno chcesz zgłosić użytkownika"
+
+#: .\src\templates\users\user_report.html:30
+msgid "Report Reason: message"
+msgstr "Powód zgłoszenia: wiadomość"
+
+#: .\src\templates\users\user_report.html:31
+msgid "Message content"
+msgstr "Treść wiadomości"
+
+#: .\src\templates\users\user_report.html:39
+msgid "Report Reason"
+msgstr "Powód Zgłoszenia"
+
+#: .\src\templates\users\user_report.html:40
+msgid "Please provide reason of report"
+msgstr "Proszę podać powód zgłoszenia"
+
+#: .\src\templates\users\user_report.html:40
+msgid "15 characters min"
+msgstr "minimum 15 znaków"
+
+#: .\src\templates\users\user_report.html:56
+msgid "Please also type <i>YES</i> to confirm"
+msgstr "Proszę również wpisać <i>YES</i>, aby potwierdzić"
+
+#: .\src\templates\users\wishlist.html:9
+msgid "Wishlist"
+msgstr "Lista życzeń"
+
+#: .\src\templates\users\wishlist.html:40
+msgid "By"
+msgstr "przez"
+
+#: .\src\templates\users\wishlist.html:55
+msgid "Nothing here yet"
+msgstr "Nic tu jeszcze nie ma"
+
+#: .\src\templates\users\wishlist.html:56
+msgid "Go Shopping"
+msgstr "Chodź na zakupy"
+
+#~ msgid "You"
+#~ msgstr "Ty"

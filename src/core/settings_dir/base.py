@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
 
 DEBUG = False
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -69,7 +70,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
+LANGUAGES = (
+    ('en', _('English')),
+    ('pl', _('Polish')),
+)
+LOCALE_PATHS = [
+    BASE_DIR / 'locale/',
+]
 TIME_ZONE = 'Europe/Warsaw'
 USE_TZ = False
 USE_I18N = True

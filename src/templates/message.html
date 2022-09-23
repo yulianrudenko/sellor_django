@@ -1,3 +1,4 @@
+{% load i18n %}
 <li class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %} w-50 mb-0 fw-bold" role="alert" style="list-style: none;">
   {% autoescape off %}
   {{ message }}

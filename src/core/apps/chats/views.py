@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponseForbidden
+from django.utils.translation import gettext_lazy as _
 
 from core.apps.products.models import Product
 from core.apps.users.models import UserAccount
@@ -41,10 +42,10 @@ def enter_chat(request, product_id, chat_id=None):
         # user is customer starting or entering a chat
         # validate if user is blocked by seller or has blocked seller
         if user.is_blocked_by(seller):
-            messages.warning(request, 'You cannot start converation with this user.')
+            messages.warning(request, _('You cannot start converation with this user.'))
             return redirect('products:home')
         if user.has_blocked(seller):
-            messages.warning(request, 'You blocked this user.')
+            messages.warning(request, _('You blocked this user.'))
             return redirect('users:blocked')
         chat, created = Chat.objects.get_or_create(product=product, seller=seller, customer=user)
         if created:
@@ -63,7 +64,7 @@ def delete_chat(request, chat_id):
     if request.user not in [chat.seller, chat.customer]:
         return redirect('products:detail', chat.product.id)
     chat.delete()
-    messages.success(request, 'Chat deleted.')
+    messages.success(request, _('Chat deleted.'))
     return redirect('chats:all')
 
 
@@ -111,7 +112,7 @@ def confirm_deal(request, chat_id):
         chat.product.purchased_by = request.user
         chat.product.save()
         chat.delete()
-        messages.success(request, 'We\'re happy you completed a purchase via our website!')
+        messages.success(request, _('We\'re happy you completed a purchase via our website!'))
         return redirect('users:dashboard')
     return HttpResponseForbidden('You don\'t have permission to access this resource')
 

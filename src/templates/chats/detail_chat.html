@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load my_tags %}
 {% load static %}
+{% load i18n %}
 
 {% block extrahead %}
 <style>
@@ -63,14 +64,14 @@
     <div class="col-12 col-md-3">
       <div class="btn btn-dark border border-3 d-flex flex-column justify-content-between px-1">
         <div class="product">
-          <h5 class="py-1">{% if request.user == chat.customer %}YOU WANT TO BUY{%else%}YOU SELL{%endif%}</h5>
+          <h5 class="py-1">{% if request.user == chat.customer %}{% trans 'YOU WANT TO BUY' %}{%else%}{% trans 'YOU SELL' %}{%endif%}</h5>
           <a href="{{ chat.product.get_absolute_url }}">
             <div class="mb-3">
               <img src="{{ chat.product.get_image }}" alt="" style="object-fit: cover; width: 105px; height: 105px"
                 class="rounded-circle img-fluid img-thumbnail" />
             </div>
             <div class="btn btn-primary">
-              <span class="h5">{{ chat.product.title }}</span> for
+              <span class="h5">{{ chat.product.title }}</span> {% trans 'for' %}
               <span class="text-decoration-underline" style="font-size: 1.2rem;">{{ chat.product.current_price }}
                 zł.</span>
             </div>
@@ -78,7 +79,7 @@
         </div>
         <div class="author mt-5">
           {% if request.user == chat.customer %}
-          <h5 class="py-1">FROM</h5>
+          <h5 class="py-1">{% trans 'FROM' %}</h5>
           <a href="{{ chat.seller.get_absolute_url }}">
             <div class="mb-3">
               <img src="{{ chat.seller.get_image }}" alt="" style="object-fit: cover; width: 105px; height: 105px"
@@ -130,7 +131,7 @@
               <p class="text-small mb-0 text-white">{{ message.text }}</p>
             </div>
             <p class="message-time small text-muted text-end">
-              You at
+              {% trans 'You at' %}
               {{ message.sent_date }}
             </p>
           </div>
@@ -141,7 +142,7 @@
             <div class="bg-info rounded py-2 px-3 mb-1 d-flex justify-content-between">
               <p class="text-small mb-0 text-light">{{ message.text }}</p>
               <a href="{% url 'users:report' chatting_with_id message.id %}">
-                <small class="text-danger" title="Report User">
+                <small class="text-danger" title="{% trans 'Report User' %}">
                   <i class="fa-solid fa-hand">!</i>
                 </small>
               </a>
@@ -150,7 +151,7 @@
           <div class="message-bottom">
             <p class="message-time small text-muted ms-2">
               {{ message.author.first_name }}
-              at {{ message.sent_date }}
+              {% trans 'at' %} {{ message.sent_date }}
             </p>
           </div>
         </div>
@@ -181,30 +182,29 @@
 
           {% if chat.done_deal_requested %}
             <div class="btn btn-success">
-              <p class="h6" style="word-break: normal;">You've requested customer to mark this deal as DONE</p>
-              <a href="{% url 'chats:request_done_deal_cancel' chat.id %}" class="btn btn-danger text-decoration-underline">Cancel</a>
+              <p class="h6" style="word-break: normal;">{% trans "You've requested customer to mark this deal as DONE" %}</p>
+              <a href="{% url 'chats:request_done_deal_cancel' chat.id %}" class="btn btn-danger text-decoration-underline">{% trans 'Cancel' %}</a>
             </div>
           {% else %}
           <a href="{% url 'chats:request_done_deal' chat.id %}"
             class="list-group-item list-group-item-action bg-success text-light text-decoration-underline fw-bold py-3"
-            data-toggle="list" role="tab">Mark Deal
-            as Done!</a>
+            data-toggle="list" role="tab">{% trans 'Mark Deal as Done!' %}</a>
           {% endif %}
 
         {% else %}
           {% if chat.done_deal_requested %}
             <div class="btn btn-dark">
-              <p class="h6" style="word-break: normal;">Seller requested you to mark this deal as DONE. Have you received product from the seller?</p>
-              <a href="{% url 'chats:confirm_deal' chat.id %}" class="btn btn-success text-decoration-underline">YES, CONFIRM DEAL</a>
+              <p class="h6" style="word-break: normal;">{% trans 'Seller requested you to mark this deal as DONE. Have you received product from the seller?' %}</p>
+              <a href="{% url 'chats:confirm_deal' chat.id %}" class="btn btn-success text-decoration-underline">{% trans 'YES, CONFIRM DEAL' %}</a>
             </div>
           {% endif %}
         {% endif %}
         <a href="{% url 'chats:delete' chat.id %}"
           class="list-group-item list-group-item-action bg-secondary text-light fw-bold py-3" data-toggle="list"
-          role="tab">Abort</a>
+          role="tab">{% trans 'Abort' %}</a>
         <a href="{% url 'users:report' chatting_with_id %}"
           class="list-group-item list-group-item-action bg-danger text-light fw-bold py-3" data-toggle="list"
-          role="tab">Report User</a>
+          role="tab">{% trans 'Report User' %}</a>
       </div>
     </div>
   </div>
@@ -248,7 +248,7 @@
 						<p class="text-small mb-0 text-white">${data.newMessageText}</p>
 					</div>
 					<p class="message-time small text-muted text-end">
-						You at ${data.newMessageTime}
+						{% trans 'You at' %} ${data.newMessageTime}
 					</p>
 				</div>
 			`;
@@ -259,7 +259,7 @@
           <div class="bg-info rounded py-2 px-3 mb-1 d-flex justify-content-between">
 							<p class="text-small mb-0 text-light">${data.newMessageText}</p>              
               <a href="/users/{{chatting_with_id}}_${data.newMessageId}/report">
-                <small class="text-danger" title="Report User">
+                <small class="text-danger" title="{% trans 'Report User' %}">
                   <i class="fa-solid fa-hand">!</i>
                 </small>
               </a>
@@ -267,7 +267,7 @@
 				</div>
 				<div class="message-bottom">
 					<p class="message-time small text-muted ms-2">
-						${data.authorName} at ${data.newMessageTime}
+						${data.authorName} {% trans 'at' %} ${data.newMessageTime}
 					</p>
 				</div>
 			`;

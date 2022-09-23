@@ -1,5 +1,6 @@
 {% load my_tags %}
 {% load static %}
+{% load i18n %}
 
 <style>
   .btn {
@@ -34,7 +35,7 @@
                 </form>
               </h6>
               <div class="h5 btn btn-info text-light">
-                <a href="{{ product.category.get_absolute_url }}">Category: {{ product.category }}</a>
+                <a href="{{ product.category.get_absolute_url }}">{% trans 'Category' %}: {{ product.category }}</a>
               </div>
             </div>
             <a href="{{ product.user.get_absolute_url }}">
@@ -50,12 +51,12 @@
           </div>
           {% if product.tags.all %}
           <div class="mb-0 text-muted btn btn-dark">
-            <div class="h6 text-light">Tags:
+            <div class="h6 text-light">{% trans 'Tags' %}:
               {% for tag in product.tags.all %}
-              {% if forloop.counter != 1 %}
-              <span class="text-primary text-light"> • </span>
-              {% endif %}
-              <span class="text-light" style="font-size: 0.75rem;">{{ tag }}</span>
+                {% if forloop.counter != 1 %}
+                <span class="text-primary text-light"> • </span>
+                {% endif %}
+                <span class="text-light" style="font-size: 0.75rem;">{{ tag }}</span>
               {% endfor %}
             </div>
           </div>
@@ -63,7 +64,7 @@
 
           <p class="mt-2 mb-md-0">
             {% if product.description %}
-            <span class="text-muted text-decoration-underline">Description:</span>
+            <span class="text-muted text-decoration-underline">{% trans 'Description' %}:</span>
             {{ product.description|truncatechars:80 }}
             {% endif %}
           </p>
@@ -81,25 +82,25 @@
 
           <div class="d-flex flex-column gap-1">
             <a href="{% url 'products:detail' product.id %}" class="btn btn-primary btn-sm py-3"
-              type="button">Details</a>
+              type="button">{% trans 'Details' %}</a>
             {% if request.user == product.user %}
-            <a href="{% url 'products:edit' product.id %}" class="btn btn-warning btn-sm py-3" type="button">Edit</a>
+            <a href="{% url 'products:edit' product.id %}" class="btn btn-warning btn-sm py-3" type="button">{% trans 'Edit' %}</a>
             <a href="{% url 'products:remove' product.id %}" class="btn btn-danger btn-sm py-3" type="button">
-              Remove from Site
+              {% trans 'Remove from Site' %}
             </a>
             {% else %}
             {% if product in request.user.wishlist.all %}
             <a href="{% url 'users:remove_from_wishlist' product.id %}" class="btn btn-danger btn-sm py-2"
               type="button">
-              Remove from Wishlist
+              {% trans 'Remove from Wishlist' %}
             </a>
             {% else %}
             <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-secondary btn-sm py-3" type="button">
-              Add to wishlist
+              {% trans 'Add to wishlist' %}
             </a>
             {% endif %}
             <a href="{% url 'chats:detail' product.id %}" class="btn btn-success btn-sm py-3 fw-bold" type="button">
-              Buy / Negotiate
+              {% trans 'Buy / Negotiate' %}
             </a>
             {% endif %}
 

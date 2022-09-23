@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load my_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="bg-dark">
@@ -20,12 +21,12 @@
                         </form>
                       </h6>
                       <div class="h5 btn btn-info text-light p-2">
-                        <a href="{{ product.category.get_absolute_url }}" class="h6">Category: {{ product.category }}</a>
+                        <a href="{{ product.category.get_absolute_url }}" class="h6">{% trans 'Category' %}: {{ product.category }}</a>
                       </div>
                     </div>
                     {% if product.tags.all %}
                       <div class="mb-0 text-muted btn btn-dark">
-                        <div class="h6 text-light">Tags: </div>
+                        <div class="h6 text-light">{% trans 'Tags' %}: </div>
                         {% for tag in product.tags.all %}
                           {% if forloop.counter != 1 %}
                           <span class="text-primary text-light"> • </span>
@@ -36,7 +37,7 @@
                     {% endif %}
                     <hr>
                     {% if product.description %}
-                    <h3 class="h4 mt-3">Description:</h3>
+                    <h3 class="h4 mt-3">{% trans 'Description' %}:</h3>
                       <p>{{ product.description|truncatechars:120 }}</p>
                     {% endif %}
                   </div>
@@ -72,22 +73,22 @@
               <div class="row mt-2 flex-column align-items-center">
                 {% if request.user == product.user %}
                   <a href="{% url 'products:edit' product.id %}" class="btn btn-secondary btn-rounded mr-1 px-5 mb-2 py-3 w-50" type="button">
-                    <font class="h5">Edit <i class="fa-solid fa-marker ms-1"></i></font>
+                    <font class="h5">{% trans 'Edit' %} <i class="fa-solid fa-marker ms-1"></i></font>
                   </a>
                   <a href="{% url 'products:remove' product.id %}" class="btn btn-danger btn-rounded px-4 py-3 w-50" type="button">
-                    <font class="h5">Remove from Site <i class="fa-solid fa-trash-can ms-1"></i></font>
+                    <font class="h5">{% trans 'Remove from Site' %} <i class="fa-solid fa-trash-can ms-1"></i></font>
                   </a>
                 {% else %}
                   <a href="{% url 'chats:detail' product.id %}" class="btn btn-success btn-rounded px-4 py-3 w-50 mb-2">
-                    <font class="h5">Buy / Negotiate &nbsp;<i class="fa-solid fa-comments"></i></font>
+                    <font class="h5">{% trans 'Buy / Negotiate' %} &nbsp;<i class="fa-solid fa-comments"></i></font>
                   </a>
                   {% if product in request.user.wishlist.all %}
                   <a href="{% url 'users:remove_from_wishlist' product.id %}" class="btn btn-danger btn-rounded px-4 py-3 w-50">
-                    <font class="h5">Remove from wishlist &nbsp;<i class="fa-solid fa-bookmark"></i></font>
+                    <font class="h5">{% trans 'Remove from wishlist' %} &nbsp;<i class="fa-solid fa-bookmark"></i></font>
                   </a>
                   {% else %}
                   <a href="{% url 'users:add_to_wishlist' product.id %}" class="btn btn-primary btn-rounded px-4 py-3 w-50">
-                    <font class="h5">To wishlist &nbsp;<i class="fa-solid fa-bookmark"></i></font>
+                    <font class="h5">{% trans 'To wishlist' %} &nbsp;<i class="fa-solid fa-bookmark"></i></font>
                   </a>
                   {% endif %}
                 {% endif %}

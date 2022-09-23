@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load my_tags %}
+{% load i18n %}
 {% load static %}
 
 {% block extrahead %}
@@ -60,13 +61,13 @@
 {% block content %}
 <div class="container px-4">
   <div class="row gap-3 gap-lg-0">
-    <h3 class="text-center h4 text-light p-2 mb-3">Recent Chats</h3>
+    <h3 class="text-center h4 text-light p-2 mb-3">{% trans 'Recent Chats' %}</h3>
 
     <!-- Selling chats-->
     <div class="bg-light col-lg-6 col-12 mx-auto px-3">
 
       <div class="bg-gray px-4 py-2">
-        <p class="h5 mb-0 py-1">You are seller ({{request.user.seller_chats.count}})</p>
+        <p class="h5 mb-0 py-1">{% trans 'You are seller' %} ({{request.user.seller_chats.count}})</p>
       </div>
 
       <hr class="m-0">
@@ -105,13 +106,13 @@
               </div>
               <div class="col-2 d-flex flex-column justify-content-between text-end">
                 <a href="{% url 'chats:delete' chat.id %}" class="fa-solid fa-xmark" style="font-size: 1.5rem;"
-                  title="Delete chat"></a>
+                  title="{% trans 'Delete chat' %}"></a>
                 <div class="">
                   <a href="{% url 'chats:detail' chat.product.id chat.id %}">
                     <small class="h6 fw-bold me-1">{{ chat.last_message_date }}</small>
                     {% if chat.sellers_unseen_messages_count %}
                     <small class="h6 fw-bold bg-danger rounded-circle py-1 px-2"
-                      title="{{ chat.unseen_messages_count }} new messages">
+                      title="{{ chat.unseen_messages_count }} {% trans 'new messages' %}">
                       {{ chat.sellers_unseen_messages_count }}
                     </small>
                     {% endif %}
@@ -121,7 +122,7 @@
             </div>
           </div>
           {% empty %}
-          <p class="h5 p-2">Nothing yet</p>
+          <p class="h5 p-2">{% trans 'Nothing yet' %}</p>
           {% endfor %}
 
         </div>
@@ -133,7 +134,7 @@
     <div class="bg-light col-lg-6 col-12 mx-auto px-3">
 
       <div class="bg-gray px-4 py-2">
-        <p class="h5 mb-0 py-1">You are customer ({{request.user.customer_chats.count}})</p>
+        <p class="h5 mb-0 py-1">{% trans 'You are customer' %} ({{request.user.customer_chats.count}})</p>
       </div>
 
       <hr class="m-0">
@@ -172,19 +173,19 @@
                 <div class="d-flex justify-content-end">
                   {% if request.user == chat.customer and chat.done_deal_requested %}
                   <small class="h6 fw-bold bg-danger rounded-circle mx-1"
-                    title="Done deal requested by seller" style="padding: 2px 8px;">
+                    title="{% trans 'Done deal requested by seller' %}" style="padding: 2px 8px;">
                     !
                   </small>
                   {% endif %}
                   <a href="{% url 'chats:delete' chat.id %}" class="fa-solid fa-xmark" style="font-size: 1.5rem;"
-                    title="Delete chat"></a>
+                    title="{% trans 'Delete chat' %}"></a>
                 </div>
                 <div class="">
                   <a href="{% url 'chats:detail' chat.product.id chat.id %}">
                     <small class="h6 fw-bold text-center">{{ chat.last_message_date }}</small>
                     {% if chat.customers_unseen_messages_count %}
                     <small class="h6 fw-bold bg-danger rounded-circle py-1 px-2"
-                      title="{{ chat.unseen_messages_count }} new messages">
+                      title="{{ chat.unseen_messages_count }} {% trans 'new messages' %}">
                       {{ chat.customers_unseen_messages_count }}
                     </small>
                     {% endif %}
@@ -194,7 +195,7 @@
             </div>
           </div>
           {% empty %}
-          <p class="h5 p-2">Nothing yet</p>
+          <p class="h5 p-2">{% trans 'Nothing yet' %}</p>
           {% endfor %}
 
         </div>

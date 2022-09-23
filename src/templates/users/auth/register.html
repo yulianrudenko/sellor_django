@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block extrahead %}
 <link
 class="jsbin"
@@ -33,8 +34,8 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                 <div class="card-body p-md-5 text-black">
                   <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <h3 class="mb-3 text-uppercase">Customer registration form</h3>
-                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account and start buying/selling stuff!</h5>
+                    <h3 class="mb-3 text-uppercase">{% trans 'Customer registration form' %}</h3>
+                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">{% trans 'Create your account and start buying/selling stuff' %}!</h5>
     
                     <div class="row">
                       {% if form.errors %}
@@ -58,13 +59,13 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                       <div class="col-md-6 mb-4">
                         <div class="form-outline">
                           {{ form.first_name }}
-                          <label class="form-label">First name*</label>
+                          <label class="form-label">{% trans 'First name' %}*</label>
                         </div>
                       </div>
                       <div class="col-md-6 mb-4">
                         <div class="form-outline">
                           {{ form.last_name }}
-                          <label class="form-label">Last name*</label>
+                          <label class="form-label">{% trans 'Last name' %}*</label>
                         </div>
                       </div>
                       <div class="col-md-6 mb-4">
@@ -82,21 +83,28 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                     </div>
     
                     <div class="mb-4">
-                      <label class="form-label h5 text-dark">Location* <span class="text-muted" style="font-size: 0.8rem;">(so the future customers will understand if they can meet up with You, based on your location)</span></label>
+                      <label class="form-label h5 text-dark">{% trans 'Location' %}* <span class="text-muted" style="font-size: 0.8rem;">({% trans 'so the future customers will understand if they can meet up with You, based on your location' %})</span></label>
                       {{ form.location }}
                     </div>
     
                     <div class="d-md-flex justify-content-between align-items-center mb-4 py-2 ps-0">
                       <div class="form-check form-check-inline mb-0 me-4 ps-0">
-                        <h6 class="mb-2">Gender</h6>
-                          {% for field in form.gender %}
-                          <div class="">
-                            {{ field }}
-                          </div>
-                          {% endfor  %}
+                        <h6 class="mb-2">{% trans 'Gender' %}</h6>
+                        <div class="">
+                          <label for="id_gender_0"><input type="radio" name="gender" value="M" class="form-check-input
+                            mx-2" id="id_gender_0" required="">{% trans 'Male' %}</label>
+                        </div>
+                        <div class="">
+                          <label for="id_gender_1"><input type="radio" name="gender" value="F" class="form-check-input
+                            mx-2" id="id_gender_1" required="">{% trans 'Female' %}</label>
+                        </div>
+                        <div class="">
+                          <label for="id_gender_2"><input type="radio" name="gender" value="X" class="form-check-input 
+                            mx-2" id="id_gender_2" required="" checked="">{% trans 'Other' %}</label>
+                        </div>
                       </div>
                       <div class="">
-                        <img id="profileImage" src="#" alt="Profile pic (optional)" style="width: 150px; z-index: 1" class="img-fluid img-thumbnail mt-2 mb-4"/>
+                        <img id="profileImage" src="#" alt="{% trans 'Profile picture (optional)' %}" style="width: 150px; z-index: 1" class="img-fluid img-thumbnail mt-2 mb-4"/>
                         <div class="" style="margin: auto;">
                           {{ form.image }}
                         </div>
@@ -105,12 +113,12 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
                     
                     <div class="form-outline mb-4">
                       {{ form.phone }}
-                      <label class="form-label">Tel. number, +48... <strong>(optional)</strong></label>
+                      <label class="form-label">{% trans 'Tel. number' %}, +48... <strong>({% trans 'optional' %})</strong></label>
                     </div>
                     
                     <div class="d-flex justify-content-end pt-3">
-                      <input type="reset" class="btn btn-light btn-lg" value="Reset all"></input>
-                      <button type="submit" class="btn btn-warning btn-lg ms-2">Register</button>
+                      <input type="reset" class="btn btn-light btn-lg" value="{% trans 'Reset all' %}"></input>
+                      <button type="submit" class="btn btn-warning btn-lg ms-2">{% trans 'Register' %}</button>
                     </div>
     
                   </form>
@@ -145,7 +153,7 @@ src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"
       if (extFile=="jpg" || extFile=="jpeg" || extFile=="png"){
           //TO DO
       }else{
-          alert("Only jpg/jpeg and png files are allowed!");
+          alert("{% trans 'Only .jpg/.jpeg and .png files are allowed!' %}");
           window.location.reload()
       }   
   }

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load i18n %}
 
 {% block content %}
 <div class="d-flex justify-content-center pt-4">
@@ -8,17 +8,16 @@
     <div class="card shadow-0 border" style="background-color: #f0f2f5;">
       <div class="card-body p-4">
         {% if request.user.is_authenticated %}
-        <h4 class="text-center">Please feel free to leave any kind of feedback:<br>what did you like or disliked about
-          this app!</h4>
+        <h4 class="text-center">{% trans 'Please feel free to leave any kind of feedback:<br>what did you like or dislike about this app!' %}</h4>
         <form action="" method="post">
           {% csrf_token %}
           <div class="form-outline mt-4">
             <textarea type="text" name="feedback" id="feedback" class="form-control" rows="4" minlength="6"
-              maxlength="250" placeholder="Type anything..." required></textarea>
-            <label class="form-label" for="feedback">Your thoughts here...</label>
+              maxlength="250" placeholder="{% trans 'Type anything..." required></textarea>
+            <label class="form-label" for="feedback">{% trans 'Your thoughts here' %}...</label>
           </div>
           <div class="d-flex justify-content-end">
-            <input class="btn btn-primary mt-2 mb-3" type="submit" value="Post" style="font-size: 1rem">
+            <input class="btn btn-primary mt-2 mb-3" type="submit" value="{% trans 'Post' %}" style="font-size: 1rem">
           </div>
         </form>
         {% else %}
@@ -32,7 +31,7 @@
 
               <div onclick="window.location='{{post.user.get_absolute_url}}'"
                 class="col-12 col-md-6 d-flex flex-row align-items-center" style="cursor: pointer;">
-                <img src="{{ post.user.get_image }}" alt="avatar" width="40" height="40" />
+                <img src="{{ post.user.get_image }}" alt="{{ post.user.fullname }}" width="40" height="40" />
                 <p class="small mb-0 ms-2">{{ post.user.fullname }}</p>
               </div>
 
@@ -44,7 +43,7 @@
                 </div>
                 {% if request.user == post.user %}
                 <div class="me-1">
-                  <a data-index="{{post.id}}" class="delete-btn btn btn-outline-danger">Delete</a>
+                  <a data-index="{{post.id}}" class="delete-btn btn btn-outline-danger">{% trans 'Delete' %}</a>
                 </div>
                 {% endif %}
                 <div id="stats{{post.id}}"
@@ -53,7 +52,7 @@
                   {% if request.user == post.user %}
                   <i class="far fa-thumbs-up mx-2 fa-xs" style="font-size: 1.2rem; margin-top: -0.16rem;"></i>
                   {% else %}
-                  <i data-index="{{post.id}}" title="Upvote" class="fas fa-thumbs-up mx-2 fa-xs upvote-btn"
+                  <i data-index="{{post.id}}" title="{% trans 'Upvote' %}" class="fas fa-thumbs-up mx-2 fa-xs upvote-btn"
                     style="cursor: pointer; font-size: 1.2rem; margin-top: -0.16rem;"></i>
                   {% endif %}
                   <p id="upvoteCount{{post.id}}" class="small mb-0"
@@ -66,9 +65,9 @@
           </div>
         </div>
         {% empty %}
-        <h3 class="text-center py-3">Nothing here :(</h3>
+        <h3 class="text-center py-3">{% trans 'Nothing here' %} :(</h3>
           {% if not request.user.is_authenticated %}
-            <h4 class="text-center py-3">You must be <a href="{% url 'users:login' %}" class="text-decoration-underline">logged in</a> to leave feedback :)</h4>
+            <h4 class="text-center py-3">{% trans 'You must be' %} <a href="{% url 'users:login' %}" class="text-decoration-underline">{% trans 'logged in</a> to leave feedback' %} :)</h4>
           {% endif %}
         {% endfor %}
 

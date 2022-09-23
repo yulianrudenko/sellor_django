@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import HttpResponseForbidden
+from django.utils.translation import gettext_lazy as _
 
 from core.utils import previous_url_or_other, available_products
 from core.apps.users.models import Visitor
@@ -43,7 +44,7 @@ def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk, purchased_by=None)
     if request.user.is_authenticated:
         if product.user in request.user.blacklist.blocked_users.all() or request.user in product.user.blacklist.blocked_users.all():
-            messages.warning(request, 'This product is not available.')
+            messages.warning(request, _('This product is not available.'))
             return previous_url_or_other(request, reverse('products:home'))
     context = {'product': product}
     return render(request, 'products/product_detail.html', context)
@@ -58,7 +59,7 @@ def product_add(request):
             new_product.user = request.user
             new_product.save()
             new_product.tags.add(*create_form.cleaned_data.get('tags'))
-            messages.success(request, f'Product succesfully created.')
+            messages.success(request, _('Product succesfully created.'))
             return redirect('products:detail', new_product.id)
     else:
         create_form = ProductForm()
@@ -75,7 +76,7 @@ def product_edit(request, pk):
         edit_form = ProductForm(request.POST, request.FILES, instance=product, user=request.user)
         if edit_form.is_valid():
             product = edit_form.save()
-            messages.success(request, f'Product succesfully updated. <a href="{product.get_absolute_url()}" class="text-decoration-underline">See</a>')
+            messages.success(request, _('Product succesfully updated. ') + f'<a href="{product.get_absolute_url()}" class="text-decoration-underline">' + _('See') + '</a>')
     else:
         edit_form = ProductForm(instance=product)
     context = {'form': edit_form, 'product': product}
@@ -87,7 +88,7 @@ def remove_image(request, pk):
     product = get_object_or_404(Product, pk=pk, user=request.user.id, purchased_by=None)
     product.image = '../static/images/blank.jpg'
     product.save()
-    messages.success(request, 'Image deleted.')
+    messages.success(request, _('Image deleted.'))
     return redirect('products:edit', pk)
 
 
@@ -98,7 +99,7 @@ def product_remove(request, pk):
         return HttpResponseForbidden('You don\'t have permission to access this resource')
     if request.method == 'POST':
         product.delete()
-        messages.success(request, 'Product removed.')
+        messages.success(request, _('Product removed.'))
         return redirect('products:home')
     context = {'product': product}
     return render(request, 'products/product_remove_confirm.html', context)

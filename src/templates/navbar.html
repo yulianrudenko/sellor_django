@@ -1,4 +1,6 @@
+{% load i18n %}
 {% load static %}
+{% load i18n %}
 <style>
   @media (min-width: 1050px) and (max-width: 3000px) {
     #search {
@@ -28,13 +30,13 @@
       <!-- Left links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">All Products</a>
+          <a class="nav-link" href="{% url 'home' %}">{% trans 'All Products' %}</a>
         </li>
         <!-- Navbar dropdown -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown"
             aria-expanded="false">
-            Categories
+            {% trans 'Categories' %}
           </a>
           <!-- Dropdown menu -->
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -47,19 +49,19 @@
         </li>
         {% if request.user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'users:dashboard' %}">My Dashboard</a>
+          <a class="nav-link" href="{% url 'users:dashboard' %}">{% trans 'My Dashboard' %}</a>
         </li>
         {% endif %}
         <li class="nav-item">
-          <a class="nav-link fst-italic ms-0 ms-lg-1" href="{% url 'users:feedback' %}">Feedback</a>
+          <a class="nav-link fst-italic ms-0 ms-lg-1" href="{% url 'users:feedback' %}">{% trans 'Feedback' %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fst-italic" href="{% url 'about_page' %}">About us</a>
+          <a class="nav-link fst-italic" href="{% url 'about_page' %}">{% trans 'About us' %}</a>
         </li>
         <li class="ms-3 nav-item">
           <form action="{% url 'search:main' %}" method="get" class="form-inline my-2 my-lg-0 d-flex gap-1">
-            <input name="title" class="form-control mr-sm-2" type="search" placeholder="Search for products.." aria-label="Search" style="font-size: 0.8rem" id="search">
-            <button class="btn-sm btn-info my-2 my-sm-0 fw-bold" type="submit" style="font-size: 0.8rem">Search</button>
+            <input name="title" class="form-control mr-sm-2" type="search" placeholder="{% trans 'Search for products..' %}" aria-label="Search" style="font-size: 0.8rem" id="search">
+            <button class="btn-sm btn-info my-2 my-sm-0 fw-bold" type="submit" style="font-size: 0.8rem">{% trans 'Search' %}</button>
           </form>
         </li>
       </ul>
@@ -123,28 +125,28 @@
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           {% if request.user.is_authenticated %}
           <li class="bg-dark text-light text-center h6 mb-0 py-2 dropdown-item">
-            Hi, {{ request.user.first_name }}
+            {% trans 'Hi' %}, {{ request.user.first_name }}
             <br>
             {{ request.user.email }}
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'users:profile' request.user.id %}">My profile</a>
+            <a class="dropdown-item" href="{% url 'users:profile' request.user.id %}">{% trans 'My profile' %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'users:edit_profile' %}">Edit profile</a>
+            <a class="dropdown-item" href="{% url 'users:edit_profile' %}">{% trans 'Edit profile' %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'users:blocked' %}">Blocked Users</a>
+            <a class="dropdown-item" href="{% url 'users:blocked' %}">{% trans 'Blocked Users' %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'users:logout' %}">Log Out</a>
+            <a class="dropdown-item" href="{% url 'users:logout' %}">{% trans 'Log Out' %}</a>
           </li>
           {% else %}
           <li>
-            <a class="dropdown-item" href="{% url 'users:login' %}">Log In</a>
+            <a class="dropdown-item" href="{% url 'users:login' %}">{% trans 'Log In' %}</a>
           </li>
           <li>
-            <a class="dropdown-item" href="{% url 'users:register' %}">Register</a>
+            <a class="dropdown-item" href="{% url 'users:register' %}">{% trans 'Register' %}</a>
           </li>
           {% endif %}
         </ul>

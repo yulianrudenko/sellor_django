@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load my_tags %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
   <section class="bg-dark">
@@ -8,7 +9,7 @@
       <div class="row bg-light d-flex justify-content-between p-2 pb-5">
 
         <div class="col-lg-6">
-          <h3 class="text-center pt-2">Total Sold: {{ request.user.sold_total }} zł</h3>
+          <h3 class="text-center pt-2">{% trans 'Total Sold' %}: {{ request.user.sold_total }} zł</h3>
           <hr class="p-1 text-dark">
           {% for product in sold_products %}
           <div class="w-75 mx-auto">
@@ -17,10 +18,10 @@
                 <img src="{{ product.get_image }}" class="card-img-top" style="max-height: 340px; object-fit: cover;" alt="product">
                 <div class="p-2">
                   <h4 class="card-title py-1">"{{ product.title|title }}" 
-                    to
+                    {% trans 'to' %}
                     <a href="{{ product.purchased_by.get_absolute_url }}" class="text-info">{{product.purchased_by.fullname }}</a>
                   </h4>
-                  <h6 class="card-subtitle text-muted py-1">Category: {{ product.category }}</h6>
+                  <h6 class="card-subtitle text-muted py-1">{% trans 'Category' %}: {{ product.category }}</h6>
                   {% if product.description %}
                     <p class="card-text">{{ product.description|truncatechars:45 }}</p>
                   {% else %}
@@ -36,14 +37,14 @@
           {% empty %}
             <div class="w-100 pt-4">
               <h4 class="text-center">
-                You haven't sold anything so far.
+                {% trans "You haven't sold anything so far" %}.
               </h4>
             </div>
           {% endfor %}
         </div>
 
         <div class="col-lg-6">
-          <h3 class="text-center pt-2">Total Purchased: {{ request.user.purchased_total }} zł</h3>
+          <h3 class="text-center pt-2">{% trans 'Total Purchased' %}: {{ request.user.purchased_total }} zł</h3>
           <hr class="p-1 text-dark">
           {% for product in purchased_products %}
           <div class="w-75 mx-auto">
@@ -52,10 +53,10 @@
                 <img src="{{ product.get_image }}" class="card-img-top" style="max-height: 340px; object-fit: cover;" alt="product">
                 <div class="p-2">
                   <h4 class="card-title py-1">"{{ product.title|title }}" 
-                    from
+                    {% trans 'from' %}
                     <a href="{{ product.user.get_absolute_url }}" class="text-info">{{product.user.fullname }}</a>
                   </h4>
-                  <h6 class="card-subtitle text-muted py-1">Category: {{ product.category }}</h6>
+                  <h6 class="card-subtitle text-muted py-1">{% trans 'Category' %}: {{ product.category }}</h6>
                   {% if product.description %}
                     <p class="card-text">{{ product.description|truncatechars:45 }}</p>
                   {% else %}
@@ -71,7 +72,7 @@
           {% empty %}
             <div class="w-100 pt-4">
               <h4 class="text-center">
-                You haven't purchased anything so far.
+                {% trans "You haven't purchased anything so far" %}.
               </h4>
             </div>
           {% endfor %}

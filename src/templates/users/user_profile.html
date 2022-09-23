@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load my_tags %}
+{% load i18n %}
 
 {% block content %}
 <section class="h-100 gradient-custom-2">
@@ -16,7 +17,7 @@
                 <div class="d-flex flex-column justify-content-end text-center">
                   <h4>{{ user.fullname }}</h4>
                   <h5 class="text-muted">
-                    from 
+                    {% trans 'from' %} 
                     <i class="text-light">{{ user.location }}</i>
                   </h5>
                 </div>
@@ -27,16 +28,16 @@
                 {% if request.user == user %}
                 <a href="{% url 'users:edit_profile' %}" type="button" class="btn-lg btn-dark fw-bold text-center" data-mdb-ripple-color="dark"
                   style="z-index: 1;">
-                  Edit profile
+                  {% trans 'Edit profile' %}
                 </a>
                 <a href="{% url 'products:add' %}" type="button" class="btn-lg btn-info mt-0 mt-md-1 fw-bold text-center"
                   style="z-index: 1;">
-                  Add product
+                  {% trans 'Add product' %}
                 </a>
                 {% else %}
                 <a href="{% url 'users:report' user.id %}" type="button" class="btn-lg fw-bold text-center btn-danger mt-0 mt-md-1 text-center"
                   style="z-index: 1;">
-                  Report user
+                  {% trans 'Report user' %}
                 </a>
                 {% endif %}
               </div>
@@ -48,15 +49,15 @@
 
               <div>
                 <p class="mb-1 h5">{{ user_products.count }}</p>
-                <p class="small text-muted mb-0">Active Products</p>
+                <p class="small text-muted mb-0">{% trans 'Active Products' %}</p>
               </div>
               <div class="px-3">
                 <p class="mb-1 h5">{{ user.sold_count }}</p>
-                <p class="small text-muted mb-0">Sold</p>
+                <p class="small text-muted mb-0">{% trans 'Sold' %}</p>
               </div>
               <div>
                 <p class="mb-1 h5">{{ user.purchased_count }}</p>
-                <p class="small text-muted mb-0">Purchased</p>
+                <p class="small text-muted mb-0">{% trans 'Purchased' %}</p>
               </div>
             </div>
           </div>
@@ -64,7 +65,7 @@
           
           <div class="card-body p-4 text-black">
             <div class="d-flex justify-content-between align-items-center mb-4">
-              <p class="lead fw-bold mb-0">Products</p>
+              <p class="lead fw-bold mb-0">{% trans 'Products' %}</p>
             </div>
             
             <div class="row hidden-md-up">
@@ -80,7 +81,7 @@
                           <a href="{{ product.get_absolute_url }}" style="color: inherit;">
                             <h4 class="card-title">{{ product.title|title }}</h4>
                           </a>
-                          <h6 class="card-subtitle text-muted">Category: {{ product.category }}</h6>
+                          <h6 class="card-subtitle text-muted">{% trans 'Category' %}: {{ product.category }}</h6>
                           {% if product.description %}
                             <p class="card-text">{{ product.description|truncatechars:45 }}</p>
                           {% else %}
@@ -97,8 +98,8 @@
                           </div>
                           {% endif %}
                           <div class="d-flex justify-content-around mt-4 mb-2 px-1">
-                            <a href="{% url 'products:edit' product.id %}" class="btn-lg btn-primary">Edit</a>
-                            <a href="{% url 'products:remove' product.id %}" class="btn-lg btn-danger">Delete</a>
+                            <a href="{% url 'products:edit' product.id %}" class="btn-lg btn-primary">{% trans 'Edit' %}</a>
+                            <a href="{% url 'products:remove' product.id %}" class="btn-lg btn-danger">{% trans 'Delete' %}</a>
                           </div>
                         </div>
                       </div>
@@ -106,7 +107,7 @@
                 </div>
                 {% empty %}
                 <div class="w-100 pt-4">
-                <h4 class="text-center"> You are not selling anything yet.</h4>
+                <h4 class="text-center"> {% trans 'You are not selling anything yet' %}.</h4>
                 </div>
                 {% endfor %}
               {% else %}
@@ -118,7 +119,7 @@
                         <img src="{{ product.get_image }}" class="card-img-top" style="max-height: 340px; object-fit: cover;" alt="product">
                         <div class="p-2">
                           <h4 class="card-title">{{ product.title|title }}</h4>
-                          <h6 class="card-subtitle text-muted">Category: {{ product.category }}</h6>
+                          <h6 class="card-subtitle text-muted">{% trans 'Category' %}: {{ product.category }}</h6>
                           {% if product.description %}
                             <p class="card-text">{{ product.description|truncatechars:45 }}</p>
                           {% else %}
@@ -141,7 +142,7 @@
                 </div>
                 {% empty %}
                 <div class="w-100 pt-4">
-                <h4 class="text-center"> You are not selling anything yet.</h4>
+                <h4 class="text-center"> {% trans 'You are not selling anything yet' %}.</h4>
                 </div>
                 {% endfor %}
               {% endif %}

@@ -1,7 +1,8 @@
+{% load i18n %}
 {% autoescape off %}
-Hi, {{ user.fullname }}
-Please follow link below to confirm registration.
+{% trans 'Hi' %}, {{ user.fullname }}
+{% trans 'Please follow link below to confirm registration' %}.
 http://{{ domain }}{% url 'users:activate' uidb64=uid token=token %}
 
-Sellor administration
+Sellor {% trans 'administration' %}
 {% endautoescape %}

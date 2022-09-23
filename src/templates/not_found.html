@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +26,11 @@
                   <h2>
                       404 Not Found</h2>
                   <div class="error-details">
-                      Sorry, an error has occured, Requested page not found!
+                      {% trans 'Sorry, an error has occurred, Requested page not found' %}!
                   </div>
                   <div class="error-actions">
                       <a href="{% url 'products:home' %}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                          Take Me Home </a>
+                          {% trans 'Take Me Home' %}</a>
                   </div>
               </div>
           </div>
