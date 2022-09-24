@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'random_django_secret_key'
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,6 +81,9 @@ LANGUAGES = (
     ('en', _('English')),
     ('pl', _('Polish')),
 )
+MODELTRANSLATION_LANGUAGES = ('en', 'pl')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 LOCALE_PATHS = [
     BASE_DIR / 'locale/',
 ]

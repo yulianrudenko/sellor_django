@@ -1,72 +1,110 @@
 [
     {
         "model": "products.category",
+        "pk": 1,
+        "fields": {
+            "name": "movies",
+            "name_pl": "filmy",
+            "slug": "movies"
+        }
+    },
+    {
+        "model": "products.category",
         "pk": 2,
         "fields": {
-            "name": "it"
+            "name": "it",
+            "name_pl": "it",
+            "slug": "it"
         }
     },
     {
         "model": "products.category",
         "pk": 3,
         "fields": {
-            "name": "food"
+            "name": "food",
+            "name_pl": "jedzenie",
+            "slug": "food"
         }
     },
     {
         "model": "products.category",
         "pk": 4,
         "fields": {
-            "name": "sport"
+            "name": "sport",
+            "name_pl": "sport",
+            "slug": "sport"
         }
     },
     {
         "model": "products.category",
         "pk": 5,
         "fields": {
-            "name": "study"
+            "name": "study",
+            "name_pl": "nauka",
+            "slug": "study"
         }
     },
     {
         "model": "products.category",
         "pk": 6,
         "fields": {
-            "name": "health"
+            "name": "health",
+            "name_pl": "zdrowie",
+            "slug": "health"
         }
     },
     {
         "model": "products.category",
         "pk": 7,
         "fields": {
-            "name": "entertainment"
+            "name": "entertainment",
+            "name_pl": "rozrywki",
+            "slug": "entertainment"
         }
     },
     {
         "model": "products.category",
         "pk": 8,
         "fields": {
-            "name": "house"
+            "name": "house",
+            "name_pl": "dom",
+            "slug": "house"
         }
     },
     {
         "model": "products.category",
         "pk": 9,
         "fields": {
-            "name": "books"
+            "name": "books",
+            "name_pl": "ksiazki",
+            "slug": "books"
         }
     },
     {
         "model": "products.category",
         "pk": 10,
         "fields": {
-            "name": "service"
+            "name": "service",
+            "name_pl": "obsluga",
+            "slug": "service"
         }
     },
     {
         "model": "products.category",
         "pk": 11,
         "fields": {
-            "name": "weapons"
+            "name": "weapons",
+            "name_pl": "bron",
+            "slug": "weapons"
+        }
+    },
+    {
+        "model": "products.category",
+        "pk": 12,
+        "fields": {
+            "name": "music",
+            "slug": "music",
+            "name_pl": "muzyka"
         }
     }
 ]

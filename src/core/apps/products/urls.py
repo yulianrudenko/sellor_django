@@ -14,5 +14,5 @@ urlpatterns = [
     path('<slug:pk>/edit/remove-image', views.remove_image, name='remove_image'),
     path('<slug:pk>/remove', views.product_remove, name='remove'),
 
-    path('category/<str:category_name>', views.category, name='category'),
+    path('category/<slug:category_name>', views.category, name='category'),
 ]

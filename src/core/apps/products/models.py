@@ -106,6 +106,7 @@ def product_created_handler(sender, instance, created, *args, **kwargs):
 
 class Category(models.Model):
     name = models.CharField(verbose_name=_('category name'), max_length=50, unique=True)
+    slug = models.SlugField(unique=True, help_text='no polish special chars allowed')
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -115,7 +116,7 @@ class Category(models.Model):
         return f'{self.name}'
 
     def get_absolute_url(self):
-        return reverse('products:category', args=[self.name])
+        return reverse('products:category', args=[self.slug])
 
 
 categories_fixture_file_dir = fixtures_directory + '/categories_fixture.json'
@@ -123,7 +124,7 @@ categories_fixture_file_dir = fixtures_directory + '/categories_fixture.json'
 @receiver(post_save, sender=Category)
 def category_created_handler(sender, instance, created, *args, **kwargs):
     create_or_update_fixture_signal(sender, instance, created, raw=kwargs.pop('raw'), \
-        fixture_file_dir=categories_fixture_file_dir, fields=('name',), *args, **kwargs)
+        fixture_file_dir=categories_fixture_file_dir, fields=('name', 'slug', 'name_pl'), *args, **kwargs)
 
 @receiver(post_delete, sender=Category)
 def category_deleted_handler(sender, instance, *args, **kwargs):

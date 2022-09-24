@@ -22,7 +22,7 @@ def get_client_ip(request):
 
 
 def category(request, category_name):
-    category = get_object_or_404(Category, name=category_name)
+    category = get_object_or_404(Category, slug=category_name)
     products = available_products(request, Product.active_products.filter(category=category))
     product_paginator = Paginator(products, 10)
     products_page = product_paginator.get_page(request.GET.get('page'))
