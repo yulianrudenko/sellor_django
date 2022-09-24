@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -70,7 +71,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Internationalization
-LANGUAGE_CODE = 'pl'
+TIME_ZONE = 'Europe/Warsaw'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('en', _('English')),
     ('pl', _('Polish')),
@@ -78,9 +83,6 @@ LANGUAGES = (
 LOCALE_PATHS = [
     BASE_DIR / 'locale/',
 ]
-TIME_ZONE = 'Europe/Warsaw'
-USE_TZ = False
-USE_I18N = True
 
 STATIC_URL = '/static/'
 FIXTURE_DIRS = [BASE_DIR / 'fixtures']

@@ -42,7 +42,7 @@ def enter_chat(request, product_id, chat_id=None):
         # user is customer starting or entering a chat
         # validate if user is blocked by seller or has blocked seller
         if user.is_blocked_by(seller):
-            messages.warning(request, _('You cannot start converation with this user.'))
+            messages.warning(request, _('You cannot start conversation with this user.'))
             return redirect('products:home')
         if user.has_blocked(seller):
             messages.warning(request, _('You blocked this user.'))

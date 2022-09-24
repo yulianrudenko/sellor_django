@@ -95,7 +95,7 @@ class Product(models.Model):
             self.description: str = self.description.title()
         if self.discount_price:
             if self.discount_price >= self.price:
-                raise ValueError('Discount price cannot be higher than regular.')
+                raise ValueError(_('Discount price cannot be higher than regular.'))
         return super().save(*args, **kwargs)
 
 @receiver(post_save, sender=Product)

@@ -32,8 +32,8 @@ class ProductForm(forms.ModelForm):
         cleaned_data = super().clean()
         title = cleaned_data.get('title').capitalize()
         if Product.objects.filter(user=self.user, purchased_by=None).exclude(id=self.instance.id).filter(title=title).exists():
-            self.add_error('title', 'You already have product with given title, please rename product.')
+            self.add_error('title', _('You already have product with given title, please rename product.'))
         discount_p = cleaned_data.get('discount_price')
         if discount_p and discount_p >= cleaned_data.get('price'):
-            self.add_error('discount_price', 'Discount price cannot be higher or same as regular.')
+            self.add_error('discount_price', _('Discount price cannot be higher or same as regular.'))
         return cleaned_data

@@ -2,6 +2,7 @@ import requests
 from django import forms
 from django.conf import settings
 from django.contrib.auth.hashers import check_password
+from django.utils.translation import gettext_lazy as _
 
 from .models import City, UserAccount, ReportUser, GENDER_CHOICES
 from .validators import password_validator
@@ -11,33 +12,33 @@ class ValidateFirstNameSecondNamePhoneLocation():
     def clean_first_name(self):
         first_name: str = self.cleaned_data['first_name']
         if not first_name.isalpha():
-            raise forms.ValidationError('First name must contain only letters')
+            raise forms.ValidationError(_('First name must contain only letters'))
         return first_name
     
     def clean_last_name(self):
         last_name: str = self.cleaned_data['last_name']
         if not last_name.isalpha():
-            raise forms.ValidationError('Last name must contain only letters')
+            raise forms.ValidationError(_('Last name must contain only letters'))
         return last_name
     
     def clean_phone(self):
         phone: str = self.cleaned_data['phone']
         if phone:
             if len(phone) < 6:
-                raise forms.ValidationError('Please enter real number')
+                raise forms.ValidationError(_('Please enter real number'))
             for char in phone:
                 if not char.isdigit():
-                    raise forms.ValidationError('Please enter real number')
+                    raise forms.ValidationError(_('Please enter real number'))
         return phone
 
 
 class RegistrationForm(ValidateFirstNameSecondNamePhoneLocation, forms.ModelForm):
     email = forms.EmailField(required=True)
     gender = forms.ChoiceField(widget=forms.RadioSelect, choices=GENDER_CHOICES, required=True, initial='X')
-    password1 = forms.CharField(label='Password*', widget=forms.PasswordInput, required=True)
-    password2 = forms.CharField(label='Confirm Password*', widget=forms.PasswordInput, required=True)
+    password1 = forms.CharField(label=_('Password*'), widget=forms.PasswordInput, required=True)
+    password2 = forms.CharField(label=_('Confirm Password*'), widget=forms.PasswordInput, required=True)
     location = forms.ModelChoiceField(queryset=City.objects.all())
-    image = forms.FileField(label='Profile picture', widget=forms.FileInput(), required=False)
+    image = forms.FileField(label=_('Profile picture'), widget=forms.FileInput(), required=False)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -47,9 +48,9 @@ class RegistrationForm(ValidateFirstNameSecondNamePhoneLocation, forms.ModelForm
         self.fields['phone'].widget.attrs['class'] = 'form-control form-control-lg'
         self.fields['gender'].widget.attrs['class'] ='form-check-input mx-2'
         self.fields['location'].widget.attrs['class'] ='form-select'
-        self.fields["password1"].widget.attrs["placeholder"] = "Password"
+        self.fields["password1"].widget.attrs["placeholder"] = _("Password")
         self.fields["password1"].widget.attrs["class"] = 'form-control form-control-lg'
-        self.fields["password2"].widget.attrs["placeholder"] = "Repeat password"
+        self.fields["password2"].widget.attrs["placeholder"] = _("Repeat password")
         self.fields["password2"].widget.attrs["class"] = 'form-control form-control-lg'
         self.fields['image'].widget.attrs['id'] ='profileImageInput'
         self.fields['image'].widget.attrs['accept'] ='.jpg,.jpeg,.png'
@@ -69,15 +70,15 @@ class RegistrationForm(ValidateFirstNameSecondNamePhoneLocation, forms.ModelForm
         print(response.json())
         status = response.json()['status']
         if status != "valid":
-            raise forms.ValidationError("Please enter an existing email.")
+            raise forms.ValidationError(_('Please enter an existing email.'))
         return email
 
     def clean_password2(self):
         password = self.cleaned_data["password1"]
         if password != self.cleaned_data["password2"]:
-            raise forms.ValidationError("Passwords do not match.")
+            raise forms.ValidationError(_('Passwords do not match.'))
         if len(password) < 6:
-            raise forms.ValidationError("Password must be at least 6 characters length.")
+            raise forms.ValidationError(_('Password must be at least 6 characters length.'))
         return self.cleaned_data["password2"]
 
 
@@ -106,13 +107,13 @@ class LoginForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data['email']
         if not UserAccount.objects.filter(email=email).exists():
-            raise forms.ValidationError("User with given email doesn't exist.")
+            raise forms.ValidationError(_("User with given email doesn't exist."))
         return self.cleaned_data['email']
 
 
 class UserEditForm(forms.ModelForm, ValidateFirstNameSecondNamePhoneLocation):
     location = forms.ModelChoiceField(queryset=City.objects.all())
-    image = forms.FileField(label='Profile picture', widget=forms.FileInput(), required=False)
+    image = forms.FileField(label=_('Profile picture'), widget=forms.FileInput(), required=False)
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -150,7 +151,7 @@ class UserChangePasswordForm(forms.Form):
         user = self.data['user']
         password = self.cleaned_data['current_password']
         if not user.check_password(password):
-            raise forms.ValidationError('Wrong password')
+            raise forms.ValidationError(_('Wrong password'))
         return password
     
     def clean_verify_new_password(self):
@@ -159,9 +160,9 @@ class UserChangePasswordForm(forms.Form):
             password2 = self.cleaned_data['verify_new_password']
             if password1 == password2:
                 if password1 == self.cleaned_data['current_password']:
-                    raise forms.ValidationError("To change password you need to provide NEW value.")
+                    raise forms.ValidationError(_("To change password you need to provide NEW value."))
                 return password2
-            raise forms.ValidationError("Passwords do not match.")
+            raise forms.ValidationError(_("Passwords do not match."))
 
 
 class ReportForm(forms.ModelForm):
@@ -180,16 +181,16 @@ class ReportForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['reported_message'].widget.attrs['readonly'] = True
         self.fields['reason'].widget.attrs['class'] = 'form-control'
-        self.fields['reason'].widget.attrs['placeholder'] = 'Explain what happend (200 characters max)'
+        self.fields['reason'].widget.attrs['placeholder'] = _('Explain what happend (200 characters max)')
         self.fields['confirmation'].widget.attrs['class'] = 'form-control'
         self.fields['confirmation'].widget.attrs['id'] = 'confirmation'
-        self.fields['confirmation'].widget.attrs['placeholder'] = 'Type YES'
+        self.fields['confirmation'].widget.attrs['placeholder'] = _('Type YES')
     
     def clean(self):
         if self.cleaned_data.get('confirmation') != 'YES':
-            self.add_error('confirmation', 'Please type YES to confirm the report!')
+            self.add_error('confirmation', _('Please type YES to confirm the report!'))
         if not self.cleaned_data.get('reported_message'):
             reason = self.cleaned_data.get('reason')
             if len(reason) < 15:
-                self.add_error('reason', 'Provide reason with at least 15 characters please!')
+                self.add_error('reason', _('Provide reason with at least 15 characters please!'))
         return super().clean()

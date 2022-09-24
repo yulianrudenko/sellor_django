@@ -56,9 +56,9 @@
   
   {% if request.user.is_authenticated %}
   <script>
-    window.setInterval('check_for_new_messages()', 6000);
     // Call a function every 6000 milliseconds 
     // (OR 6 seconds).
+    window.setInterval('check_for_new_messages()', 6000);
   
     function check_for_new_messages() {
       fetch("{% url 'chats:check_for_new_messages' %}")
@@ -69,6 +69,22 @@
           document.querySelector('#unread-messages-count').innerText = data["newMessagesCount"];
         });
     }
+
+    $(function() {
+        origin = window.location.origin
+        path = window.location.pathname
+        $('.change-language').click(function() {
+            lang_code = $(this).data('lang');
+            if (lang_code == 'en') {
+                url = origin
+                path = path.substring(3)
+            } else {
+                url  = origin + '/' + lang_code;
+            }
+            url += path
+            window.location.href = url
+        })
+    });
     </script>
   {% endif %}
 </body>

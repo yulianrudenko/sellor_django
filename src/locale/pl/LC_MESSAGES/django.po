@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-24 00:46+0200\n"
+"POT-Creation-Date: 2022-09-24 17:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,17 +20,41 @@ msgstr ""
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
+#: .\src\core\apps\chats\views.py:45
+msgid "You cannot start conversation with this user."
+msgstr "Nie możesz rozpocząć rozmowy z tym użytkownikiem."
+
+#: .\src\core\apps\chats\views.py:48 .\src\core\apps\users\views.py:213
+msgid "You blocked this user."
+msgstr "Zablokowałeś tego użytkownika."
+
+#: .\src\core\apps\chats\views.py:67
+msgid "Chat deleted."
+msgstr "Czat został usunięty."
+
+#: .\src\core\apps\chats\views.py:115
+msgid "We're happy you completed a purchase via our website!"
+msgstr ""
+"Cieszymy się, że dokonałeś zakupu za pośrednictwem naszej strony "
+"internetowej!"
+
 #: .\src\core\apps\products\forms.py:9
-#, fuzzy
-#| msgid "Product picture (optional)"
 msgid "Product picture"
-msgstr "Zdjęcie produktu (opcjonalne)"
+msgstr "Zdjęcie produktu"
 
 #: .\src\core\apps\products\forms.py:11
 #: .\src\templates\products\product_card.html:67
 #: .\src\templates\products\product_detail.html:40
 msgid "Description"
 msgstr "Opis"
+
+#: .\src\core\apps\products\forms.py:35
+msgid "You already have product with given title, please rename product."
+msgstr "Masz już produkt o podanej nazwie, musisz wymyśleć nową."
+
+#: .\src\core\apps\products\forms.py:38
+msgid "Discount price cannot be higher or same as regular."
+msgstr "Cena promocyjna nie może być wyższa ani taka sama jak zwykła."
 
 #: .\src\core\apps\products\models.py:33
 msgid "title"
@@ -52,6 +76,10 @@ msgstr "Prześlij zdjęcie"
 #: .\src\core\apps\products\models.py:54
 msgid "publication date"
 msgstr "data publikacji"
+
+#: .\src\core\apps\products\models.py:98
+msgid "Discount price cannot be higher than regular."
+msgstr "Cena promocyjna nie może być wyższa niż standardowa."
 
 #: .\src\core\apps\products\models.py:108
 msgid "category name"
@@ -84,6 +112,78 @@ msgstr "Zdjęcie zostało usunięte."
 #: .\src\core\apps\products\views.py:102
 msgid "Product removed."
 msgstr "Produkt usunięty."
+
+#: .\src\core\apps\users\forms.py:15
+msgid "First name must contain only letters"
+msgstr "Imię musi zawierać tylko litery"
+
+#: .\src\core\apps\users\forms.py:21
+msgid "Last name must contain only letters"
+msgstr "Nazwisko musi zawierać tylko litery"
+
+#: .\src\core\apps\users\forms.py:28 .\src\core\apps\users\forms.py:31
+msgid "Please enter real number"
+msgstr "Proszę podać istniejący numer"
+
+#: .\src\core\apps\users\forms.py:38
+msgid "Password*"
+msgstr "Hasło*"
+
+#: .\src\core\apps\users\forms.py:39
+msgid "Confirm Password*"
+msgstr "Potwierdź hasło*"
+
+#: .\src\core\apps\users\forms.py:41 .\src\core\apps\users\forms.py:116
+msgid "Profile picture"
+msgstr "Zdjęcie profilowe"
+
+#: .\src\core\apps\users\forms.py:51 .\src\templates\users\auth\login.html:47
+msgid "Password"
+msgstr "Hasło"
+
+#: .\src\core\apps\users\forms.py:53
+msgid "Repeat password"
+msgstr "Powtórz hasło"
+
+#: .\src\core\apps\users\forms.py:73
+msgid "Please enter an existing email."
+msgstr "Wprowadź istniejący adres e-mail."
+
+#: .\src\core\apps\users\forms.py:79 .\src\core\apps\users\forms.py:165
+msgid "Passwords do not match."
+msgstr "Hasła są różne."
+
+#: .\src\core\apps\users\forms.py:81
+msgid "Password must be at least 6 characters length."
+msgstr "Hasło musi mieć co najmniej 6 znaków."
+
+#: .\src\core\apps\users\forms.py:110
+msgid "User with given email doesn't exist."
+msgstr "Użytkownik o podanym adresie e-mail nie istnieje."
+
+#: .\src\core\apps\users\forms.py:154
+msgid "Wrong password"
+msgstr "Złe hasło"
+
+#: .\src\core\apps\users\forms.py:163
+msgid "To change password you need to provide NEW value."
+msgstr "Aby zmienić hasło, powinno ono być różne od poprzedniego."
+
+#: .\src\core\apps\users\forms.py:184
+msgid "Explain what happend (200 characters max)"
+msgstr "Wyjaśnij, co się stało (maksymalnie 200 znaków)"
+
+#: .\src\core\apps\users\forms.py:187
+msgid "Type YES"
+msgstr "Wpisz YES"
+
+#: .\src\core\apps\users\forms.py:191
+msgid "Please type YES to confirm the report!"
+msgstr "Wpisz YES, aby potwierdzić raport!"
+
+#: .\src\core\apps\users\forms.py:195
+msgid "Provide reason with at least 15 characters please!"
+msgstr "Podaj przyczynę z co najmniej 15 znakami!"
 
 #: .\src\core\apps\users\models.py:47
 msgid "Email is required"
@@ -132,6 +232,14 @@ msgstr "płeć"
 #: .\src\core\apps\users\models.py:85 .\src\core\apps\users\models.py:91
 msgid "Upload an avatar"
 msgstr "Prześlij zdjęcie profilowe"
+
+#: .\src\core\apps\users\validators.py:9
+msgid "Password must <em>not</em> contain spaces."
+msgstr "Hasło <em>nie</em> może zawierać spacji."
+
+#: .\src\core\apps\users\validators.py:11
+msgid "The password must be 6-30 characters"
+msgstr "Hasło musi mieć 6-30 znaków"
 
 #: .\src\core\apps\users\views.py:28
 msgid "Activate your account"
@@ -199,10 +307,6 @@ msgstr "Sprawdź pocztę, wiadomość z linkiem aktywacyjnym została wysłana."
 msgid "Your account is aleady activated."
 msgstr "Twoje konto jest już aktywowane."
 
-#: .\src\core\apps\users\views.py:213
-msgid "You blocked this user."
-msgstr "Zablokowałeś tego użytkownika."
-
 #: .\src\core\apps\users\views.py:216
 msgid "This user blocked you."
 msgstr "Ten użytkownik Cię zablokował."
@@ -231,11 +335,11 @@ msgstr "Produkt został usunięty z Twojej listy życzeń."
 msgid "Report completed, thank you! Our team will take care of it."
 msgstr "Raport ukończony, dziękuję! Zajmiemy się tym."
 
-#: .\src\core\settings_dir\base.py:75
+#: .\src\core\settings_dir\base.py:80
 msgid "English"
 msgstr "Angielski"
 
-#: .\src\core\settings_dir\base.py:76
+#: .\src\core\settings_dir\base.py:81
 msgid "Polish"
 msgstr "Polski"
 
@@ -448,33 +552,49 @@ msgstr "Szukaj produktów.."
 msgid "Search"
 msgstr "Wyszukaj"
 
-#: .\src\templates\navbar.html:128 .\src\templates\users\auth\activate.html:3
+#: .\src\templates\navbar.html:103 .\src\templates\navbar.html:137
+msgid "Profile"
+msgstr "Mój profil"
+
+#: .\src\templates\navbar.html:104
+msgid "Language"
+msgstr "Język"
+
+#: .\src\templates\navbar.html:121
+msgid "Chat"
+msgstr "Czaty"
+
+#: .\src\templates\navbar.html:128 .\src\templates\users\wishlist.html:9
+msgid "Wishlist"
+msgstr "Lista życzeń"
+
+#: .\src\templates\navbar.html:145 .\src\templates\users\auth\activate.html:3
 #: .\src\templates\users\auth\confirm_new_password.html:3
 msgid "Hi"
 msgstr "Cześć"
 
-#: .\src\templates\navbar.html:133
+#: .\src\templates\navbar.html:150
 msgid "My profile"
 msgstr "Mój profil"
 
-#: .\src\templates\navbar.html:136 .\src\templates\users\edit_profile.html:14
+#: .\src\templates\navbar.html:153 .\src\templates\users\edit_profile.html:14
 #: .\src\templates\users\user_profile.html:31
 msgid "Edit profile"
 msgstr "Edytuj profil"
 
-#: .\src\templates\navbar.html:139
+#: .\src\templates\navbar.html:156
 msgid "Blocked Users"
 msgstr "Zablokowani użytkownicy"
 
-#: .\src\templates\navbar.html:142
+#: .\src\templates\navbar.html:159
 msgid "Log Out"
 msgstr "Wyloguj"
 
-#: .\src\templates\navbar.html:146 .\src\templates\products\home.html:24
+#: .\src\templates\navbar.html:163 .\src\templates\products\home.html:24
 msgid "Log In"
 msgstr "Zaloguj"
 
-#: .\src\templates\navbar.html:149 .\src\templates\products\home.html:21
+#: .\src\templates\navbar.html:166 .\src\templates\products\home.html:21
 #: .\src\templates\users\auth\register.html:121
 msgid "Register"
 msgstr "Załóż konto"
@@ -728,10 +848,6 @@ msgstr "i zacznij kupować/sprzedawać rzeczy"
 msgid "Email address"
 msgstr "Adres e-mail"
 
-#: .\src\templates\users\auth\login.html:47
-msgid "Password"
-msgstr "Hasło"
-
 #: .\src\templates\users\auth\login.html:55
 msgid "Don't have an account"
 msgstr "Nie masz jeszcze konta"
@@ -895,10 +1011,6 @@ msgstr "minimum 15 znaków"
 #: .\src\templates\users\user_report.html:56
 msgid "Please also type <i>YES</i> to confirm"
 msgstr "Proszę również wpisać <i>YES</i>, aby potwierdzić"
-
-#: .\src\templates\users\wishlist.html:9
-msgid "Wishlist"
-msgstr "Lista życzeń"
 
 #: .\src\templates\users\wishlist.html:40
 msgid "By"
